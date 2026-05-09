@@ -1,15 +1,35 @@
--- Ethio-Brew Production Database Schema
--- Version: 2.0.0
--- Description: Advanced relational structure for Enterprise Coffee Commerce
+-- Ethio-Brew "THE FINAL NUKE" Schema (v2.0.2)
+-- Description: Forces a clean wipe of ALL previous and current tables.
 
+-- THE NUCLEAR OPTION: Turn off all safety checks
 SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS users, roles, user_roles, products, categories, orders, order_items, payments, subscriptions, reviews, notifications, password_resets, refresh_tokens;
+
+-- List every possible table name used in any version of this project
+DROP TABLE IF EXISTS 
+    order_items, 
+    order_details, 
+    payments, 
+    subscriptions, 
+    reviews, 
+    notifications, 
+    refresh_tokens, 
+    password_resets, 
+    user_roles, 
+    orders, 
+    products, 
+    categories, 
+    users, 
+    roles, 
+    cart_items, 
+    contacts;
+
+-- Re-enable safety for the build process
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- 1. ROLES SYSTEM
 CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) UNIQUE NOT NULL, -- customer, admin, coffee_manager, delivery_staff
+    name VARCHAR(50) UNIQUE NOT NULL,
     description VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -91,7 +111,7 @@ CREATE TABLE orders (
     phone_number VARCHAR(20) NOT NULL,
     status ENUM('Pending', 'Payment Verified', 'Roasting', 'Packaging', 'Shipping', 'Delivered', 'Cancelled') DEFAULT 'Pending',
     payment_status ENUM('Unpaid', 'Pending Verification', 'Paid', 'Refunded') DEFAULT 'Unpaid',
-    payment_method VARCHAR(50), -- Telebirr, CBE, Cash
+    payment_method VARCHAR(50),
     tracking_number VARCHAR(100) UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -115,7 +135,7 @@ CREATE TABLE payments (
     transaction_id VARCHAR(100),
     screenshot_url VARCHAR(255),
     amount DECIMAL(10,2),
-    verified_by INT, -- user_id of admin
+    verified_by INT,
     verified_at DATETIME,
     status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
@@ -126,7 +146,7 @@ CREATE TABLE payments (
 CREATE TABLE subscriptions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    plan_name VARCHAR(50), -- Weekly, Bi-Weekly, Monthly
+    plan_name VARCHAR(50),
     frequency_days INT,
     status ENUM('Active', 'Paused', 'Cancelled') DEFAULT 'Active',
     next_delivery_date DATE,
@@ -139,7 +159,7 @@ CREATE TABLE reviews (
     product_id INT,
     rating INT CHECK (rating BETWEEN 1 AND 5),
     comment TEXT,
-    sentiment_score FLOAT, -- AI analyzed: 1.0 (Positive) to -1.0 (Negative)
+    sentiment_score FLOAT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
@@ -156,8 +176,3 @@ CREATE TABLE notifications (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-
--- INDEXES for Performance
-CREATE INDEX idx_order_status ON orders(status);
-CREATE INDEX idx_product_category ON products(category_id);
-CREATE INDEX idx_user_email ON users(email);
