@@ -31,6 +31,22 @@ const AdminDashboard = () => {
     fetchAnalytics();
   }, []);
 
+  const handleStatusUpdate = async (orderId, newStatus) => {
+    try {
+      await fetch('http://localhost:5000/api/admin/orders/status', {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}` 
+        },
+        body: JSON.stringify({ orderId, status: newStatus })
+      });
+      alert(`Order ${orderId} updated to ${newStatus}`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const COLORS = ['#006341', '#FFD700', '#4B2C20', '#A52A2A'];
 
   if (loading) return <div className="p-20 text-center font-bold text-[#4B2C20] animate-pulse italic">Brewing your business insights...</div>;
@@ -214,26 +230,33 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {[
-                    { id: '#EB-9921', name: 'Almaz Belay', total: '450.00', status: 'Payment Verified', icon: <CheckCircle className="text-green-500" /> },
-                    { id: '#EB-9920', name: 'Dawit Isaac', total: '820.50', status: 'Roasting', icon: <Clock className="text-amber-500" /> },
-                    { id: '#EB-9919', name: 'Selam Tesfaye', total: '120.00', status: 'Pending Payment', icon: <AlertCircle className="text-red-500" /> }
-                  ].map((order, i) => (
-                    <tr key={i} className="hover:bg-gray-50/50 transition">
-                      <td className="py-6 font-bold text-[#4B2C20]">{order.id}</td>
-                      <td className="py-6 text-gray-500 font-medium">{order.name}</td>
-                      <td className="py-6 font-bold">ETB {order.total}</td>
-                      <td className="py-6">
-                        <div className="flex items-center gap-2">
-                           {order.icon}
-                           <span className="text-sm font-bold text-gray-700">{order.status}</span>
-                        </div>
-                      </td>
-                      <td className="py-6">
-                        <button className="text-[#006341] font-bold text-sm hover:underline">Update Status</button>
-                      </td>
-                    </tr>
-                  ))}
+                    {data.recentOrders?.map((order, i) => (
+                      <tr key={i} className="hover:bg-gray-50/50 transition">
+                        <td className="py-6 font-bold text-[#4B2C20]">{order.id}</td>
+                        <td className="py-6 text-gray-500 font-medium">{order.customer_name}</td>
+                        <td className="py-6 font-bold text-xs uppercase tracking-widest">{order.payment_method}</td>
+                        <td className="py-6">
+                           <select 
+                            defaultValue={order.status}
+                            onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
+                            className={`p-2 rounded-xl text-xs font-bold border-none outline-none focus:ring-2 focus:ring-[#006341] ${
+                              order.status === 'Delivered' ? 'bg-green-50 text-green-600' : 
+                              order.status === 'Pending' ? 'bg-red-50 text-red-600' : 'bg-amber-50 text-amber-600'
+                            }`}
+                           >
+                              <option>Pending</option>
+                              <option>Payment Verified</option>
+                              <option>Roasting</option>
+                              <option>Packaging</option>
+                              <option>Shipping</option>
+                              <option>Delivered</option>
+                           </select>
+                        </td>
+                        <td className="py-6">
+                          <button className="text-[#006341] font-bold text-xs hover:underline">View Details</button>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
            </div>

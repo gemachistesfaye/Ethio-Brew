@@ -7,27 +7,54 @@ const ProductManagement = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [form, setForm] = useState({
+    name_en: '', name_am: '', name_or: '',
+    price: '', stock: '', region: '', roast_level: 'Medium'
+  });
 
-  // MOCK DATA for immediate preview (Will fetch from API in production)
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/products');
+      setProducts(res.data);
+    } catch (err) {
+      console.error("Fetch Error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get('http://localhost:5000/api/products');
-        setProducts(res.data);
-      } catch (err) {
-        console.error("Fetch Error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchProducts();
   }, []);
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    try {
+      if (editingProduct) {
+        await axios.put(`http://localhost:5000/api/products/${editingProduct.id}`, form);
+      } else {
+        await axios.post('http://localhost:5000/api/products', form);
+      }
+      setIsModalOpen(false);
+      setEditingProduct(null);
+      fetchProducts();
+    } catch (err) {
+      alert('Failed to save product');
+    }
+  };
+
+  const handleEdit = (product) => {
+    setEditingProduct(product);
+    setForm(product);
+    setIsModalOpen(true);
+  };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this coffee?')) {
       try {
         await axios.delete(`http://localhost:5000/api/products/${id}`);
-        setProducts(products.filter(p => p.id !== id));
+        fetchProducts();
       } catch (err) {
         alert('Failed to delete product');
       }
@@ -42,7 +69,7 @@ const ProductManagement = () => {
           <p className="text-gray-400 font-bold uppercase text-[10px] tracking-widest mt-1">Manage your coffee inventory</p>
         </div>
         <button 
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => { setEditingProduct(null); setForm({ name_en: '', price: '', stock: '', region: '', roast_level: 'Medium' }); setIsModalOpen(true); }}
           className="bg-[#006341] text-white px-6 py-4 rounded-2xl font-bold flex items-center gap-3 shadow-xl hover:bg-[#004d32] transition active:scale-95"
         >
           <Plus size={20} /> Add New Coffee
@@ -74,13 +101,8 @@ const ProductManagement = () => {
                   <Package size={28} />
                </div>
                <div className="flex gap-2">
-                  <button className="p-3 bg-gray-50 rounded-xl text-gray-400 hover:text-[#006341] hover:bg-green-50 transition"><Edit2 size={16}/></button>
-                  <button 
-                    onClick={() => handleDelete(product.id)}
-                    className="p-3 bg-gray-50 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50 transition"
-                  >
-                    <Trash2 size={16}/>
-                  </button>
+                  <button onClick={() => handleEdit(product)} className="p-3 bg-gray-50 rounded-xl text-gray-400 hover:text-[#006341] hover:bg-green-50 transition"><Edit2 size={16}/></button>
+                  <button onClick={() => handleDelete(product.id)} className="p-3 bg-gray-50 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50 transition"><Trash2 size={16}/></button>
                </div>
             </div>
 
@@ -106,6 +128,35 @@ const ProductManagement = () => {
           </div>
         ))}
       </div>
+
+      {/* Add/Edit Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-6">
+           <div className="bg-white w-full max-w-lg rounded-[40px] shadow-2xl p-10 overflow-hidden relative">
+              <button onClick={() => setIsModalOpen(false)} className="absolute top-8 right-8 text-gray-400 hover:text-black transition">Close</button>
+              <h2 className="text-2xl font-black text-[#4B2C20] mb-8">{editingProduct ? 'Edit Coffee' : 'New Coffee'}</h2>
+              
+              <form onSubmit={handleSave} className="space-y-4">
+                 <input placeholder="Coffee Name (English)" required className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-[#006341]" value={form.name_en} onChange={e => setForm({...form, name_en: e.target.value})} />
+                 <div className="grid grid-cols-2 gap-4">
+                    <input placeholder="Region" required className="p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-[#006341]" value={form.region} onChange={e => setForm({...form, region: e.target.value})} />
+                    <select className="p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-[#006341]" value={form.roast_level} onChange={e => setForm({...form, roast_level: e.target.value})}>
+                       <option>Light</option>
+                       <option>Medium</option>
+                       <option>Dark</option>
+                    </select>
+                 </div>
+                 <div className="grid grid-cols-2 gap-4">
+                    <input type="number" placeholder="Price (ETB)" required className="p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-[#006341]" value={form.price} onChange={e => setForm({...form, price: e.target.value})} />
+                    <input type="number" placeholder="Stock Level" required className="p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-[#006341]" value={form.stock} onChange={e => setForm({...form, stock: e.target.value})} />
+                 </div>
+                 <button type="submit" className="w-full bg-[#006341] text-white py-5 rounded-2xl font-black shadow-xl hover:bg-[#004d32] transition mt-4">
+                    {editingProduct ? 'Update Product' : 'Create Product'}
+                 </button>
+              </form>
+           </div>
+        </div>
+      )}
     </div>
   );
 };
