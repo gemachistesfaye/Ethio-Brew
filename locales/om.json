@@ -1,0 +1,75 @@
+{
+  "nav": {
+    "brand": "ኢትዮ-ብሩ",
+    "home": "Mana",
+    "menu": "Filannoo",
+    "about": "Waa'ee Keenya",
+    "contact": "Nu Quunnamaa",
+    "blog": "Oduu Bunaa",
+    "subscription": "Kilaba"
+  },
+  "hero": {
+    "title": "Lubbuu Itiyoophiyaa Mi'eeffadhu",
+    "subtitle": "Kaka tulluuwwan Kaafaa irraa hamma balbala keetti, aadaa bunaa isa jalqabaa dhandhami.",
+    "orderNow": "Amma Ajajadhu",
+    "joinClub": "Kilabatti Dabalami"
+  },
+  "shop": {
+    "search": "Buna barbaadi...",
+    "addToCart": "Gabaatti Dabaladhu",
+    "exploreMore": "Bal'inaan Ilaali",
+    "price": "Gatii",
+    "roast": "Sadarkaa Akaayii",
+    "tastingNotes": "Mi'a Bunaa",
+    "origin": "Bakka Dhalootaa",
+    "category": "Ramaddii"
+  },
+  "cart": {
+    "title": "Gabaa Keessan",
+    "empty": "Gabaan keessan duwwaadha",
+    "startShopping": "Bittaa Jalqabi",
+    "checkout": "Kaffaltii",
+    "total": "Waliigala",
+    "subtotal": "Waliigala Gidduu",
+    "pointsEarned": "Qabxii Argamu"
+  },
+  "checkout": {
+    "deliveryInfo": "Oduu Geessitii",
+    "address": "Daandii, Magaalaa (fkn, Bole, Addis)",
+    "phone": "Lakkoofsa Bilbilaa",
+    "payment": "Akkaataa Kaffaltii",
+    "uploadProof": "Ragaa Kaffaltii Ol-kaa'i",
+    "instructions": "Maaloo kaffaltii waliigalaa herrega gadii irratti dabarsuun ragaa isaa asitti ol-kaa'aa.",
+    "confirm": "Ajaja Mirkaneessi",
+    "finish": "Ajaja Xumuri",
+    "verifyLocally": "Kaffaltiin Mirkanaa'eera"
+  },
+  "loyalty": {
+    "points": "Qabxii-Itiyoophiyaa",
+    "balance": "Qabxii Keessan",
+    "earnRate": "Kaffaltii 100 ETB hundaaf qabxii 10 argadhu.",
+    "youEarned": "Qabxii {{count}} argatteetta!"
+  },
+  "subscription": {
+    "title": "Kilaba Bunaa",
+    "subtitle": "Tasuma Si Jalaa Hin Dhumin",
+    "description": "Buna jaallattuuf galmaa'i, ajaja hunda irratti hamma 25% qusadhu.",
+    "plans": {
+      "weekly": "Sirna Torbee",
+      "connoisseur": "Filannoo Addaa"
+    },
+    "save": "{{percent}} Qusadhu",
+    "benefits": {
+      "delivery": "Geessitii bilisaa ni dabalata",
+      "access": "Oomishoota haaraa duratti argachuu",
+      "cancel": "Yeroo barbaaddanitti dhaabuu ni dandeessu"
+    },
+    "subscribeNow": "Amma Galmaa'i"
+  },
+  "footer": {
+    "tagline": "Buna tulluuwwan Itiyoophiyaa irraa filatame, addunyaaf kan akaayame.",
+    "explore": "Barbaadi",
+    "contact": "Nu Quunnamaa",
+    "copyright": "© {{year}} ኢትዮ-ብሩ። Qabeenya Itiyoophiyaa isa dhugaa."
+  }
+}

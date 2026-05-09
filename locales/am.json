@@ -1,0 +1,75 @@
+{
+  "nav": {
+    "brand": "ኢትዮ-ብሩ",
+    "home": "ዋና ገጽ",
+    "menu": "ዝርዝር",
+    "about": "ስለ እኛ",
+    "contact": "ያግኙን",
+    "blog": "ብሎግ",
+    "subscription": "ክለብ"
+  },
+  "hero": {
+    "title": "የኢትዮጵያን ነፍስ ይቅመሱ",
+    "subtitle": "ከካፋ ተራሮች እስከ ደጃፍዎ ድረስ ያለውን ኦሪጅናል የቡና ወግ ይለማመዱ።",
+    "orderNow": "አሁን ይዘዙ",
+    "joinClub": "ክለቡን ይቀላቀሉ"
+  },
+  "shop": {
+    "search": "ቡና ይፈልጉ...",
+    "addToCart": "ወደ ቅርጫት",
+    "exploreMore": "ተጨማሪ ይመልከቱ",
+    "price": "ዋጋ",
+    "roast": "የቁላ ደረጃ",
+    "tastingNotes": "የጣዕም መገለጫ",
+    "origin": "መነሻ",
+    "category": "ምድብ"
+  },
+  "cart": {
+    "title": "የእርስዎ ቅርጫት",
+    "empty": "ቅርጫትዎ ባዶ ነው",
+    "startShopping": "መገበያየት ይጀምሩ",
+    "checkout": "ክፍያ",
+    "total": "ጠቅላላ",
+    "subtotal": "ንዑስ ጠቅላላ",
+    "pointsEarned": "የሚያገኙት ነጥብ"
+  },
+  "checkout": {
+    "deliveryInfo": "የማድረሻ መረጃ",
+    "address": "መንገድ፣ ከተማ (ለምሳሌ ቦሌ፣ አዲስ አበባ)",
+    "phone": "ስልክ ቁጥር",
+    "payment": "የክፍያ ዘዴ",
+    "uploadProof": "የክፍያ ማረጋገጫ ይጫኑ",
+    "instructions": "እባክዎ ጠቅላላ ክፍያውን ከታች ባለው አካውንት ይላኩ እና ማረጋገጫ ይጫኑ።",
+    "confirm": "ትዕዛዙን አረጋግጥ",
+    "finish": "ትዕዛዙን ጨርስ",
+    "verifyLocally": "ክፍያው ተረጋግጧል"
+  },
+  "loyalty": {
+    "points": "ኢትዮ-ፖይንትስ",
+    "balance": "ያለዎት ነጥብ",
+    "earnRate": "ለእያንዳንዱ 100 ብር 10 ነጥቦችን ያግኙ።",
+    "youEarned": "{{count}} ነጥቦችን አግኝተዋል!"
+  },
+  "subscription": {
+    "title": "የቡና ክበብ",
+    "subtitle": "መቼም አይለቅብዎት",
+    "description": "ለሚወዱት ቡና ይመዝገቡ እና በእያንዳንዱ ትዕዛዝ እስከ 25% ይቆጥቡ።",
+    "plans": {
+      "weekly": "ሳምንታዊ",
+      "connoisseur": "ልዩ"
+    },
+    "save": "የ {{percent}} ቅናሽ",
+    "benefits": {
+      "delivery": "ነፃ ማድረሻ ተካቷል",
+      "access": "አዳዲስ ምርቶችን ቀድሞ የማግኘት እድል",
+      "cancel": "በማንኛውም ጊዜ ማቋረጥ ይቻላል"
+    },
+    "subscribeNow": "አሁኑኑ ይመዝገቡ"
+  },
+  "footer": {
+    "tagline": "ከኢትዮጵያ ደጋማ ቦታዎች የተመረጡ ቡናዎች ለዓለም ተቆልተው።",
+    "explore": "ያስሱ",
+    "contact": "ያግኙን",
+    "copyright": "© {{year}} ኢትዮ-ብሩ። ኦሪጅናል የኢትዮጵያ ቅርስ።"
+  }
+}

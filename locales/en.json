@@ -1,0 +1,75 @@
+{
+  "nav": {
+    "brand": "EthioBrew",
+    "home": "Home",
+    "menu": "Menu",
+    "about": "About",
+    "contact": "Contact",
+    "blog": "Blog",
+    "subscription": "Subscription"
+  },
+  "hero": {
+    "title": "Savor the Soul of Ethiopia",
+    "subtitle": "From the highlands of Kaffa to your doorstep, experience the original coffee tradition.",
+    "orderNow": "Order Now",
+    "joinClub": "Join the Club"
+  },
+  "shop": {
+    "search": "Search coffee...",
+    "addToCart": "Add to Cart",
+    "exploreMore": "Explore More",
+    "price": "Price",
+    "roast": "Roast Level",
+    "tastingNotes": "Tasting Notes",
+    "origin": "Origin",
+    "category": "Category"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "startShopping": "Start Shopping",
+    "checkout": "Checkout",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "pointsEarned": "Points to Earn"
+  },
+  "checkout": {
+    "deliveryInfo": "Delivery Info",
+    "address": "Street, City (e.g., Bole, Addis)",
+    "phone": "Phone Number",
+    "payment": "Payment Method",
+    "uploadProof": "Upload Payment Screenshot",
+    "instructions": "Please transfer the total amount to the account below and upload a screenshot for verification.",
+    "confirm": "Confirm Order",
+    "finish": "Finish Order",
+    "verifyLocally": "Payment Verified Locally"
+  },
+  "loyalty": {
+    "points": "EthioPoints",
+    "balance": "Your Balance",
+    "earnRate": "Earn 10 points for every 100 ETB spent.",
+    "youEarned": "You earned {{count}} Points!"
+  },
+  "subscription": {
+    "title": "Coffee Club",
+    "subtitle": "Never Run Out of Magic",
+    "description": "Subscribe to your favorite beans and save up to 25% on every order.",
+    "plans": {
+      "weekly": "Weekly Ritual",
+      "connoisseur": "The Connoisseur"
+    },
+    "save": "Save {{percent}}",
+    "benefits": {
+      "delivery": "Free delivery included",
+      "access": "Exclusive early access to new harvests",
+      "cancel": "Pause or cancel anytime"
+    },
+    "subscribeNow": "Subscribe Now"
+  },
+  "footer": {
+    "tagline": "Hand-picked beans from the Ethiopian highlands, roasted for the world.",
+    "explore": "Explore",
+    "contact": "Contact",
+    "copyright": "© {{year}} EthioBrew. Authentic Ethiopian Heritage."
+  }
+}
