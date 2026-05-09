@@ -6,6 +6,7 @@ const productController = {
       const products = await Product.findAll();
       res.json(products);
     } catch (error) {
+      console.error('API Error:', error);
       res.status(500).json({ error: error.message });
     }
   },

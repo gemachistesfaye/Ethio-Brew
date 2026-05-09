@@ -85,8 +85,11 @@ const DashboardOverview = () => {
         {/* Revenue Chart */}
         <div className="lg:col-span-2 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm">
           <h3 className="font-bold text-lg mb-8">Revenue Performance</h3>
-          <div className="h-64">
+          {/* <div className="h-64">
             <Line data={chartData} options={{ maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } } }} />
+          </div> */}
+          <div className="h-64 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-400 italic">
+            Chart temporarily disabled for debugging...
           </div>
         </div>
 

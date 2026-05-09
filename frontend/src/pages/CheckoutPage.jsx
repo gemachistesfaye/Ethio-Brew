@@ -4,7 +4,7 @@ import { MapPin, CreditCard, Smartphone, Landmark, Upload, Image as ImageIcon, C
 import { PAYMENT_DETAILS } from '../constants';
 
 const CheckoutPage = ({ cart, total, onOrderComplete }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [step, setStep] = useState(1);
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
@@ -114,7 +114,6 @@ const CheckoutPage = ({ cart, total, onOrderComplete }) => {
           <h3 className="font-bold text-xl mb-6">{t('cart.summary')}</h3>
           <div className="space-y-4 mb-6">
             {cart.map(item => {
-              const { i18n } = useTranslation();
               const currentLang = i18n.language;
               const name = currentLang === 'am' ? item.name_am : currentLang === 'om' ? item.name_om : item.name;
               return (
