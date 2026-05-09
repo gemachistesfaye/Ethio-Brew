@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, Clock, BookOpen } from 'lucide-react';
 import { STORIES } from '../data/stories';
 
 const StoriesPage = () => {
   const [activeStory, setActiveStory] = useState(null);
+
+  useEffect(() => {
+    if (activeStory) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [activeStory]);
 
   return (
     <div className="min-h-screen bg-[#FDFCF8] py-20 px-4">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChevronRight, ShieldCheck, Leaf, Zap, Award, X, Clock, BookOpen, ArrowRight } from 'lucide-react';
 import { Star } from 'lucide-react';
@@ -34,7 +34,17 @@ const RecommendationEngine = ({ onProductClick }) => {
   );
 };
 
-const StoryModal = ({ story, onClose }) => (
+const StoryModal = ({ story, onClose }) => {
+  useEffect(() => {
+    if (story) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [story]);
+
+  return (
   <AnimatePresence>
     {story && (
       <motion.div
@@ -75,7 +85,9 @@ const StoryModal = ({ story, onClose }) => (
       </motion.div>
     )}
   </AnimatePresence>
-);
+  );
+};
+
 
 const Home = ({ setPage, onProductClick }) => {
   const { t } = useTranslation();
