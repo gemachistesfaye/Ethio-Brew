@@ -1,17 +1,20 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --coffee-brown: #4B2C20;
-  --ethio-green: #006341;
-  --ethio-gold: #FFD700;
-  --ethio-red: #EF3340;
-  --cream: #F5F5DC;
+@theme {
+  --color-coffee-brown: #4B2C20;
+  --color-ethio-green: #006341;
+  --color-ethio-gold: #FFD700;
+  --color-ethio-red: #EF3340;
+  --color-cream: #F5F5DC;
+  
+  --font-heading: "Playfair Display", serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
 }
 
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  @apply bg-[#FDFCF8] text-gray-900;
 }
+

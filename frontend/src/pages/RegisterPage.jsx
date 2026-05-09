@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, Mail, Phone, MapPin, Lock, ArrowRight, CheckCircle } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Lock, ArrowRight, CheckCircle, X } from 'lucide-react';
 import authService from '../services/authService';
 
 const RegisterPage = () => {
