@@ -1,75 +1,88 @@
 {
   "nav": {
-    "brand": "ኢትዮ-ብሩ",
+    "brand": "EthioBrew",
     "home": "Mana",
-    "menu": "Filannoo",
+    "menu": "Tarree",
+    "shop": "Bittaa",
     "about": "Waa'ee Keenya",
     "contact": "Nu Quunnamaa",
-    "blog": "Oduu Bunaa",
-    "subscription": "Kilaba"
+    "blog": "Blogii",
+    "stories": "Seenaawwan",
+    "subscription": "Galmee"
   },
   "hero": {
-    "title": "Lubbuu Itiyoophiyaa Mi'eeffadhu",
-    "subtitle": "Kaka tulluuwwan Kaafaa irraa hamma balbala keetti, aadaa bunaa isa jalqabaa dhandhami.",
-    "orderNow": "Amma Ajajadhu",
-    "joinClub": "Kilabatti Dabalami"
+    "title": "Mi'aa Buna Itiyoophiyaa Dhandhamaa",
+    "subtitle": "Gaarren Kaafaa irraa hanga hulaa keessaniitti, aadaa bunaa isa jalqabaa dhandhamaa.",
+    "orderNow": "Amma Ajajaa",
+    "joinClub": "Kilaabichatti Dabalamaa"
   },
   "shop": {
-    "search": "Buna barbaadi...",
-    "addToCart": "Gabaatti Dabaladhu",
-    "exploreMore": "Bal'inaan Ilaali",
-    "price": "Gatii",
-    "roast": "Sadarkaa Akaayii",
-    "tastingNotes": "Mi'a Bunaa",
+    "search": "Buna barbaadaa...",
+    "addToCart": "Kaartitti dabali",
+    "exploreMore": "Dabalata Argadhu",
+    "price": "Gatiidha",
+    "roast": "Sadarkaa Waadii",
+    "tastingNotes": "Mi'aa isaa",
     "origin": "Bakka Dhalootaa",
-    "category": "Ramaddii"
+    "category": "Ramaddii",
+    "showing": "Agarsiisaa jira",
+    "results": "bu'aa",
+    "in": "keessatti",
+    "noProducts": "Buna tokkollee hin argamne",
+    "tryDifferent": "Ramaddii yookaan jecha biraa yaalaa.",
+    "showAll": "Hunda Agarsiisi"
   },
   "cart": {
-    "title": "Gabaa Keessan",
-    "empty": "Gabaan keessan duwwaadha",
-    "startShopping": "Bittaa Jalqabi",
+    "title": "Kaartii Keessan",
+    "empty": "Kaartiin keessan duwwaadha",
+    "startShopping": "Bittaa Jalqabaa",
     "checkout": "Kaffaltii",
-    "total": "Waliigala",
-    "subtotal": "Waliigala Gidduu",
+    "total": "Dimshaasha",
+    "subtotal": "Dimshaasha Xiqqaa",
     "pointsEarned": "Qabxii Argamu"
   },
   "checkout": {
-    "deliveryInfo": "Oduu Geessitii",
-    "address": "Daandii, Magaalaa (fkn, Bole, Addis)",
-    "phone": "Lakkoofsa Bilbilaa",
-    "payment": "Akkaataa Kaffaltii",
-    "uploadProof": "Ragaa Kaffaltii Ol-kaa'i",
-    "instructions": "Maaloo kaffaltii waliigalaa herrega gadii irratti dabarsuun ragaa isaa asitti ol-kaa'aa.",
-    "confirm": "Ajaja Mirkaneessi",
-    "finish": "Ajaja Xumuri",
-    "verifyLocally": "Kaffaltiin Mirkanaa'eera"
+    "deliveryInfo": "Oofinsa Ajajaa",
+    "address": "Karaa, Magaalaa (fkn. Bolee, Finfinnee)",
+    "phone": "Lakk. Bilbilaa",
+    "payment": "Mala Kaffaltii",
+    "uploadProof": "Ragaa kaffaltii ergaa",
+    "instructions": "Maaloo maallaqa dimshaashaa herrega gadii irratti dhangalaasaatii ragaa isaa nuuf ergaa.",
+    "confirm": "Ajaaja Mirkaneessi",
+    "finish": "Ajaaja Xumuri",
+    "verifyLocally": "Kaffaltiin mirkanaa'eera"
   },
   "loyalty": {
-    "points": "Qabxii-Itiyoophiyaa",
-    "balance": "Qabxii Keessan",
-    "earnRate": "Kaffaltii 100 ETB hundaaf qabxii 10 argadhu.",
-    "youEarned": "Qabxii {{count}} argatteetta!"
+    "points": "EthioPoints",
+    "balance": "Haftee Keessan",
+    "earnRate": "Bittaa 100 ETB hundaaf qabxii 10 argattu.",
+    "youEarned": "Qabxii {{count}} argattaniittu!"
   },
   "subscription": {
-    "title": "Kilaba Bunaa",
-    "subtitle": "Tasuma Si Jalaa Hin Dhumin",
-    "description": "Buna jaallattuuf galmaa'i, ajaja hunda irratti hamma 25% qusadhu.",
+    "title": "Kilaaba Bunaa",
+    "subtitle": "Matumaa Sin Jalaa Hin Citin",
+    "description": "Buna jaallattaniif galmaa'aa, ajaaja hunda irratti hanga 25% qusadhaa.",
     "plans": {
       "weekly": "Sirna Torbee",
-      "connoisseur": "Filannoo Addaa"
+      "connoisseur": "Warra Buna Jaallatuuf"
     },
-    "save": "{{percent}} Qusadhu",
+    "save": "{{percent}} Qusadhaa",
     "benefits": {
-      "delivery": "Geessitii bilisaa ni dabalata",
-      "access": "Oomishoota haaraa duratti argachuu",
-      "cancel": "Yeroo barbaaddanitti dhaabuu ni dandeessu"
+      "delivery": "Oofinsa bilisaa qaba",
+      "access": "Oomisha haaraa dursa argachuu",
+      "cancel": "Yeroo barbaaddan dhaabuu dandeessu"
     },
-    "subscribeNow": "Amma Galmaa'i"
+    "subscribeNow": "Amma Galmaa'aa",
+    "sendGift": "Kennaan Ergaa",
+    "giftDesc": "Ergaa dhuunfaa fi qophii kennaa of keessaa qaba",
+    "sendGiftSub": "Galmee Kennaa Ergaa",
+    "joinClub": "Kilaabichatti Dabalamaa",
+    "whatsIncluded": "Maaltu Of Keessaa Qaba"
   },
   "footer": {
-    "tagline": "Buna tulluuwwan Itiyoophiyaa irraa filatame, addunyaaf kan akaayame.",
+    "tagline": "Buna gaarren Itiyoophiyaa irraa filatame, addunyaaf kan dhiyaate.",
     "explore": "Barbaadi",
     "contact": "Nu Quunnamaa",
-    "copyright": "© {{year}} ኢትዮ-ብሩ። Qabeenya Itiyoophiyaa isa dhugaa."
+    "copyright": "© {{year}} EthioBrew. Aadaa Itiyoophiyaa isa dhugaa."
   }
 }

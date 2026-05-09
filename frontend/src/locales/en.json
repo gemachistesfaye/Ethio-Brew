@@ -3,9 +3,11 @@
     "brand": "EthioBrew",
     "home": "Home",
     "menu": "Menu",
+    "shop": "Shop",
     "about": "About",
     "contact": "Contact",
     "blog": "Blog",
+    "stories": "Stories",
     "subscription": "Subscription"
   },
   "hero": {
@@ -22,7 +24,13 @@
     "roast": "Roast Level",
     "tastingNotes": "Tasting Notes",
     "origin": "Origin",
-    "category": "Category"
+    "category": "Category",
+    "showing": "Showing",
+    "results": "results",
+    "in": "in",
+    "noProducts": "No coffees found",
+    "tryDifferent": "Try a different category or search term.",
+    "showAll": "Show All"
   },
   "cart": {
     "title": "Your Cart",
@@ -64,7 +72,12 @@
       "access": "Exclusive early access to new harvests",
       "cancel": "Pause or cancel anytime"
     },
-    "subscribeNow": "Subscribe Now"
+    "subscribeNow": "Subscribe Now",
+    "sendGift": "Send as a Gift",
+    "giftDesc": "Includes personal message & gift wrap",
+    "sendGiftSub": "Send Gift Subscription",
+    "joinClub": "Join the Club",
+    "whatsIncluded": "What's included"
   },
   "footer": {
     "tagline": "Hand-picked beans from the Ethiopian highlands, roasted for the world.",

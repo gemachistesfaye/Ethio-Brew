@@ -38,52 +38,28 @@ export const MOCK_BLOGS = [
     author: 'Marta K.',
     date: 'Nov 05, 2024',
     imageUrl: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: 'b3',
-    title: 'Brewing the Perfect Cup at Home',
-    titleAm: 'በቤት ውስጥ ፍጹም የሆነ ቡና ማዘጋጀት',
-    excerpt: 'Tips and tricks to get the best flavor out of your EthioBrew beans.',
-    excerptAm: 'ከኢትዮ-ብሩ ባቄላዎች ምርጡን ጣዕም ለማግኘት የሚረዱ ምክሮች።',
-    content: 'Grind size, water temperature, and timing are key to a perfect cup...',
-    author: 'Dawit S.',
-    date: 'Dec 01, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000'
-  },
-  {
-    id: 'b4',
-    title: 'History of Coffee: From Kaffa to the World',
-    titleAm: 'የቡና ታሪክ፡ ከካፋ እስከ ዓለም',
-    excerpt: 'How a goat herder discovered the world’s most popular beverage.',
-    excerptAm: 'አንድ የፍየል እረኛ የዓለምን ተወዳጅ መጠጥ እንዴት እንዳገኘ።',
-    content: 'Kaldi the goat herder noticed his goats became energetic after eating berries from a certain tree...',
-    author: 'Sara L.',
-    date: 'Jan 15, 2025',
-    imageUrl: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&q=80&w=800'
   }
 ];
 
 export const MOCK_COFFEE = [
-  // --- Single Origin ---
   {
-    id: '1', name: 'Yirgacheffe Special', name_am: 'ይርጋጨፌ ልዩ', name_om: 'Yirgaacheeffee Addaa',
+    id: '1', name: 'Yirgacheffe Special', name_am: 'ይርጋጨፌ ልዩ',
     description: 'Floral and citric notes with a light body and complex acidity.',
     origin: 'Yirgacheffe', roast: 'Light', price: 450, rating: 4.9,
-    imageUrl: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&fit=crop&q=80&w=800',
     flavorNotes: ['Floral', 'Lemon', 'Honey'], category: 'Single Origin'
   },
   {
-    id: '2', name: 'Sidamo Sun-Dried', name_am: 'ሲዳሞ በፀሐይ የደረቀ', name_om: 'Sidaamoo Aduun Goge',
+    id: '2', name: 'Sidamo Sun-Dried', name_am: 'ሲዳሞ በፀሐይ የደረቀ',
     description: 'Rich berry flavors with a creamy mouthfeel and chocolate finish.',
     origin: 'Sidamo', roast: 'Medium', price: 380, rating: 4.8,
-    imageUrl: 'https://images.unsplash.com/photo-1580915411954-282cb1b0d780?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&q=80&w=800',
     flavorNotes: ['Blueberry', 'Chocolate', 'Nutty'], category: 'Single Origin'
   },
-  // --- Blend ---
   {
     id: '3', name: 'Habesha Blend', name_am: 'ሐበሻ ብሌንድ',
     description: 'Our signature blend of the finest highland beans for everyday excellence.',
-    origin: 'Ethiopian Highlands', roast: 'Medium', price: 350, rating: 4.7,
+    origin: 'Highlands', roast: 'Medium', price: 350, rating: 4.7,
     imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800',
     flavorNotes: ['Balanced', 'Sweet', 'Spicy'], category: 'Blend'
   },
@@ -91,25 +67,23 @@ export const MOCK_COFFEE = [
     id: '4', name: 'Sunrise Espresso Blend', name_am: 'የንጋት ብሌንድ',
     description: 'A rich, full-bodied espresso blend crafted for the perfect morning shot.',
     origin: 'Multi-Region', roast: 'Dark', price: 390, rating: 4.8,
-    imageUrl: 'https://images.unsplash.com/photo-1534040385115-33dcb3acba5b?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=800',
     flavorNotes: ['Caramel', 'Cocoa', 'Bold'], category: 'Blend'
   },
-  // --- Specialty ---
   {
     id: '5', name: 'Kaffa Heirloom', name_am: 'የካፋ ቅርስ',
     description: 'Ancient heirloom varieties from the deep wild forests of Kaffa.',
     origin: 'Kaffa', roast: 'Medium', price: 480, rating: 4.9,
-    imageUrl: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1580915411954-282cb1b0d780?auto=format&fit=crop&q=80&w=800',
     flavorNotes: ['Earthy', 'Spicy', 'Tobacco'], category: 'Specialty'
   },
   {
     id: '6', name: 'Guji Honey Process', name_am: 'የጉጂ ማር',
     description: 'Honey-processed for intense natural sweetness and a silky finish.',
     origin: 'Guji', roast: 'Light', price: 520, rating: 5.0,
-    imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?auto=format&fit=crop&q=80&w=800',
     flavorNotes: ['Jasmine', 'Honey', 'Peach'], category: 'Specialty'
   },
-  // --- Dark Roast ---
   {
     id: '7', name: 'Harrar Bold Dark', name_am: 'ሐረር ቦልድ',
     description: 'Winey, heavy body with wild and exotic mocha-like notes.',
@@ -121,10 +95,9 @@ export const MOCK_COFFEE = [
     id: '8', name: 'Midnight Espresso', name_am: 'የሌሊት ቡና',
     description: 'Deep-roasted Ethiopian dark beans for a bold, smoky espresso experience.',
     origin: 'Sidamo', roast: 'Dark', price: 400, rating: 4.6,
-    imageUrl: 'https://images.unsplash.com/photo-1572286258217-40f8b21c0b4e?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&fit=crop&q=80&w=800', // Deep dark beans
     flavorNotes: ['Smoke', 'Dark Chocolate', 'Bold'], category: 'Dark Roast'
   },
-  // --- Organic ---
   {
     id: '9', name: 'Jimma Organic', name_am: 'ጅማ ኦርጋኒክ',
     description: 'Certified organic beans from the Jimma highlands, naturally grown.',
@@ -136,23 +109,21 @@ export const MOCK_COFFEE = [
     id: '10', name: 'Bench Maji Wild Organic', name_am: 'ቤንች ማጂ ዱር',
     description: 'Wild-harvested organic coffee from the untouched Bench Maji forest.',
     origin: 'Bench Maji', roast: 'Light', price: 510, rating: 4.9,
-    imageUrl: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&q=80&w=800',
     flavorNotes: ['Floral', 'Herbal', 'Wild'], category: 'Organic'
   },
-  // --- Gift Box ---
   {
     id: '11', name: 'Ethiopian Tasting Box', name_am: 'የኢትዮጵያ ቅምሻ ሳጥን',
     description: 'A curated gift set of 4 premium Ethiopian single-origin coffees.',
     origin: 'Multi-Region', roast: 'Mixed', price: 980, rating: 5.0,
-    imageUrl: 'https://images.unsplash.com/photo-1520341280432-4749d4d7bcf1?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1521017432531-fbd92d744264?auto=format&fit=crop&q=80&w=800', // Unique coffee bean variety/gift feel
     flavorNotes: ['Variety', 'Premium', 'Gift'], category: 'Gift Box'
   },
-  // --- Traditional ---
   {
     id: '12', name: 'Buna Ceremony Blend', name_am: 'ቡና ስነ-ስርዓት ብሌንድ',
     description: 'Inspired by the traditional Ethiopian ceremony — full body, rich aroma.',
     origin: 'Kaffa / Jimma', roast: 'Medium-Dark', price: 430, rating: 4.8,
-    imageUrl: 'https://images.unsplash.com/photo-1578374173708-cbaf11b9b21a?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=800', // Traditional roasting ceremony
     flavorNotes: ['Incense', 'Earthy', 'Rich'], category: 'Traditional'
   },
 ];

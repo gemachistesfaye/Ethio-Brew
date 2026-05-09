@@ -64,14 +64,14 @@ const MenuPage = ({ addToCart, onProductClick }) => {
         {/* Header */}
         <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-6">
           <div>
-            <span className="text-[#006341] font-bold uppercase tracking-widest text-xs">Premium Ethiopian Coffee</span>
-            <h1 className="text-4xl font-extrabold text-[#4B2C20] mt-1">Shop Our Collection</h1>
+            <span className="text-[#006341] font-bold uppercase tracking-widest text-xs">{t('nav.brand')}</span>
+            <h1 className="text-4xl font-extrabold text-[#4B2C20] mt-1">{t('nav.menu')}</h1>
           </div>
           <div className="relative w-full md:w-80">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input
               type="text"
-              placeholder="Search coffees..."
+              placeholder={t('shop.search')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-12 pr-4 py-4 rounded-2xl border-none bg-white shadow-sm focus:ring-2 focus:ring-[#006341] outline-none transition-all"
@@ -91,15 +91,15 @@ const MenuPage = ({ addToCart, onProductClick }) => {
                   : 'bg-white text-gray-600 border border-gray-200 hover:border-[#006341] hover:text-[#006341]'
               }`}
             >
-              {cat}
+              {cat === 'All' ? t('shop.showAll') : cat}
             </button>
           ))}
         </div>
 
         {/* Results Count */}
         <p className="text-sm text-gray-400 font-medium mb-6">
-          Showing <span className="font-bold text-gray-700">{filteredItems.length}</span> results
-          {activeCategory !== 'All' && <> in <span className="font-bold text-[#006341]">{activeCategory}</span></>}
+          {t('shop.showing')} <span className="font-bold text-gray-700">{filteredItems.length}</span> {t('shop.results')}
+          {activeCategory !== 'All' && <> {t('shop.in')} <span className="font-bold text-[#006341]">{activeCategory}</span></>}
         </p>
 
         {/* Product Grid */}
@@ -118,16 +118,17 @@ const MenuPage = ({ addToCart, onProductClick }) => {
         ) : filteredItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <p className="text-5xl mb-4">☕</p>
-            <h3 className="text-xl font-bold text-gray-700 mb-2">No coffees found</h3>
-            <p className="text-gray-400 text-sm">Try a different category or search term.</p>
+            <h3 className="text-xl font-bold text-gray-700 mb-2">{t('shop.noProducts')}</h3>
+            <p className="text-gray-400 text-sm">{t('shop.tryDifferent')}</p>
             <button onClick={() => { setActiveCategory('All'); setSearch(''); }} className="mt-6 px-6 py-3 bg-[#006341] text-white rounded-xl font-bold text-sm hover:bg-[#004d32] transition">
-              Show All
+              {t('shop.showAll')}
             </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {filteredItems.map((item) => {
               const name = currentLang === 'am' ? item.name_am : currentLang === 'om' ? item.name_om : item.name;
+              const desc = currentLang === 'am' ? item.description_am : currentLang === 'om' ? item.description_om : item.description;
               return (
                 <div key={item.id} className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col relative">
                   <button onClick={() => onProductClick(item)} className="absolute top-4 right-4 z-10 bg-white/80 backdrop-blur text-gray-600 p-2 rounded-full opacity-0 group-hover:opacity-100 transition shadow-lg">
@@ -150,7 +151,7 @@ const MenuPage = ({ addToCart, onProductClick }) => {
                       <span className="text-[10px] font-bold text-gray-900">{item.rating || 4.8}</span>
                     </div>
                     <h3 className="font-bold text-lg mb-1 leading-tight">{name}</h3>
-                    <p className="text-gray-400 text-[11px] mb-4 uppercase tracking-tighter">{item.roast} Roast • {item.origin}</p>
+                    <p className="text-gray-400 text-[11px] mb-4 uppercase tracking-tighter">{item.roast} {t('shop.roast')} • {item.origin}</p>
                     <div className="flex flex-wrap gap-1 mb-4">
                       {(item.flavorNotes || []).map((note) => (
                         <span key={note} className="text-[10px] bg-[#006341]/10 text-[#006341] px-2 py-0.5 rounded-full font-bold">{note}</span>
