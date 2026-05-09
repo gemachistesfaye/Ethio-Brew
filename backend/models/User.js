@@ -26,6 +26,9 @@ const User = {
       'UPDATE users SET name = ?, phone = ?, address = ? WHERE id = ?',
       [name, phone, address, id]
     );
+  },
+  updatePassword: async (id, hashedPassword) => {
+    await pool.query('UPDATE users SET password = ? WHERE id = ?', [hashedPassword, id]);
   }
 };
 
