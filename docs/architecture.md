@@ -1,78 +1,60 @@
-# System Architecture
+# 🚀 Ethio-Brew — Enterprise Project Architecture
 
-Ethio-Brew is built on a modern, decoupled client-server architecture, ensuring scalability, maintainability, and a seamless developer experience.
+This document outlines the architectural design and structural organization of the Ethio-Brew platform.
 
-## High-Level Architecture Diagram
+## 🏗️ System Overview
+Ethio-Brew is built using a **Modular Client-Server Architecture** designed for scalability, security, and high-fidelity user experiences.
 
-```text
-+-------------------+       HTTP / REST       +-------------------+
-|                   |  (JSON, Credentials)    |                   |
-|  React Frontend   | <=====================> | Express Backend   |
-|  (Vite + Tailwind)|                         | (Node.js API)     |
-|                   |                         |                   |
-+-------------------+                         +-------------------+
-                                                       ^
-                                                       |
-                                                  MySQL Driver
-                                                       |
-                                                       v
-                                              +-------------------+
-                                              |                   |
-                                              |  MySQL Database   |
-                                              |  (Relational)     |
-                                              |                   |
-                                              +-------------------+
-```
+### 1. Frontend (The Experience)
+- **Framework**: React.js
+- **Styling**: Tailwind CSS + Framer Motion (for premium animations)
+- **State Management**: React Context API (Auth & Cart)
+- **Internationalization**: Custom `useTranslation` hook (Supporting EN, AM, OM)
+- **Structure**:
+  - `/src/components`: Atomic UI components (Buttons, Modals, Cards)
+  - `/src/pages`: Main view layouts (Home, Shop, Admin)
+  - `/src/hooks`: Custom logic (Translation, API interactions)
 
-## Frontend Architecture
-
-The frontend is a Single Page Application (SPA) built with **React** and bundled using **Vite** for optimized performance.
-- **Styling**: Tailwind CSS is used for rapid, utility-first UI development.
-- **State Management**: React Context API is used globally (e.g., `AuthContext`) to manage user sessions and authentication states. Local state is managed via `useState`.
-- **Routing**: `react-router-dom` handles client-side routing, ensuring fast transitions without page reloads. Protected routes ensure unauthorized users cannot access checkout or settings.
-- **Internationalization**: `react-i18next` handles multi-language support (English, Amharic, Afaan Oromoo).
-
-## Backend Architecture
-
-The backend is a RESTful API built with **Node.js** and **Express.js**.
-- **Design Pattern**: Strictly follows the **MVC (Model-View-Controller)** paradigm.
-  - *Models*: Handle database queries and data logic (e.g., `User.js`).
-  - *Controllers*: Process incoming requests, apply business logic, and send responses.
-  - *Routes*: Map HTTP endpoints to specific controller methods.
+### 2. Backend (The Engine)
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: MySQL (Relational)
 - **Security**: 
-  - Passwords are cryptographically hashed using `bcryptjs`.
-  - Authentication relies on JSON Web Tokens (JWT) stored securely in **HTTP-only cookies** to prevent XSS attacks.
-  - CORS is strictly configured to only accept requests from the frontend origin.
+  - JWT (JSON Web Tokens) for session management
+  - Bcrypt.js for enterprise-grade password hashing
+  - Helmet & CORS for header security
+  - Rate Limiting to prevent brute-force attacks
+- **Structure**:
+  - `/controllers`: Business logic (Auth, Products, Orders)
+  - `/routes`: Endpoint definitions and Middleware gating
+  - `/middleware`: Auth verification and Role-based access control
+  - `/config`: Database pooling and Environment management
 
-## Database Layer
+### 3. AI Integration
+- **Engine**: Google Gemini AI
+- **Features**: 
+  - Multilingual sentiment analysis
+  - Context-aware coffee recommendations
+  - Automated business intelligence for Admins
 
-The application uses **MySQL**, a relational database management system.
-- Structured with tables for Users, Products, and Orders.
-- Uses `mysql2/promise` for asynchronous, non-blocking queries using standard SQL.
-
-## Folder Structure
-
+## 📦 Folder Structure
 ```text
 Ethio-Brew/
-├── backend/
-│   ├── config/       # Database connection setup
-│   ├── controllers/  # Core business logic
-│   ├── middleware/   # JWT verification & error handling
-│   ├── models/       # Database interaction layer
-│   ├── routes/       # Express API route definitions
-│   └── server.js     # Entry point
-│
-├── frontend/
+├── backend/            # Express.js Server
+│   ├── config/         # DB Connection
+│   ├── controllers/    # Logic
+│   ├── middleware/     # Auth Guards
+│   ├── models/         # DB Queries
+│   └── routes/         # API Paths
+├── frontend/           # React App
 │   ├── src/
-│   │   ├── components/ # Reusable UI pieces
-│   │   ├── context/    # Global state (Auth)
-│   │   ├── locales/    # i18n translation files
-│   │   ├── pages/      # Full views (Home, Blog, Login)
-│   │   ├── services/   # Axios API calls
-│   │   ├── App.jsx     # Main router setup
-│   │   └── main.jsx    # React DOM rendering
-│   └── tailwind.config.js
-│
-└── db/
-    └── schema.sql    # Database schema
+│   │   ├── admin/      # Admin Suite
+│   │   ├── components/ # UI Elements
+│   │   ├── pages/      # Views
+│   │   └── hooks/      # Logic
+├── db/                 # SQL Scripts
+└── docs/               # Professional Docs
 ```
+
+---
+*Created by Gemachis Tesfaye (Software Developer)*

@@ -1,36 +1,32 @@
-# Ethio-Brew Database Schema Documentation
+# 🗄️ Ethio-Brew Database Schema
 
-## 📦 Tables
+The platform uses a **MySQL Relational Database** with the following core entities.
 
-### 1. `users`
-Stores all account data for both customers and admins.
-- `id`: Primary Key (Auto-increment)
-- `role`: `customer` or `admin`.
+## 👥 Users & Roles
+- **`users`**: Master user table.
+  - `id`, `full_name`, `email`, `password`, `phone`, `is_verified`, `created_at`
+- **`roles`**: Available system roles.
+  - `id`, `name` (admin, customer, delivery_staff), `description`
+- **`user_roles`**: Junction table for Many-to-Many relationship.
+  - `user_id`, `role_id`
 
-### 2. `products`
-The core coffee catalog. Supports 3 languages at the column level.
-- `name_en`, `name_am`, `name_om`
-- `description_en`, `description_am`, `description_om`
-- `origin`: Geographic source (Yirgacheffe, Sidamo, etc.)
+## ☕ Products
+- **`products`**: Coffee inventory.
+  - `id`, `name_en`, `name_am`, `name_or`, `description_en`, `price`, `stock`, `region`, `roast_level`, `image_url`
 
-### 3. `orders`
-Tracks the lifecycle of a purchase.
-- `status`: `pending`, `verified`, `processing`, `delivered`.
-- `total_price`: Final amount in ETB.
+## 📦 Orders & Payments
+- **`orders`**: Customer purchases.
+  - `id`, `user_id`, `total_amount`, `status` (Pending, Roasting, Shipped, Delivered), `shipping_address`, `created_at`
+- **`order_items`**: Line items per order.
+  - `id`, `order_id`, `product_id`, `quantity`, `price`
+- **`payments`**: Financial transaction tracking.
+  - `id`, `order_id`, `method` (Telebirr, CBE, Cash), `status` (pending, completed), `receipt_url`
 
-### 4. `payments`
-Stores proof of transaction for manual payment methods.
-- `proof_image`: URL/Path to the uploaded screenshot.
-- `status`: `pending`, `approved`, `rejected`.
-
-### 5. `loyalty_points`
-User reward balance.
-- `points`: Calculated as 10% of total spend.
+## 🤖 AI & Engagement
+- **`subscriptions`**: Recurring coffee deliveries.
+  - `id`, `user_id`, `frequency`, `status`
+- **`reviews`**: Customer sentiment data.
+  - `id`, `user_id`, `product_id`, `rating`, `comment_en`, `sentiment_score`
 
 ---
-
-## 🔗 Relationships
-- **One User** has **Many Orders**.
-- **One Order** has **One Payment**.
-- **One Order** has **Many Order Items**.
-- **One User** has **One Loyalty Point** record.
+*Created by Gemachis Tesfaye (Software Developer)*

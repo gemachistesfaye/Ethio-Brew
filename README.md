@@ -1,59 +1,91 @@
-# ☕ Ethio-Brew: Premium Ethiopian Coffee Platform
+# ☕ Ethio-Brew — AI-Powered Ethiopian Coffee E-Commerce Platform
 
-Ethio-Brew is a professional-grade, full-stack e-commerce and SaaS platform designed for the Ethiopian coffee market. It features a stunning React frontend, a modular Node.js backend, and a production-ready SQL database.
+![Version](https://img.shields.io/badge/version-1.0.0-gold)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Node](https://img.shields.io/badge/Node.js-v18-green)
+![React](https://img.shields.io/badge/React-v18-blue)
+
+**Ethio-Brew** is a production-grade, enterprise-level e-commerce ecosystem designed to bring the heritage of Ethiopian coffee to the digital age. Built with AI-driven intelligence, multilingual support, and a robust business command center.
 
 ---
 
-## 📁 Project Structure
+## 🚀 Key Features
 
-```text
-Ethio-Brew/
-├── frontend/          → React (Vanilla JavaScript, Vite, Tailwind CSS)
-├── backend/           → Node.js + Express API (MVC Pattern)
-├── db/                → SQL database migrations & schema
-├── docs/              → Technical documentation & API guides
-└── README.md          → System overview & run guide
+### 🌍 Global Experience
+- **Multilingual Excellence**: Full native support for English, Amharic (አማርኛ), and Afaan Oromo.
+- **Cultural Immersion**: Interactive stories about Kaldi, the history of coffee, and traditional ceremonies.
+- **Regional Discovery**: Shop by origin (Yirgacheffe, Sidamo, Harar) with deep terroir insights.
+
+### 🤖 AI Intelligence
+- **Gemini AI Expert**: A multilingual coffee sommelier that recommends blends and explains brewing science.
+- **Smart Analytics**: AI-driven business intelligence that identifies flavor trends and suggests inventory adjustments.
+- **Sentiment Analysis**: Automated customer satisfaction tracking.
+
+### 📊 Admin Command Center (Business Intelligence)
+- **Live Dashboard**: Real-time charts for Revenue, Orders, and Regional Demand.
+- **Inventory Control**: Professional CRUD management for the entire product catalog.
+- **Order Pipeline**: One-click status management (Roasting -> Packaging -> Shipping -> Delivered).
+- **Payment Verification**: Secure audit system for verifying Telebirr and bank receipts.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React.js, Tailwind CSS, Framer Motion, Lucide Icons.
+- **Backend**: Node.js, Express.js.
+- **Database**: MySQL (Relational Schema).
+- **Security**: JWT Authentication, Bcrypt Hashing, Role-Based Access (RBAC).
+- **AI Engine**: Google Gemini Pro.
+
+---
+
+## 📂 Documentation
+
+Detailed documentation is available in the `/docs` folder:
+- [📖 Project Architecture](./docs/architecture.md)
+- [📡 API Documentation](./docs/api-documentation.md)
+- [🗄️ Database Schema](./docs/database-schema.md)
+- [✨ Features Overview](./docs/features-overview.md)
+- [🛠️ Setup Guide](./docs/setup-guide.md)
+- [🚀 Deployment Guide](./docs/deployment-guide.md)
+
+---
+
+## 🚦 Getting Started
+
+### Environment Variables
+Create a `.env` file in the `/backend` directory:
+```env
+PORT=5000
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=your_password
+DB_NAME=ethio_brew
+JWT_SECRET=your_jwt_secret
+GEMINI_API_KEY=your_gemini_key
 ```
 
----
-
-## 🚀 Getting Started
-
-### 1. Database Setup
-1. Create a MySQL database named `ethiobrew`.
-2. Import the schema from `db/schema.sql`.
-   ```bash
-   mysql -u root -p ethiobrew < db/schema.sql
-   ```
-
-### 2. Backend Setup
-1. Navigate to `backend/`.
-2. Install dependencies: `npm install`.
-3. Start the API: `node server.js`.
-
-### 3. Frontend Setup
-1. Navigate to `frontend/`.
-2. Install dependencies: `npm install`.
-3. Start the dev server: `npm run dev`.
-4. Access at: **http://localhost:3000**
+### Installation
+1. **Clone**: `git clone https://github.com/gemachistesfaye/Ethio-Brew.git`
+2. **Database**: Run `db/schema.sql` in your MySQL client.
+3. **Backend**: `cd backend && npm install && node server.js`
+4. **Frontend**: `cd frontend && npm install && npm run dev`
 
 ---
 
-## 🎨 Key Features
-- **Multilingual Support**: Real-time switching between English, Amharic, and Afaan Oromoo.
-- **Admin Dashboard**: Advanced analytics, order tracking, and inventory management.
-- **Payment Verification**: Manual transfer proof (Telebirr/CBE) audit system.
-- **AI Integration**: Smart coffee recommendations and support assistant.
+## 👤 Developer Profile
+
+**Developed by Gemachis Tesfaye**  
+*Software Developer & Coffee Enthusiast*
+
+- 📞 **Phone**: +251 976 601 074
+- 📧 **Email**: [gemachistesfaye36@gmail.com](mailto:gemachistesfaye36@gmail.com)
+- 📍 **Telegram**: [@urjiiko1](https://t.me/urjiiko1)
+- 🌐 **GitHub**: [github.com/gemachistesfaye](https://github.com/gemachistesfaye)
 
 ---
 
-## 🛠️ Technology Stack
-- **Frontend**: React, Tailwind CSS, Lucide Icons, Chart.js.
-- **Backend**: Node.js, Express, MySQL, JWT, Bcrypt.
-- **Database**: MySQL / MariaDB.
+## 📜 License
+This project is licensed under the MIT License.
 
----
-
-## Documentation
-
-Detailed project documentation is available inside the `/docs` folder.
+*☕ Ethio-Brew — Preserving Heritage, Empowering Farmers, Brewing Excellence.*
