@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Send, Github, Phone, MapPin, CheckCircle, Coffee } from 'lucide-react';
+import { Mail, Send, Instagram, Phone, MapPin, CheckCircle, Coffee } from 'lucide-react';
 
 const ContactPage = () => {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
@@ -20,10 +20,11 @@ const ContactPage = () => {
   };
 
   const contacts = [
-    { icon: <Phone size={20} />, label: 'Phone', value: '+251 976 601 074', href: 'tel:+251976601074' },
-    { icon: <Mail size={20} />, label: 'Email', value: 'gemachistesfaye36@gmail.com', href: 'mailto:gemachistesfaye36@gmail.com' },
-    { icon: <Send size={20} />, label: 'Telegram', value: '@urjiiko1', href: 'https://t.me/urjiiko1' },
-    { icon: <Github size={20} />, label: 'GitHub', value: 'gemachistesfaye', href: 'https://github.com/gemachistesfaye' },
+    { icon: <Phone size={20} />, label: 'Phone', value: '+251 911 234 567', href: 'tel:+251911234567' },
+    { icon: <Mail size={20} />, label: 'Email', value: 'hello@ethiobrew.com', href: 'mailto:hello@ethiobrew.com' },
+    { icon: <Send size={20} />, label: 'Telegram', value: '@EthioBrew', href: 'https://t.me/EthioBrew' },
+    { icon: <Instagram size={20} />, label: 'Instagram', value: '@EthioBrew', href: 'https://instagram.com/EthioBrew' },
+    { icon: <MapPin size={20} />, label: 'Address', value: 'Bole Road, Addis Ababa', href: '#' },
   ];
 
   return (
