@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import { 
   TrendingUp, Users, ShoppingBag, DollarSign, 
-  Package, CheckCircle, Clock, AlertCircle, Download
+  Package, CheckCircle, Clock, AlertCircle, Download, Smile
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -139,6 +139,54 @@ const AdminDashboard = () => {
                         <span className="text-white/60">{d.region}</span>
                       </div>
                       <span className="font-bold">{d.percentage}%</span>
+                   </div>
+                 ))}
+              </div>
+           </div>
+        </div>
+
+        {/* AI Sentiment Analysis Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+           <div className="bg-[#4B2C20] rounded-[48px] p-10 text-white shadow-2xl relative overflow-hidden flex flex-col justify-center">
+              <div className="absolute top-0 right-0 p-12 opacity-10">
+                 <TrendingUp size={160} />
+              </div>
+              <div className="relative z-10">
+                 <h3 className="text-[10px] font-black uppercase tracking-[0.4em] mb-6 text-[#FFD700]">AI Sentiment Analysis</h3>
+                 <div className="space-y-8">
+                    <div className="flex items-center gap-6">
+                       <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center">
+                          <Smile size={32} className="text-green-400" />
+                       </div>
+                       <div>
+                          <p className="text-3xl font-black">88% Positive</p>
+                          <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest mt-1">Global Customer Satisfaction</p>
+                       </div>
+                    </div>
+                    
+                    <div className="p-8 bg-white/5 rounded-[32px] border border-white/10 italic text-sm text-white/80 leading-relaxed shadow-inner">
+                       "AI analysis of 240 recent reviews indicates a strong trend: Customers in **Addis Ababa** are increasingly preferring **Light Roasts** with floral notes. Recommended action: Boost stock of **Yirgacheffe** beans by 15%."
+                    </div>
+                 </div>
+              </div>
+           </div>
+
+           <div className="bg-white rounded-[48px] p-10 border border-gray-100 shadow-sm flex flex-col justify-center">
+              <h3 className="text-xl font-bold text-[#4B2C20] mb-6">Market Trends</h3>
+              <div className="space-y-4">
+                 {[
+                   { label: 'Yirgacheffe Demand', val: '92%', color: 'bg-green-500' },
+                   { label: 'Sidama Retention', val: '78%', color: 'bg-amber-500' },
+                   { label: 'Subscription Growth', val: '64%', color: 'bg-purple-500' }
+                 ].map((trend, i) => (
+                   <div key={i} className="space-y-2">
+                      <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-gray-400">
+                         <span>{trend.label}</span>
+                         <span>{trend.val}</span>
+                      </div>
+                      <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
+                         <div className={`h-full ${trend.color}`} style={{width: trend.val}} />
+                      </div>
                    </div>
                  ))}
               </div>

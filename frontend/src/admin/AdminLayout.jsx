@@ -5,7 +5,10 @@ import {
   Settings, LogOut, ChevronLeft, LayoutDashboard,
   Coffee
 } from 'lucide-react';
-import DashboardOverview from './AdminDashboard'; // We'll rename the current one to this
+import DashboardOverview from './AdminDashboard';
+import ProductManagement from './ProductManagement';
+import UserManagement from './UserManagement';
+import PaymentVerification from './PaymentVerification';
 
 const AdminLayout = () => {
   const navigate = useNavigate();
@@ -64,9 +67,9 @@ const AdminLayout = () => {
       <main className="flex-1 overflow-y-auto">
         <Routes>
           <Route path="/" element={<DashboardOverview />} />
-          <Route path="/products" element={<div className="p-20 text-3xl font-black text-[#4B2C20]">Product Management (Building...)</div>} />
-          <Route path="/users" element={<div className="p-20 text-3xl font-black text-[#4B2C20]">User Management (Building...)</div>} />
-          <Route path="/payments" element={<div className="p-20 text-3xl font-black text-[#4B2C20]">Payment Verification (Building...)</div>} />
+          <Route path="/products" element={<ProductManagement />} />
+          <Route path="/users" element={<UserManagement />} />
+          <Route path="/payments" element={<PaymentVerification />} />
         </Routes>
       </main>
     </div>

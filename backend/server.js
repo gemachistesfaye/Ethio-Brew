@@ -84,7 +84,46 @@ app.use((err, req, res, next) => {
     res.status(500).json({ status: 'error', message: err.message });
 });
 
+const pool = require('./config/db');
+const bcrypt = require('bcryptjs');
+
+// 6. SELF-HEALING: FORCE-SEED ADMIN
+const seedAdmin = async () => {
+    try {
+        console.log("🛠️ Checking Admin Status...");
+        const hashedPass = await bcrypt.hash('admin123', 12);
+        
+        // 1. Ensure Roles Exist
+        await pool.execute('INSERT IGNORE INTO roles (id, name, description) VALUES (1, "customer", "Default"), (2, "admin", "Master Admin")');
+        
+        // 2. Check if admin exists
+        const [users] = await pool.execute('SELECT id FROM users WHERE email = "admin@ethiobrew.com"');
+        
+        let adminId;
+        if (users.length === 0) {
+            console.log("📝 Creating New Admin...");
+            const [result] = await pool.execute(
+                'INSERT INTO users (full_name, email, password, is_verified) VALUES ("System Admin", "admin@ethiobrew.com", ?, TRUE)',
+                [hashedPass]
+            );
+            adminId = result.insertId;
+        } else {
+            console.log("🔄 Resetting Existing Admin Password...");
+            adminId = users[0].id;
+            await pool.execute('UPDATE users SET password = ?, full_name = "System Admin" WHERE id = ?', [hashedPass, adminId]);
+        }
+
+        // 3. Ensure Admin has the Admin Role
+        await pool.execute('INSERT IGNORE INTO user_roles (user_id, role_id) VALUES (?, 2)', [adminId]);
+        
+        console.log("✅ Admin System Restored & Verified!");
+    } catch (err) {
+        console.error("❌ Admin Seeding Failed:", err.message);
+    }
+};
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Ethio-Brew Enterprise API running on port ${PORT}`);
+  seedAdmin();
 });
