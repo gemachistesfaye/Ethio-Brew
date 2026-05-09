@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const fetch = require('node-fetch');
 
+
 // Import Routes
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
@@ -37,21 +38,32 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/auth', authRoutes);
 
-// Super-Resilient Gemini AI Integration (Updated with your account's specific models)
+// Shared Product List for AI (Simplified for tokens)
+const coffeeList = [
+  { name: 'Midnight Espresso', price: 450, region: 'Jimma', notes: 'Dark chocolate, toasted nuts' },
+  { name: 'Sidamo Sun-Dried', price: 380, region: 'Sidama', notes: 'Fruity, berry, syrupy' },
+  { name: 'Yirgacheffe Floral', price: 420, region: 'Yirgacheffe', notes: 'Jasmine, lemony acidity' },
+  { name: 'Harar Golden Bean', price: 410, region: 'Harar', notes: 'Wild berries, wine-like' },
+  { name: 'Guji Highland Special', price: 460, region: 'Guji', notes: 'Peach, black tea' },
+  { name: 'Buna Ceremony Blend', price: 320, region: 'Multi-region', notes: 'Traditional roast' },
+  { name: 'Ethiopian Tasting Box', price: 850, region: 'All Regions', notes: 'Selection of 4 coffees' }
+];
+
+// Amazing Gemini AI Integration
 app.post('/api/ai', async (req, res) => {
-  const { message } = req.body;
+  const { message, language } = req.body;
   const apiKey = process.env.GEMINI_API_KEY;
   
   if (!apiKey || apiKey === 'your_gemini_api_key_here') {
-    return res.json({ response: "Hello! I am the Ethio-Brew AI assistant. Please add your real GEMINI_API_KEY to the .env file!" });
+    return res.json({ response: "Please add your real GEMINI_API_KEY to enable the AI." });
   }
 
-  // UPDATED: These are the exact models available for your specific key based on our scan
+  const langName = language === 'am' ? 'Amharic' : language === 'om' ? 'Afaan Oromo' : 'English';
+
   const attempts = [
     { ver: 'v1beta', model: 'gemini-2.0-flash' },
     { ver: 'v1beta', model: 'gemini-2.5-flash' },
-    { ver: 'v1beta', model: 'gemini-flash-latest' },
-    { ver: 'v1beta', model: 'gemini-pro-latest' }
+    { ver: 'v1beta', model: 'gemini-flash-latest' }
   ];
 
   let lastError = "";
@@ -60,42 +72,47 @@ app.post('/api/ai', async (req, res) => {
     try {
       const url = `https://generativelanguage.googleapis.com/${attempt.ver}/models/${attempt.model}:generateContent?key=${apiKey}`;
       
+      const systemPrompt = `
+        You are "Coffee Expert", the official AI assistant for Ethio-Brew. 
+        
+        KNOWLEDGE BASE:
+        1. Our Products: ${JSON.stringify(coffeeList)}
+        2. Cultural Expertise: You know the Ethiopian coffee ceremony (Abol, Tona, Bereka) in detail.
+        3. Regions: You are an expert on Sidamo, Yirgacheffe, Harar, and Jimma beans.
+        
+        INSTRUCTIONS:
+        - Response Language: You MUST respond in ${langName}. 
+        - Style: Enthusiastic, professional, and culturally respectful.
+        - Recommendations: Always suggest 1 or 2 specific products from the list above when relevant.
+        - Brevity: Keep responses concise (under 3 sentences unless explaining a ceremony).
+        
+        User Query: "${message}"
+      `;
+
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: `You are the official AI assistant for Ethio-Brew, a premium Ethiopian coffee startup. 
-                    Your name is Coffee Expert. Be polite, enthusiastic, and keep it short.
-                    
-                    User: ${message}`
-            }]
-          }]
+          contents: [{ parts: [{ text: systemPrompt }] }]
         })
       });
 
       const data = await response.json();
 
       if (data.candidates && data.candidates[0].content.parts[0].text) {
-        console.log(`AI Success using ${attempt.ver}/${attempt.model}`);
         return res.json({ response: data.candidates[0].content.parts[0].text });
       } else if (data.error) {
         lastError = data.error.message;
-        console.log(`Attempt failed (${attempt.ver}/${attempt.model}): ${lastError}`);
       }
     } catch (err) {
       lastError = err.message;
-      console.log(`Network error (${attempt.ver}/${attempt.model}): ${lastError}`);
     }
   }
 
-  res.status(500).json({ 
-    response: `AI Connection Failed. Google Error: "${lastError}". Please ensure the Generative Language API is enabled for this key.` 
-  });
+  res.status(500).json({ response: `Error: ${lastError}` });
 });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Ethio-Brew API is live on port ${PORT}`);
+  console.log(`Ethio-Brew Amazing AI API is live on port ${PORT}`);
 });
