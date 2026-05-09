@@ -16,6 +16,26 @@
     "orderNow": "Order Now",
     "joinClub": "Join the Club"
   },
+  "about": {
+    "title": "Our Purpose",
+    "subtitle": "Why Ethio-Brew was built and what we stand for.",
+    "q1": {
+      "title": "Why does Ethio-Brew exist?",
+      "content": "Ethio-Brew exists to bridge the massive gap between the birthplace of coffee and global consumers. Historically, Ethiopian coffee has been commoditized and mixed, losing its unique regional identities. We built this platform to offer a direct, transparent channel where consumers can buy 100% authentic, single-origin Ethiopian beans directly from the source."
+    },
+    "q2": {
+      "title": "Why is Ethiopian coffee globally important?",
+      "content": "Ethiopia is the genetic birthplace of Coffea arabica. Unlike other regions where coffee was introduced, Ethiopia has thousands of undocumented heirloom varieties growing wild in its forests. This incredible genetic diversity produces flavor profiles—from intense floral notes in Yirgacheffe to heavy berry profiles in Harrar—that simply cannot be replicated anywhere else on Earth."
+    },
+    "q3": {
+      "title": "Why does supporting farmers matter?",
+      "content": "Coffee is the backbone of the Ethiopian economy, yet the farmers who cultivate these world-class beans often receive the smallest fraction of the profit. Traditional supply chains are filled with middlemen. By prioritizing direct trade, Ethio-Brew ensures that farmers are paid fairly for their labor and expertise."
+    },
+    "q4": {
+      "title": "Why is a digital coffee marketplace needed?",
+      "content": "In an era of instant global connectivity, the coffee trade has remained unnecessarily opaque. A digital marketplace provides transparency, allowing buyers to see exactly where their coffee comes from, who grew it, and how it was processed. This digital infrastructure removes geographical barriers, ensuring freshness and authenticity."
+    }
+  },
   "shop": {
     "search": "Search coffee...",
     "addToCart": "Add to Cart",

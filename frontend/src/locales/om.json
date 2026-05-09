@@ -16,6 +16,26 @@
     "orderNow": "Amma Ajajaa",
     "joinClub": "Kilaabichatti Dabalamaa"
   },
+  "about": {
+    "title": "Kaayyoo Keenya",
+    "subtitle": "Ethio-Brew maaliif ijaaramee fi maaliif dhaabbanna.",
+    "q1": {
+      "title": "Ethio-Brew maaliif ijaarame?",
+      "content": "Ethio-Brew ijaarameef addaan fageenya guddaa bakka dhaloota bunaa fi fayyadamtoota addunyaa gidduu jiru guutuuf. Seenaa keessatti bunni Itiyoophiyaa akka meeshaa qofatti ilaalamaa fi walitti makamaa tureera. Nutis kan ijaarru fayyadamtoonni buna Itiyoophiyaa %100 qulqulluu ta'e kallattiin bakka maddaatti akka bitatan taasisuuf."
+    },
+    "q2": {
+      "title": "Buna Itiyoophiyaa maaliif addunyaaf barbaachisaa ta'e?",
+      "content": "Itiyoophiyaan bakka madda buna Arabikaati. Itiyoophiyaan sanyiiwwan bunaa kumootaan lakkaa'aman kan bosona keessatti dhalatanii fi hin galmaa'in qabdi. Garaagarummaan sanyii kun mi'aa addaa—Yirgaacheeffee irraa hanga Hararitti—kan bakka biraa addunyaa irratti hin argamne fida."
+    },
+    "q3": {
+      "title": "Qonnaan bultoota deggeruun maaliif barbaachisaa ta'e?",
+      "content": "Bunni utubaa dinagdee Itiyoophiyaati, garuu qonnaan bultoonni buna addunyaa kana oomishan bu'aa irraa qooda xiqqaa argatu. Ethio-Brew daldala kallattiidhaan qonnaan bultoonni humna fi beekumsa isaaniif kaffaltii sirrii akka argatan taasisa."
+    },
+    "q4": {
+      "title": "Gabaan bunaa dijitaalaa maaliif barbaachisa?",
+      "content": "Addunyaa wal-quunnamtii ammayyaa keessatti, daldalli bunaa iftoomina dhabee tureera. Gabaan dijitaalaa kun bittoonni bunni isaanii eessaa akka dhufe, eenyu akka oomishee fi akkamitti akka qophaa'e ifatti akka argan taasisa."
+    }
+  },
   "shop": {
     "search": "Buna barbaadaa...",
     "addToCart": "Kaartitti dabali",
@@ -44,7 +64,7 @@
   "checkout": {
     "deliveryInfo": "Oofinsa Ajajaa",
     "address": "Karaa, Magaalaa (fkn. Bolee, Finfinnee)",
-    "phone": "Lakk. Bilbilaa",
+    "phone": "Bilbila",
     "payment": "Mala Kaffaltii",
     "uploadProof": "Ragaa kaffaltii ergaa",
     "instructions": "Maaloo maallaqa dimshaashaa herrega gadii irratti dhangalaasaatii ragaa isaa nuuf ergaa.",
