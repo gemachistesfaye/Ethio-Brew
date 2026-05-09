@@ -9,12 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "i18next": "^26.0.10",
-    "i18next-browser-languagedetector": "^8.2.1",
-    "lucide-react": "^0.563.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-i18next": "^17.0.7"
+    "lucide-react": "^0.563.0",
+    "react-router-dom": "^7.1.0",
+    "axios": "^1.7.9",
+    "chart.js": "^4.4.7",
+    "react-chartjs-2": "^3.3.0",
+    "i18next": "^24.2.2",
+    "react-i18next": "^15.4.0",
+    "i18next-browser-languagedetector": "^8.1.1"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
