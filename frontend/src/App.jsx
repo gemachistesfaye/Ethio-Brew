@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from './hooks/useTranslation';
 import { 
   ShoppingCart, X, Coffee, Trash2, Minus, Plus, ChevronRight, CheckCircle
 } from 'lucide-react';
@@ -47,12 +47,11 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
 };
 
 const Storefront = ({ 
-  t, i18n, cart, cartCount, cartTotal, isCartOpen, setIsCartOpen, 
+  t, language, cart, cartCount, cartTotal, isCartOpen, setIsCartOpen, 
   currentPage, setCurrentPage, orderComplete, setOrderComplete,
   selectedProduct, setSelectedProduct, addToCart, 
   updateQuantity, removeFromCart, handleOrderComplete 
 }) => {
-  const currentLang = i18n.language;
   const navigate = useNavigate();
 
   const renderPage = () => {
@@ -63,7 +62,7 @@ const Storefront = ({
             <div className="w-20 h-20 bg-green-100 text-[#006341] rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle size={40} />
             </div>
-            <h1 className="text-3xl font-bold mb-4">{currentLang === 'am' ? 'አመሰግናለሁ!' : currentLang === 'om' ? 'Galatoomaa!' : 'Thank You!'}</h1>
+            <h1 className="text-3xl font-bold mb-4">{language === 'am' ? 'አመሰግናለሁ!' : language === 'om' ? 'Galatoomaa!' : 'Thank You!'}</h1>
             <p className="text-gray-500 mb-8">Order <span className="font-mono font-bold text-gray-900">#{orderComplete.id}</span> is brewing.</p>
             <button 
               onClick={() => { setOrderComplete(null); setCurrentPage('home'); }}
@@ -125,25 +124,28 @@ const Storefront = ({
                   <p className="text-lg font-medium">{t('cart.empty')}</p>
                 </div>
               ) : (
-                cart.map(item => (
-                  <div key={item.id} className="flex gap-4 border-b pb-6 border-gray-50 last:border-none">
-                    <img src={item.imageUrl} className="w-24 h-24 rounded-2xl object-cover shadow-sm" />
-                    <div className="flex-grow">
-                      <div className="flex justify-between font-bold mb-1">
-                        <span className="text-gray-900">{currentLang === 'am' ? item.name_am : currentLang === 'om' ? item.name_om : item.name}</span>
-                        <button onClick={() => removeFromCart(item.id)} className="text-gray-300 hover:text-red-500 transition"><Trash2 size={16}/></button>
-                      </div>
-                      <div className="flex items-center justify-between mt-4">
-                        <div className="flex items-center bg-gray-50 rounded-xl overflow-hidden border border-gray-100">
-                          <button onClick={() => updateQuantity(item.id, -1)} className="p-2 hover:bg-gray-100"><Minus size={14}/></button>
-                          <span className="px-4 text-sm font-bold">{item.quantity}</span>
-                          <button onClick={() => updateQuantity(item.id, 1)} className="p-2 hover:bg-gray-100"><Plus size={14}/></button>
+                cart.map(item => {
+                   const name = language === 'am' ? item.name_am : language === 'om' ? item.name_om : item.name;
+                   return (
+                    <div key={item.id} className="flex gap-4 border-b pb-6 border-gray-50 last:border-none">
+                      <img src={item.imageUrl} className="w-24 h-24 rounded-2xl object-cover shadow-sm" />
+                      <div className="flex-grow">
+                        <div className="flex justify-between font-bold mb-1">
+                          <span className="text-gray-900">{name}</span>
+                          <button onClick={() => removeFromCart(item.id)} className="text-gray-300 hover:text-red-500 transition"><Trash2 size={16}/></button>
                         </div>
-                        <span className="font-bold text-[#006341]">{(item.price * item.quantity).toLocaleString()} ETB</span>
+                        <div className="flex items-center justify-between mt-4">
+                          <div className="flex items-center bg-gray-50 rounded-xl overflow-hidden border border-gray-100">
+                            <button onClick={() => updateQuantity(item.id, -1)} className="p-2 hover:bg-gray-100"><Minus size={14}/></button>
+                            <span className="px-4 text-sm font-bold">{item.quantity}</span>
+                            <button onClick={() => updateQuantity(item.id, 1)} className="p-2 hover:bg-gray-100"><Plus size={14}/></button>
+                          </div>
+                          <span className="font-bold text-[#006341]">{(item.price * item.quantity).toLocaleString()} ETB</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
             {cart.length > 0 && (
@@ -165,7 +167,7 @@ const Storefront = ({
 };
 
 export function AppContent() {
-  const { t, i18n } = useTranslation();
+  const { t, language } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -206,7 +208,7 @@ export function AppContent() {
   };
 
   const storefrontProps = {
-    t, i18n, cart, cartCount, cartTotal, isCartOpen, setIsCartOpen,
+    t, language, cart, cartCount, cartTotal, isCartOpen, setIsCartOpen,
     currentPage, setCurrentPage, orderComplete, setOrderComplete,
     selectedProduct, setSelectedProduct, addToCart,
     updateQuantity, removeFromCart, handleOrderComplete

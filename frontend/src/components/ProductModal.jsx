@@ -1,14 +1,13 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '../hooks/useTranslation';
 import { X, Star, Plus } from 'lucide-react';
 
 const ProductModal = ({ item, isOpen, onClose, addToCart }) => {
-  const { t, i18n } = useTranslation();
+  const { t, language } = useTranslation();
   if (!item || !isOpen) return null;
 
-  const currentLang = i18n.language;
-  const name = currentLang === 'am' ? item.name_am : currentLang === 'om' ? item.name_om : item.name;
-  const description = currentLang === 'am' ? item.description_am : currentLang === 'om' ? item.description_om : item.description;
+  const name = language === 'am' ? item.name_am : language === 'om' ? item.name_om : item.name;
+  const description = language === 'am' ? item.description_am : language === 'om' ? item.description_om : item.description;
 
   return (
     <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
@@ -37,13 +36,13 @@ const ProductModal = ({ item, isOpen, onClose, addToCart }) => {
 
           <div className="grid grid-cols-2 gap-4 mb-8">
             <div className="border border-gray-100 p-4 rounded-2xl bg-gray-50">
-              <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">{t('shop.roast')}</p>
+              <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">{t('shop.roast_level')}</p>
               <p className="font-bold">{item.roast}</p>
             </div>
             <div className="border border-gray-100 p-4 rounded-2xl bg-gray-50">
-              <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">{t('shop.tastingNotes')}</p>
+              <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">{t('shop.origin')}</p>
               <div className="flex flex-wrap gap-1">
-                {item.flavorNotes.map(n => <span key={n} className="text-xs bg-white px-2 py-0.5 rounded-md shadow-sm">{n}</span>)}
+                <span className="text-xs bg-white px-2 py-0.5 rounded-md shadow-sm">{item.origin}</span>
               </div>
             </div>
           </div>
@@ -57,7 +56,7 @@ const ProductModal = ({ item, isOpen, onClose, addToCart }) => {
               onClick={() => { addToCart(item); onClose(); }}
               className="bg-[#006341] text-white px-8 py-4 rounded-2xl font-bold hover:bg-[#004d32] transition shadow-lg flex items-center gap-2"
             >
-              <Plus size={20} /> {t('shop.addToCart')}
+              <Plus size={20} /> {t('shop.add_to_cart')}
             </button>
           </div>
         </div>

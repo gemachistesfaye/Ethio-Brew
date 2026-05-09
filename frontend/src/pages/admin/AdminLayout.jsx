@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Coffee, Package, CreditCard, 
   Users, BarChart3, Settings, LogOut, Bell, Search
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const AdminLayout = ({ children }) => {
   const { t } = useTranslation();
@@ -26,7 +26,7 @@ const AdminLayout = ({ children }) => {
       <aside className="w-64 bg-[#4B2C20] text-white flex-shrink-0 flex flex-col shadow-2xl z-20">
         <div className="p-6 border-b border-white/10 flex items-center gap-3">
           <Coffee className="text-[#FFD700]" />
-          <span className="text-xl font-bold tracking-tight">EthioBrew <span className="text-[#FFD700] text-[10px] uppercase">Admin</span></span>
+          <span className="text-xl font-bold tracking-tight">{t('nav.brand')} <span className="text-[#FFD700] text-[10px] uppercase">Admin</span></span>
         </div>
         
         <nav className="flex-grow p-4 space-y-2 overflow-y-auto">
@@ -49,7 +49,7 @@ const AdminLayout = ({ children }) => {
         <div className="p-4 border-t border-white/10">
           <button className="flex items-center gap-3 px-4 py-3 w-full text-gray-400 hover:text-red-400 hover:bg-red-400/5 rounded-xl transition-all">
             <LogOut size={20} />
-            <span className="text-sm">Logout</span>
+            <span className="text-sm">{t('nav.logout')}</span>
           </button>
         </div>
       </aside>
@@ -70,10 +70,10 @@ const AdminLayout = ({ children }) => {
             </button>
             <div className="flex items-center gap-3 border-l pl-6">
               <div className="text-right">
-                <p className="text-xs font-bold">Sisay Tasew</p>
+                <p className="text-xs font-bold">Admin</p>
                 <p className="text-[10px] text-gray-400">Super Admin</p>
               </div>
-              <div className="w-10 h-10 rounded-full bg-[#006341] text-white flex items-center justify-center font-bold">ST</div>
+              <div className="w-10 h-10 rounded-full bg-[#006341] text-white flex items-center justify-center font-bold">A</div>
             </div>
           </div>
         </header>

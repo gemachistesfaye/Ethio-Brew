@@ -32,7 +32,7 @@ export const STORIES = [
     image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=800',
     shortDesc: 'A ritual of friendship, peace, and community that lasts for hours.',
     shortDesc_am: 'ለሰዓታት የሚቆይ የጓደኝነት፣ የሰላም እና የማህበረሰብ ስነ-ስርዓት።',
-    shortDesc_om: 'Sirna hiriyummaa, nagaa fi hawaasummaa sa'aatii dheeraaf turu.',
+    shortDesc_om: "Sirna hiriyummaa, nagaa fi hawaasummaa sa'aatii dheeraaf turu.",
     fullStory: `**More Than a Drink**\n\nIn Ethiopia, coffee isn't just a beverage; it's a foundation of social life. The **Abol**, **Tona**, and **Bereka** represent the three rounds of the traditional ceremony, each with its own significance.\n\n**The Ritual**\n\nThe ceremony is typically performed by the woman of the house. It begins with the spreading of fresh grass and flowers on the floor. Raw beans are washed, roasted on a flat pan, and then ground by hand using a mortar and pestle.\n\n**Unity in a Cup**\n\nAs the **Jebena** (clay pot) boils, incense is burned, creating a sacred atmosphere. To be invited to a coffee ceremony is a sign of deep respect and friendship. It is a time for sharing news, resolving conflicts, and strengthening the bonds of the community.`
   },
   {

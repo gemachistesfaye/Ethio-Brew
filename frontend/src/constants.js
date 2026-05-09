@@ -156,3 +156,8 @@ export const MOCK_COFFEE = [
     description: 'Rich and earthy with notes of caramel and forest berries.'
   }
 ];
+
+export const PAYMENT_DETAILS = {
+  telebirr: "0912345678",
+  cbeAccount: "1000123456789"
+};

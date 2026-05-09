@@ -62,7 +62,7 @@ const LoginPage = () => {
             />
           </div>
           <div className="flex justify-end">
-            <Link to="/forgot-password" university-course-assignment="true" className="text-sm text-[#006341] font-bold hover:underline">{t('auth.forgot_password')}</Link>
+            <Link to="/forgot-password" className="text-sm text-[#006341] font-bold hover:underline">{t('auth.forgot_password')}</Link>
           </div>
 
           <button 

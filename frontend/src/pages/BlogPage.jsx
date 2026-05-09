@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '../hooks/useTranslation';
 import { BookOpen, Coffee, History, Users } from 'lucide-react';
 
 const BlogPage = () => {
@@ -44,7 +44,7 @@ const BlogPage = () => {
           onClick={() => setActiveStory(null)}
           className="mb-8 flex items-center gap-2 text-gray-500 hover:text-[#006341] transition font-bold"
         >
-          ← Back to Stories
+          ← {t('stories.back')}
         </button>
         <div className="flex items-center gap-3 mb-6">
           <span className="text-xs font-bold uppercase tracking-widest text-[#006341] bg-green-50 px-3 py-1 rounded-full">{activeStory.category}</span>
@@ -62,8 +62,8 @@ const BlogPage = () => {
   return (
     <div className="py-20 px-4 max-w-7xl mx-auto animate-in fade-in duration-500">
       <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-6xl font-extrabold mb-6">Coffee Culture & Heritage</h1>
-        <p className="text-gray-500 max-w-2xl mx-auto">Discover the rich history and soul of Ethiopian coffee through our curated articles.</p>
+        <h1 className="text-4xl md:text-6xl font-extrabold mb-6">{t('stories.title')}</h1>
+        <p className="text-gray-500 max-w-2xl mx-auto">{t('stories.subtitle')}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -80,7 +80,7 @@ const BlogPage = () => {
               <h3 className="text-xl font-bold mb-4 group-hover:text-[#006341] transition-colors">{post.title}</h3>
               <p className="text-gray-500 text-sm leading-relaxed mb-8 flex-grow">{post.excerpt}</p>
               <button className="flex items-center gap-2 text-sm font-bold text-[#4B2C20] group-hover:gap-4 transition-all uppercase tracking-wider">
-                Read Story <BookOpen size={16} />
+                {t('stories.read_more')} <BookOpen size={16} />
               </button>
             </div>
           </div>
