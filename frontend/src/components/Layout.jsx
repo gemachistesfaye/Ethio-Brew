@@ -2,22 +2,33 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { 
   Coffee, ShoppingCart, Menu as MenuIcon, X, ChevronRight, 
-  MapPin, Phone, Facebook, Instagram, Twitter, Award
+  Award, User, LogOut, Settings, Github, Send, Phone as PhoneIcon
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, points }) => {
   const { t, i18n } = useTranslation();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+    setIsUserMenuOpen(false);
+  };
+
   return (
-    <div className="min-h-screen bg-[#FDFCF8] text-gray-900 font-sans">
+    <div className="min-h-screen bg-[#FDFCF8] text-gray-900 font-sans flex flex-col">
       <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-gray-100 h-16">
         <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentPage('home')}>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setCurrentPage('home'); navigate('/'); }}>
             <Coffee className="w-8 h-8 text-[#006341]" />
             <span className="text-2xl font-bold tracking-tight text-[#4B2C20]">{t('nav.brand')}</span>
           </div>
@@ -26,7 +37,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
             {['home', 'menu', 'subscription', 'blog', 'about'].map((page) => (
               <button
                 key={page}
-                onClick={() => setCurrentPage(page)}
+                onClick={() => { setCurrentPage(page); navigate(page === 'home' ? '/' : `/${page}`); }}
                 className={`capitalize hover:text-[#006341] transition ${currentPage === page ? 'text-[#006341] border-b-2 border-[#006341]' : 'text-gray-600'}`}
               >
                 {t(`nav.${page}`)}
@@ -60,6 +71,45 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
                 </span>
               )}
             </button>
+
+            {/* Auth Button/Menu */}
+            {user ? (
+              <div className="relative">
+                <button 
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="w-10 h-10 rounded-full bg-[#006341] text-white flex items-center justify-center font-bold text-sm shadow-lg active:scale-95 transition"
+                >
+                  {user.name.charAt(0)}
+                </button>
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 animate-in slide-in-from-top-2 z-50">
+                    <div className="px-4 py-2 border-b border-gray-50 mb-2">
+                      <p className="text-xs font-bold text-gray-900 truncate">{user.name}</p>
+                      <p className="text-[10px] text-gray-400 truncate">{user.email}</p>
+                    </div>
+                    <button onClick={() => { navigate('/settings'); setIsUserMenuOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 flex items-center gap-2">
+                      <Settings size={16} /> {t('nav.settings')}
+                    </button>
+                    {user.role === 'admin' && (
+                       <button onClick={() => { navigate('/admin'); setIsUserMenuOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 flex items-center gap-2">
+                        <Award size={16} /> Admin Panel
+                      </button>
+                    )}
+                    <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2">
+                      <LogOut size={16} /> {t('nav.logout')}
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button 
+                onClick={() => navigate('/login')}
+                className="hidden sm:flex items-center gap-2 px-6 py-2 bg-[#4B2C20] text-white rounded-xl font-bold text-sm hover:bg-black transition"
+              >
+                <User size={16} /> Login
+              </button>
+            )}
+
             <button onClick={() => setIsMobileMenuOpen(true)} className="md:hidden p-2 text-gray-600">
               <MenuIcon size={24} />
             </button>
@@ -78,63 +128,50 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
               {['home', 'menu', 'subscription', 'blog', 'about', 'contact'].map((page) => (
                 <button
                   key={page}
-                  onClick={() => { setCurrentPage(page); setIsMobileMenuOpen(false); }}
+                  onClick={() => { 
+                    setCurrentPage(page); 
+                    navigate(page === 'home' ? '/' : `/${page}`);
+                    setIsMobileMenuOpen(false); 
+                  }}
                   className="text-left capitalize text-xl flex items-center justify-between"
                 >
                   {t(`nav.${page}`)}
                   <ChevronRight size={18} />
                 </button>
               ))}
+              {!user && (
+                 <button onClick={() => { navigate('/login'); setIsMobileMenuOpen(false); }} className="mt-4 bg-[#006341] text-white py-4 rounded-xl font-bold">Login</button>
+              )}
             </div>
           </div>
         </div>
       )}
 
-      <main className="min-h-[calc(100vh-64px)]">{children}</main>
+      <main className="flex-grow">{children}</main>
 
-      <footer className="bg-[#4B2C20] text-white py-12 px-4 border-t border-white/5 mt-auto">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-          <div className="col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <Coffee className="w-6 h-6 text-[#FFD700]" />
-              <span className="text-xl font-bold">{t('nav.brand')}</span>
-            </div>
-            <p className="text-gray-400 text-sm mb-6">{t('footer.tagline')}</p>
-            <div className="flex gap-4">
-              <Facebook className="w-5 h-5 text-gray-400 hover:text-[#FFD700] cursor-pointer" />
-              <Instagram className="w-5 h-5 text-gray-400 hover:text-[#FFD700] cursor-pointer" />
-              <Twitter className="w-5 h-5 text-gray-400 hover:text-[#FFD700] cursor-pointer" />
-            </div>
+      <footer className="bg-white border-t border-gray-100 py-12 px-4 mt-20">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex items-center gap-3">
+             <div className="w-10 h-10 bg-[#4B2C20] rounded-2xl flex items-center justify-center text-[#FFD700]">
+                <Coffee size={20} />
+             </div>
+             <div>
+                <p className="font-bold text-lg leading-tight">Ethio-Brew</p>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Premium Coffee SaaS</p>
+             </div>
           </div>
-          <div>
-            <h4 className="font-bold mb-4">{t('footer.explore')}</h4>
-            <ul className="space-y-2 text-gray-400 text-sm">
-              <li className="hover:text-white cursor-pointer" onClick={() => setCurrentPage('menu')}>{t('nav.menu')}</li>
-              <li className="hover:text-white cursor-pointer" onClick={() => setCurrentPage('subscription')}>{t('nav.subscription')}</li>
-              <li className="hover:text-white cursor-pointer" onClick={() => setCurrentPage('blog')}>{t('nav.blog')}</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-bold mb-4">{t('loyalty.points')}</h4>
-            <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-              <p className="text-[10px] text-[#FFD700] font-bold uppercase mb-1">{t('loyalty.balance')}</p>
-              <div className="flex items-baseline gap-1">
-                <span className="text-2xl font-bold">{points}</span>
-                <span className="text-xs text-gray-400">{t('loyalty.points')}</span>
-              </div>
-              <p className="text-[9px] text-gray-500 mt-2">{t('loyalty.earnRate')}</p>
-            </div>
-          </div>
-          <div>
-            <h4 className="font-bold mb-4">{t('footer.contact')}</h4>
-            <div className="space-y-2 text-gray-400 text-sm">
-              <p className="flex items-start gap-2"><MapPin size={16}/> Bole Road, Addis Ababa</p>
-              <p className="flex items-center gap-2"><Phone size={16}/> +251 911 123 456</p>
-            </div>
+
+          <div className="flex flex-col items-center md:items-end text-center md:text-right gap-1">
+             <p className="text-sm font-bold text-gray-900">Developed by Gemachis Tesfaye</p>
+             <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 text-xs text-gray-500 font-medium mt-2">
+                <a href="tel:+251976601074" className="flex items-center gap-1.5 hover:text-[#006341] transition"><PhoneIcon size={14}/> +251 976 601 074</a>
+                <a href="https://t.me/urkiiko1" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Send size={14}/> @urkiiko1</a>
+                <a href="https://github.com/gemachistesfaye" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Github size={14}/> gemachistesfaye</a>
+             </div>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 text-center text-gray-500 text-xs">
-          {t('footer.copyright', { year: new Date().getFullYear() })}
+        <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-gray-50 text-center text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">
+          &copy; {new Date().getFullYear()} Ethio-Brew Platform • All Rights Reserved
         </div>
       </footer>
     </div>

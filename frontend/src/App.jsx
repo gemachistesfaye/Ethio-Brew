@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { 
   ShoppingCart, X, Coffee, Trash2, Minus, Plus, ChevronRight, CheckCircle
 } from 'lucide-react';
+
+// Auth
+import { AuthProvider, useAuth } from './context/AuthContext';
 
 // Pages
 import Home from './pages/Home';
 import MenuPage from './pages/MenuPage';
 import SubscriptionPage from './pages/SubscriptionPage';
 import CheckoutPage from './pages/CheckoutPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import VerificationPage from './pages/VerificationPage';
+import SettingsPage from './pages/SettingsPage';
 
 // Admin Pages
 import AdminLayout from './pages/admin/AdminLayout';
@@ -22,6 +29,15 @@ import PaymentVerification from './pages/admin/PaymentVerification';
 import Layout from './components/Layout';
 import ProductModal from './components/ProductModal';
 import ChatAssistant from './components/ChatAssistant';
+
+// Protected Route Component
+const ProtectedRoute = ({ children, adminOnly = false }) => {
+  const { user, loading } = useAuth();
+  if (loading) return null;
+  if (!user) return <Navigate to="/login" />;
+  if (adminOnly && user.role !== 'admin') return <Navigate to="/" />;
+  return children;
+};
 
 const Storefront = ({ 
   t, i18n, cart, cartCount, cartTotal, isCartOpen, setIsCartOpen, 
@@ -52,13 +68,23 @@ const Storefront = ({
       );
     }
 
-    switch (currentPage) {
-      case 'home': return <Home setPage={setCurrentPage} onProductClick={setSelectedProduct} />;
-      case 'menu': return <MenuPage addToCart={addToCart} onProductClick={setSelectedProduct} />;
-      case 'subscription': return <SubscriptionPage />;
-      case 'checkout': return <CheckoutPage cart={cart} total={cartTotal} onOrderComplete={handleOrderComplete} />;
-      default: return <Home setPage={setCurrentPage} onProductClick={setSelectedProduct} />;
-    }
+    return (
+      <Routes>
+        <Route index element={<Home setPage={setCurrentPage} onProductClick={setSelectedProduct} />} />
+        <Route path="menu" element={<MenuPage addToCart={addToCart} onProductClick={setSelectedProduct} />} />
+        <Route path="subscription" element={<SubscriptionPage />} />
+        <Route path="checkout" element={
+          <ProtectedRoute>
+            <CheckoutPage cart={cart} total={cartTotal} onOrderComplete={handleOrderComplete} />
+          </ProtectedRoute>
+        } />
+        <Route path="settings" element={
+          <ProtectedRoute>
+            <SettingsPage />
+          </ProtectedRoute>
+        } />
+      </Routes>
+    );
   };
 
   return (
@@ -114,7 +140,7 @@ const Storefront = ({
                   <span className="text-gray-500">{t('cart.total')}</span>
                   <span className="text-3xl font-extrabold text-[#006341]">{cartTotal.toLocaleString()} ETB</span>
                 </div>
-                <button onClick={() => { setIsCartOpen(false); setCurrentPage('checkout'); }} className="w-full bg-[#006341] text-white py-5 rounded-2xl font-bold shadow-xl hover:bg-[#004d32] transition flex items-center justify-center gap-2">
+                <button onClick={() => { setIsCartOpen(false); setCurrentPage('checkout'); navigate('/checkout'); }} className="w-full bg-[#006341] text-white py-5 rounded-2xl font-bold shadow-xl hover:bg-[#004d32] transition flex items-center justify-center gap-2">
                   {t('cart.checkout')} <ChevronRight size={20} />
                 </button>
               </div>
@@ -126,7 +152,7 @@ const Storefront = ({
   );
 };
 
-export default function App() {
+export function AppContent() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -143,8 +169,8 @@ export default function App() {
   const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
   useEffect(() => {
-    if (location.pathname === '/') setCurrentPage('home');
-    else if (location.pathname === '/menu') setCurrentPage('menu');
+    const path = location.pathname.substring(1) || 'home';
+    setCurrentPage(path);
   }, [location.pathname]);
 
   const addToCart = (item) => {
@@ -179,17 +205,32 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path="/*" element={<Storefront {...storefrontProps} />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/verify" element={<VerificationPage />} />
+      
       <Route path="/admin/*" element={
-        <AdminLayout>
-          <Routes>
-            <Route index element={<DashboardOverview />} />
-            <Route path="products" element={<ProductManagement />} />
-            <Route path="orders" element={<OrderManagement />} />
-            <Route path="payments" element={<PaymentVerification />} />
-          </Routes>
-        </AdminLayout>
+        <ProtectedRoute adminOnly>
+          <AdminLayout>
+            <Routes>
+              <Route index element={<DashboardOverview />} />
+              <Route path="products" element={<ProductManagement />} />
+              <Route path="orders" element={<OrderManagement />} />
+              <Route path="payments" element={<PaymentVerification />} />
+            </Routes>
+          </AdminLayout>
+        </ProtectedRoute>
       } />
+
+      <Route path="/*" element={<Storefront {...storefrontProps} />} />
     </Routes>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
