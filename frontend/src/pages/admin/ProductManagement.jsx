@@ -4,7 +4,7 @@ import {
   ChevronLeft, ChevronRight, MoreVertical,
   Image as ImageIcon, Coffee
 } from 'lucide-react';
-import { MOCK_COFFEE } from '../constants';
+import { MOCK_COFFEE } from '../../constants';
 
 const ProductManagement = () => {
   const [products, setProducts] = useState(MOCK_COFFEE);

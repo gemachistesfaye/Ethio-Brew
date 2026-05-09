@@ -1,7 +1,0 @@
-{
-  "name": "Copy of EthioBrew - Premium Ethiopian Coffee Delivery",
-  "description": "A modern coffee delivery platform celebrating Ethiopian heritage with high-quality brews, mobile payments, and cultural accents.",
-  "requestFramePermissions": [
-    "geolocation"
-  ]
-}

@@ -149,30 +149,6 @@ export const MOCK_COFFEE = [
 ];
 
 export const TESTIMONIALS = [
-ቡና ዝርያዎች።',
-    origin: 'Kaffa',
-    roast: 'Medium',
-    price: 480,
-    imageUrl: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=800',
-    flavorNotes: ['Earthy', 'Spicy', 'Tobacco'],
-    category: 'Specialty'
-  },
-  {
-    id: '6',
-    name: 'Guji Honey',
-    nameAm: 'የጉጂ ማር',
-    description: 'Processed using the honey method for intense sweetness.',
-    descriptionAm: 'ለከፍተኛ ጣፋጭነት በማር ዘዴ የተዘጋጀ።',
-    origin: 'Guji',
-    roast: 'Light',
-    price: 520,
-    imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=800',
-    flavorNotes: ['Jasmine', 'Honey', 'Peach'],
-    category: 'Specialty'
-  }
-];
-
-export const TESTIMONIALS: Testimonial[] = [
   {
     id: '1',
     name: 'Abenezer T.',
