@@ -106,7 +106,16 @@
   },
   "about": {
     "title": "Kaayyoo Keenya",
-    "subtitle": "Ethio-Brew maaliif ijaaramee fi maaliif dhaabbanna.",
+    "subtitle": "Buna qofa osoo hin taane, aadaa keenyaaf murannoo qabnu.",
+    "our_story": "Seenaa Keenya",
+    "mission": "Ergama Keenya",
+    "values": "Naamusoota Keenya",
+    "v1_title": "Daldala Kallattii",
+    "v1_desc": "Iftoominaan qonnaan bultoota humna gochuu.",
+    "v2_title": "Qulqullina Olaanaa",
+    "v2_desc": "Sanyiiwwan bunaa bosonaa tursiisuu.",
+    "v3_title": "Dhaalmaya Aadaa",
+    "v3_desc": "Lubbuu sirna bunaa qooduun.",
     "q1": {
       "title": "Ethio-Brew maaliif ijaarame?",
       "content": "Ethio-Brew ijaarameef addaan fageenya guddaa bakka dhaloota bunaa fi fayyadamtoota addunyaa gidduu jiru guutuuf."
@@ -172,7 +181,7 @@
     "legal": "Seera",
     "privacy": "Imaammata Iccitii",
     "terms": "Haala Itti Fayyadamaa",
-    "copyright": "Mirgi Hundu Mirkanaa'eera"
+    "copyright": "Mirgi Hundu Mirkanaa'eeera"
   },
   "common": {
     "loading": "Fidaa jira...",

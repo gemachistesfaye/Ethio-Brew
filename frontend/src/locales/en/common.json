@@ -106,7 +106,16 @@
   },
   "about": {
     "title": "Our Purpose",
-    "subtitle": "Why Ethio-Brew was built and what we stand for.",
+    "subtitle": "Beyond the bean, a commitment to heritage.",
+    "our_story": "Our Story",
+    "mission": "Our Mission",
+    "values": "Our Values",
+    "v1_title": "Direct Trade",
+    "v1_desc": "Empowering farmers through transparency.",
+    "v2_title": "Heirloom Quality",
+    "v2_desc": "Preserving rare wild coffee species.",
+    "v3_title": "Cultural Heritage",
+    "v3_desc": "Sharing the soul of the ceremony.",
     "q1": {
       "title": "Why does Ethio-Brew exist?",
       "content": "Ethio-Brew exists to bridge the massive gap between the birthplace of coffee and global consumers. Historically, Ethiopian coffee has been commoditized and mixed, losing its unique regional identities."
