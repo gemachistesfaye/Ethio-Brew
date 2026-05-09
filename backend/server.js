@@ -37,7 +37,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/auth', authRoutes);
 
-// Super-Resilient Gemini AI Integration
+// Super-Resilient Gemini AI Integration (Updated with your account's specific models)
 app.post('/api/ai', async (req, res) => {
   const { message } = req.body;
   const apiKey = process.env.GEMINI_API_KEY;
@@ -46,14 +46,12 @@ app.post('/api/ai', async (req, res) => {
     return res.json({ response: "Hello! I am the Ethio-Brew AI assistant. Please add your real GEMINI_API_KEY to the .env file!" });
   }
 
-  // Expanded combinations including experimental models
+  // UPDATED: These are the exact models available for your specific key based on our scan
   const attempts = [
-    { ver: 'v1beta', model: 'gemini-1.5-flash' },
-    { ver: 'v1', model: 'gemini-1.5-flash' },
-    { ver: 'v1beta', model: 'gemini-2.0-flash-exp' }, // Newest experimental
-    { ver: 'v1beta', model: 'gemini-pro' },
-    { ver: 'v1', model: 'gemini-pro' },
-    { ver: 'v1beta', model: 'gemini-1.0-pro' }
+    { ver: 'v1beta', model: 'gemini-2.0-flash' },
+    { ver: 'v1beta', model: 'gemini-2.5-flash' },
+    { ver: 'v1beta', model: 'gemini-flash-latest' },
+    { ver: 'v1beta', model: 'gemini-pro-latest' }
   ];
 
   let lastError = "";
@@ -69,7 +67,7 @@ app.post('/api/ai', async (req, res) => {
           contents: [{
             parts: [{
               text: `You are the official AI assistant for Ethio-Brew, a premium Ethiopian coffee startup. 
-                    Your name is Coffee Expert. Keep response short and professional.
+                    Your name is Coffee Expert. Be polite, enthusiastic, and keep it short.
                     
                     User: ${message}`
             }]
@@ -92,9 +90,8 @@ app.post('/api/ai', async (req, res) => {
     }
   }
 
-  // If all attempts fail
   res.status(500).json({ 
-    response: `Critical: No Gemini models found for this key. Google error: "${lastError}". ACTION: Please create a NEW API Key in a NEW PROJECT at AI Studio.` 
+    response: `AI Connection Failed. Google Error: "${lastError}". Please ensure the Generative Language API is enabled for this key.` 
   });
 });
 
