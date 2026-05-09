@@ -21,6 +21,9 @@ import VerificationPage from './pages/VerificationPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import SettingsPage from './pages/SettingsPage';
+import CategoriesPage from './pages/CategoriesPage';
+import StoriesPage from './pages/StoriesPage';
+import ContactPage from './pages/ContactPage';
 
 // Admin Pages
 import AdminLayout from './pages/admin/AdminLayout';
@@ -80,9 +83,9 @@ const Storefront = ({
         <Route path="subscription" element={<SubscriptionPage />} />
         <Route path="blog" element={<BlogPage />} />
         <Route path="about" element={<AboutPage />} />
-        <Route path="stories" element={<div className="py-32 text-center text-gray-400 font-bold text-2xl">Stories Coming Soon...</div>} />
-        <Route path="categories" element={<div className="py-32 text-center text-gray-400 font-bold text-2xl">Categories Coming Soon...</div>} />
-        <Route path="contact" element={<div className="py-32 text-center text-gray-400 font-bold text-2xl">Contact Page Coming Soon...</div>} />
+        <Route path="stories" element={<StoriesPage />} />
+        <Route path="categories" element={<CategoriesPage addToCart={addToCart} />} />
+        <Route path="contact" element={<ContactPage />} />
         <Route path="checkout" element={
           <ProtectedRoute>
             <CheckoutPage cart={cart} total={cartTotal} onOrderComplete={handleOrderComplete} />

@@ -34,7 +34,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
           </div>
 
           <div className="hidden md:flex items-center gap-8 font-medium">
-            {['home', 'shop', 'blog', 'about', 'stories', 'categories', 'contact'].map((page) => (
+            {['home', 'shop', 'categories', 'stories', 'about', 'subscription', 'contact'].map((page) => (
               <button
                 key={page}
                 onClick={() => { setCurrentPage(page); navigate(page === 'home' ? '/' : page === 'shop' ? '/menu' : `/${page}`); }}
@@ -121,7 +121,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
               <button onClick={() => setIsMobileMenuOpen(false)}><X /></button>
             </div>
             <div className="flex flex-col gap-6 font-medium">
-              {['home', 'shop', 'blog', 'about', 'stories', 'categories', 'contact'].map((page) => (
+              {['home', 'shop', 'categories', 'stories', 'about', 'subscription', 'contact'].map((page) => (
                 <button
                   key={page}
                   onClick={() => { 
