@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --coffee-brown: #4B2C20;
+  --ethio-green: #006341;
+  --ethio-gold: #FFD700;
+  --ethio-red: #EF3340;
+  --cream: #F5F5DC;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

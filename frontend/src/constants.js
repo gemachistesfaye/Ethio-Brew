@@ -1,6 +1,4 @@
 
-import { CoffeeItem, Testimonial, BlogPost } from './types';
-
 export const COLORS = {
   brown: '#4B2C20',
   green: '#006341',
@@ -14,7 +12,7 @@ export const PAYMENT_DETAILS = {
   cbeAccount: '1000718615112'
 };
 
-export const MOCK_BLOGS: BlogPost[] = [
+export const MOCK_BLOGS = [
   {
     id: 'b1',
     title: 'The Art of the Ethiopian Coffee Ceremony',
@@ -50,7 +48,7 @@ export const MOCK_BLOGS: BlogPost[] = [
     content: 'Grind size, water temperature, and timing are key to a perfect cup...',
     author: 'Dawit S.',
     date: 'Dec 01, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000'
   },
   {
     id: 'b4',
@@ -65,7 +63,7 @@ export const MOCK_BLOGS: BlogPost[] = [
   }
 ];
 
-export const MOCK_COFFEE: CoffeeItem[] = [
+export const MOCK_COFFEE = [
   {
     id: '1',
     name: 'Yirgacheffe Special',
@@ -105,7 +103,7 @@ export const MOCK_COFFEE: CoffeeItem[] = [
     origin: 'Harrar',
     roast: 'Dark',
     price: 420,
-    imageUrl: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=1000',
     flavorNotes: ['Blackberry', 'Wild', 'Earthy'],
     category: 'Single Origin'
   },
@@ -118,7 +116,7 @@ export const MOCK_COFFEE: CoffeeItem[] = [
     origin: 'Highlands',
     roast: 'Medium',
     price: 350,
-    imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000',
     flavorNotes: ['Balanced', 'Sweet', 'Spicy'],
     category: 'Blend'
   },
@@ -128,6 +126,30 @@ export const MOCK_COFFEE: CoffeeItem[] = [
     nameAm: 'የካፋ ቅርስ',
     description: 'Ancient heirloom varieties from the deep forests of Kaffa.',
     descriptionAm: 'ከካፋ ጥልቅ ደኖች የተገኙ ጥንታዊ የቡና ዝርያዎች።',
+    origin: 'Kaffa',
+    roast: 'Medium',
+    price: 480,
+    imageUrl: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=800',
+    flavorNotes: ['Earthy', 'Spicy', 'Tobacco'],
+    category: 'Specialty'
+  },
+  {
+    id: '6',
+    name: 'Guji Honey',
+    nameAm: 'የጉጂ ማር',
+    description: 'Processed using the honey method for intense sweetness.',
+    descriptionAm: 'ለከፍተኛ ጣፋጭነት በማር ዘዴ የተዘጋጀ።',
+    origin: 'Guji',
+    roast: 'Light',
+    price: 520,
+    imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=800',
+    flavorNotes: ['Jasmine', 'Honey', 'Peach'],
+    category: 'Specialty'
+  }
+];
+
+export const TESTIMONIALS = [
+ቡና ዝርያዎች።',
     origin: 'Kaffa',
     roast: 'Medium',
     price: 480,
