@@ -16,6 +16,7 @@ const LoginPage = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
+    try {
       const res = await login(formData);
       if (res?.user?.roles?.includes('admin')) {
         navigate('/admin');
