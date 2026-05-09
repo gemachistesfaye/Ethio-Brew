@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronRight, ShieldCheck, Leaf, Zap, Award } from 'lucide-react';
+import { ChevronRight, ShieldCheck, Leaf, Zap, Award, X, Clock, BookOpen, ArrowRight } from 'lucide-react';
 import { Star } from 'lucide-react';
 import { MOCK_COFFEE } from '../constants';
+import { STORIES } from '../data/stories';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const RecommendationEngine = ({ onProductClick }) => {
   const { t } = useTranslation();
   const recommendations = MOCK_COFFEE.filter(p => p.rating >= 4.8).slice(0, 3);
-
   return (
     <section className="py-20 px-4 bg-gray-50/50">
       <div className="max-w-7xl mx-auto">
@@ -33,16 +34,63 @@ const RecommendationEngine = ({ onProductClick }) => {
   );
 };
 
+const StoryModal = ({ story, onClose }) => (
+  <AnimatePresence>
+    {story && (
+      <motion.div
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+        onClick={onClose}
+      >
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.9, opacity: 0, y: 20 }}
+          transition={{ duration: 0.3 }}
+          onClick={(e) => e.stopPropagation()}
+          className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+        >
+          <div className="relative h-56 flex-shrink-0">
+            <img src={story.image} alt={story.title} className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+            <button onClick={onClose} className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white p-2 rounded-full hover:bg-white/40 transition">
+              <X size={20} />
+            </button>
+            <div className="absolute bottom-6 left-6">
+              <span className={`text-xs font-bold px-3 py-1 rounded-full ${story.tagColor}`}>{story.tag}</span>
+              <h2 className="text-2xl font-extrabold text-white mt-2">{story.title}</h2>
+              <div className="flex items-center gap-2 text-white/70 text-xs mt-1">
+                <Clock size={12} /> {story.readTime}
+              </div>
+            </div>
+          </div>
+          <div className="p-8 overflow-y-auto">
+            {story.fullStory.split('\n\n').map((para, i) => (
+              <p key={i} className="text-gray-700 leading-relaxed mb-4 text-base"
+                dangerouslySetInnerHTML={{ __html: para.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}
+              />
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+);
+
 const Home = ({ setPage, onProductClick }) => {
   const { t } = useTranslation();
+  const [activeStory, setActiveStory] = useState(null);
+  const featuredStories = STORIES.slice(0, 3);
+
   return (
     <div className="animate-in fade-in duration-700">
+      {/* Hero */}
       <section className="relative h-[90vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-black/50 z-10" />
-          <img 
-            src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000" 
-            className="w-full h-full object-cover scale-105 animate-pulse-slow"
+          <img
+            src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000"
+            className="w-full h-full object-cover scale-105"
           />
         </div>
         <div className="relative z-20 max-w-7xl mx-auto px-4 w-full">
@@ -67,6 +115,7 @@ const Home = ({ setPage, onProductClick }) => {
 
       <RecommendationEngine onProductClick={onProductClick} />
 
+      {/* Trust Badges */}
       <section className="py-12 bg-[#FDFCF8] border-b">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
@@ -83,6 +132,7 @@ const Home = ({ setPage, onProductClick }) => {
         </div>
       </section>
 
+      {/* Regional Coffees */}
       <section className="py-20 px-4 bg-white">
         <div className="max-w-7xl mx-auto text-center mb-16">
           <span className="text-[#006341] font-bold uppercase tracking-widest text-sm">Regional Favorites</span>
@@ -105,6 +155,8 @@ const Home = ({ setPage, onProductClick }) => {
           ))}
         </div>
       </section>
+
+      {/* Featured Coffee Stories — shared data, real images, working modal */}
       <section className="py-20 px-4 bg-gray-50/50 border-t border-gray-100">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-12">
@@ -112,49 +164,49 @@ const Home = ({ setPage, onProductClick }) => {
               <span className="text-[#006341] font-bold uppercase tracking-widest text-sm">Our Heritage</span>
               <h2 className="text-3xl md:text-5xl font-bold mt-2">Featured Coffee Stories</h2>
             </div>
-            <button onClick={() => setPage('blog')} className="hidden md:flex items-center gap-2 text-[#4B2C20] font-bold hover:text-[#006341] transition">
+            <button onClick={() => setPage('stories')} className="hidden md:flex items-center gap-2 text-[#4B2C20] font-bold hover:text-[#006341] transition">
               View All Stories <ChevronRight size={20} />
             </button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "The Legend of Kaldi",
-                desc: "Discover the mythological origins of coffee from the dancing goats of the Kaffa region.",
-                img: "https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&q=80&w=800"
-              },
-              {
-                title: "The Buna Ceremony",
-                desc: "An inside look into the traditional Ethiopian coffee ceremony and its cultural significance.",
-                img: "https://images.unsplash.com/photo-1620331006509-f00e69ba3e91?auto=format&fit=crop&q=80&w=800"
-              },
-              {
-                title: "From Bean to Cup",
-                desc: "Follow the journey of our beans from the high-altitude farms directly to your morning cup.",
-                img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800"
-              }
-            ].map((story, i) => (
-              <div key={i} className="bg-white rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition group flex flex-col border border-gray-100">
-                <img src={story.img} className="w-full h-56 object-cover group-hover:scale-105 transition duration-500" />
+            {featuredStories.map((story) => (
+              <div key={story.id} className="bg-white rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition group flex flex-col border border-gray-100">
+                <div className="relative h-56 overflow-hidden">
+                  <img
+                    src={story.image}
+                    alt={story.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <span className={`absolute top-4 left-4 text-xs font-bold px-3 py-1 rounded-full ${story.tagColor}`}>
+                    {story.tag}
+                  </span>
+                </div>
                 <div className="p-8 flex flex-col flex-grow">
+                  <div className="flex items-center gap-2 text-gray-400 text-xs font-medium mb-3">
+                    <Clock size={13} /> {story.readTime}
+                  </div>
                   <h3 className="text-xl font-bold mb-3">{story.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed mb-6 flex-grow">{story.desc}</p>
-                  <button 
-                    onClick={() => setPage('blog')}
-                    className="self-start px-6 py-3 bg-gray-50 text-[#006341] rounded-xl font-bold text-sm hover:bg-[#006341] hover:text-white transition"
+                  <p className="text-gray-500 text-sm leading-relaxed mb-6 flex-grow">{story.shortDesc}</p>
+                  <button
+                    onClick={() => setActiveStory(story)}
+                    className="self-start flex items-center gap-2 px-6 py-3 bg-[#006341] text-white rounded-xl font-bold text-sm hover:bg-[#004d32] transition"
                   >
-                    Read Story
+                    <BookOpen size={14} /> Read Story <ArrowRight size={14} />
                   </button>
                 </div>
               </div>
             ))}
           </div>
-          <button onClick={() => setPage('blog')} className="w-full mt-8 py-4 bg-gray-100 rounded-xl font-bold text-[#4B2C20] md:hidden">
+
+          <button onClick={() => setPage('stories')} className="w-full mt-8 py-4 bg-gray-100 rounded-xl font-bold text-[#4B2C20] md:hidden">
             View All Stories
           </button>
         </div>
       </section>
+
+      <StoryModal story={activeStory} onClose={() => setActiveStory(null)} />
     </div>
   );
 };

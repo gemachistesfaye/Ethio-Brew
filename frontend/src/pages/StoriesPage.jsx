@@ -1,83 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, Clock, BookOpen } from 'lucide-react';
-
-const stories = [
-  {
-    id: 1,
-    title: 'The Legend of Kaldi',
-    shortDesc: 'Discover how Ethiopian coffee was first discovered by a curious goat herder over a thousand years ago.',
-    readTime: '4 min read',
-    image: 'https://images.unsplash.com/photo-1524350876685-274059332603?w=900&auto=format&fit=crop',
-    tag: 'Origin Story',
-    tagColor: 'bg-amber-100 text-amber-700',
-    fullStory: `Long before the world knew the word "coffee," there was a young goat herder named Kaldi who wandered the ancient highlands of Kaffa, Ethiopia.
-
-One afternoon, Kaldi noticed something extraordinary — his goats, usually calm by dusk, were dancing. Prancing on their hind legs, bleating joyfully, with eyes wide and full of energy. He followed their gaze to a cluster of deep green shrubs bearing bright red berries.
-
-Curious and a little afraid, Kaldi tasted one of the cherries himself. Within minutes, a warm wave of alertness washed over him. His tired muscles felt light. His thoughts sharpened. He felt... awake in a way he'd never felt before.
-
-He rushed to the nearby monastery to tell the monks. The head monk, skeptical of this "devil's fruit," threw the berries into the fire. But as the beans roasted, a divine aroma rose through the mountain air — rich, complex, and captivating. The monks raked the roasted beans from the embers, dissolved them in water, and drank.
-
-That night, for the first time in memory, the monks prayed through the entire night without fatigue.
-
-Word spread. From the monastery, to the villages, to the trade routes of Arabia, to the coffeehouses of Istanbul and Vienna, and finally to every corner of the world — the story of the red berry from Ethiopia had begun its journey.
-
-The coffee you hold in your hands today carries that same ancient story in every sip.`,
-  },
-  {
-    id: 2,
-    title: 'The Art of the Coffee Ceremony',
-    shortDesc: "Experience Ethiopia's most respected cultural tradition — a ritual of community, respect, and flavor.",
-    readTime: '5 min read',
-    image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=900&auto=format&fit=crop',
-    tag: 'Culture',
-    tagColor: 'bg-green-100 text-green-700',
-    fullStory: `In Ethiopia, coffee is not a beverage. It is a ceremony.
-
-The Buna ceremony — "Buna" being the Amharic word for coffee — is one of the most significant social rituals in Ethiopian culture. It is performed three times a day in many households, and being invited to a ceremony is a profound sign of friendship and respect.
-
-The ceremony begins with the hostess, draped in a traditional white dress with colorful embroidery, setting a charcoal brazier on the floor. Fresh green coffee beans are washed and placed in a flat pan over the fire, where they are slowly hand-roasted. As the beans darken and the first oils emerge, the heavenly aroma fills the room.
-
-The hostess passes the roasting pan to each guest so they may breathe in the smoke — a blessing, a moment of communion with the spirit of the coffee. Frankincense burns nearby, its curling white smoke mingling with the dark roast scent.
-
-The roasted beans are then ground by hand in a wooden mortar called a "mukecha." The grounds are boiled in a traditional black clay pot called a "jebena" — narrow at the neck, round at the belly — filled with water and set over the coals.
-
-When the coffee is ready, it is poured in a single graceful, unbroken stream into small handle-less cups called "cini." The first round is called "Abol" — the strongest. The second, "Tona." The third and final round, "Baraka," means blessing.
-
-To leave before the third cup is to refuse the blessing. No one leaves early.
-
-This is not a coffee break. This is time itself pausing, so people can simply be together.`,
-  },
-  {
-    id: 3,
-    title: 'From Ethiopian Farms to Your Cup',
-    shortDesc: "Meet the farmers behind every bean and trace the incredible journey from harvest to your morning brew.",
-    readTime: '6 min read',
-    image: 'https://images.unsplash.com/photo-1581996323777-d29f3b4b9ad3?w=900&auto=format&fit=crop',
-    tag: 'Farm to Cup',
-    tagColor: 'bg-blue-100 text-blue-700',
-    fullStory: `At 6 AM in the highland village of Yirgacheffe, before the rest of the world is awake, Tigist Bekele is already in the coffee trees.
-
-Her family has cultivated this land for four generations. The trees — some over 60 years old — grow under the canopy of shade trees in rich, volcanic red soil at 2,000 meters above sea level. The altitude and the ancient forest ecosystem create a microclimate found almost nowhere else on Earth.
-
-From October through December, the harvest begins. Every single cherry is handpicked — a choice made deliberately. Selective harvesting means only the ripest, reddest cherries are chosen. A single skilled picker harvests around 100 kilograms of cherries per day, which will produce approximately 20 kilograms of green coffee beans.
-
-After harvest, the cherries go through processing. Ethio-Brew works primarily with two methods:
-
-**Washed (Wet Process):** The fruit is immediately removed using water and fermentation tanks. This produces the clean, bright, floral cup Yirgacheffe is world-famous for.
-
-**Natural (Dry Process):** Cherries are spread on raised drying beds and sun-dried for 2–4 weeks, allowing the fruit sugars to penetrate the bean. This creates the winey, berry-forward, complex cups of Harrar.
-
-Once dried and hulled, the beans are sorted by hand and machine, graded by size and density, then packed in 60-kilogram jute bags for export through the Ethiopian Commodity Exchange (ECX).
-
-The beans arrive in our roastery, where small-batch precision roasting unlocks every flavor note the farmer and the land worked so hard to create.
-
-From Tigist's hands on the tree to yours on the cup — it is a chain of human care at every single step.
-
-When you choose Ethio-Brew, you choose to honor that chain.`,
-  },
-];
+import { STORIES } from '../data/stories';
 
 const StoriesPage = () => {
   const [activeStory, setActiveStory] = useState(null);
@@ -104,7 +28,7 @@ const StoriesPage = () => {
 
       {/* Story Cards */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        {stories.map((story, i) => (
+        {STORIES.map((story, i) => (
           <motion.div
             key={story.id}
             initial={{ opacity: 0, y: 40 }}
