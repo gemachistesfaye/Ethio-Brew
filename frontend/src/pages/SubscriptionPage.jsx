@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '../hooks/useTranslation';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle, Gift, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -33,7 +33,6 @@ const SubscriptionPage = ({ addToCart }) => {
   };
 
   const handleSubscribe = (sub) => {
-    // Add to cart with specific gift flag if needed
     const itemToAdd = {
       ...sub,
       name: t(sub.nameKey),
@@ -41,33 +40,30 @@ const SubscriptionPage = ({ addToCart }) => {
     };
     
     addToCart(itemToAdd);
-    // Direct navigation to checkout as requested
     navigate('/checkout');
   };
 
-  // Static features translated via benefit keys
   const getBenefits = () => [
     t('subscription.benefits.delivery'),
     t('subscription.benefits.access'),
-    t('subscription.benefits.cancel')
+    t('subscription.benefits.cancel'),
+    t('subscription.benefits.support')
   ];
 
   return (
     <div className="min-h-screen bg-[#FDFCF8] py-20 px-4">
       <div className="max-w-7xl mx-auto text-center">
         
-        {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-16 max-w-2xl mx-auto"
         >
-          <span className="text-[#006341] font-bold uppercase tracking-widest text-sm">{t('nav.brand')} Club</span>
+          <span className="text-[#006341] font-bold uppercase tracking-widest text-sm">{t('subscription.title')}</span>
           <h1 className="text-4xl md:text-6xl font-extrabold text-[#4B2C20] mt-4 mb-6">{t('subscription.subtitle')}</h1>
           <p className="text-gray-500 text-lg">{t('subscription.description')}</p>
         </motion.div>
 
-        {/* Subscription Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {SUBSCRIPTIONS.map((sub, i) => (
             <motion.div 
@@ -77,7 +73,6 @@ const SubscriptionPage = ({ addToCart }) => {
               transition={{ delay: i * 0.1 }}
               className="relative bg-white border border-gray-100 p-8 md:p-12 rounded-[48px] shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden flex flex-col text-left"
             >
-              {/* Savings Badge */}
               <div className="absolute top-0 right-0 bg-[#FFD700] text-[#4B2C20] px-8 py-3 rounded-bl-[32px] font-bold text-sm shadow-sm">
                 {t('subscription.save', { percent: sub.savings })}
               </div>
@@ -96,7 +91,7 @@ const SubscriptionPage = ({ addToCart }) => {
 
               <div className="flex-grow">
                 <p className="font-bold text-gray-700 mb-6 flex items-center gap-2">
-                   {t('subscription.whatsIncluded')}:
+                   {t('subscription.included')}:
                 </p>
                 <ul className="space-y-4 mb-10">
                   {getBenefits().map((feature, idx) => (
@@ -110,7 +105,6 @@ const SubscriptionPage = ({ addToCart }) => {
                 </ul>
               </div>
 
-              {/* Gift Toggle Section */}
               <div 
                 onClick={() => toggleGift(sub.id)}
                 className={`mb-8 p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between ${
@@ -124,8 +118,8 @@ const SubscriptionPage = ({ addToCart }) => {
                     <Gift size={20} />
                   </div>
                   <div>
-                    <p className={`font-bold text-sm ${isGift[sub.id] ? 'text-[#006341]' : 'text-gray-600'}`}>{t('subscription.sendGift')}</p>
-                    <p className="text-[10px] text-gray-400">{t('subscription.giftDesc')}</p>
+                    <p className={`font-bold text-sm ${isGift[sub.id] ? 'text-[#006341]' : 'text-gray-600'}`}>{t('subscription.send_gift')}</p>
+                    <p className="text-[10px] text-gray-400">{t('subscription.gift_desc')}</p>
                   </div>
                 </div>
                 <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
@@ -139,19 +133,10 @@ const SubscriptionPage = ({ addToCart }) => {
                 onClick={() => handleSubscribe(sub)}
                 className="w-full bg-[#006341] text-white py-5 rounded-3xl font-bold hover:bg-[#004d32] transition-all flex items-center justify-center gap-3 shadow-lg shadow-[#006341]/20 group-hover:scale-[1.02]"
               >
-                {isGift[sub.id] ? t('subscription.sendGiftSub') : t('subscription.joinClub')} <ArrowRight size={20} />
+                {isGift[sub.id] ? t('subscription.gift_btn') : t('subscription.join_btn')} <ArrowRight size={20} />
               </button>
             </motion.div>
           ))}
-        </div>
-
-        {/* Trust Footer */}
-        <div className="mt-16 flex flex-wrap justify-center gap-8 text-gray-400 font-bold text-sm uppercase tracking-widest">
-           <span>No Commitments</span>
-           <span className="text-[#006341]">•</span>
-           <span>Pause Anytime</span>
-           <span className="text-[#006341]">•</span>
-           <span>Exclusive Roasts</span>
         </div>
       </div>
     </div>

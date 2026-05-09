@@ -1,176 +1,182 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Search, Info, Plus, Star } from 'lucide-react';
-import { getProducts } from '../services/api';
+import { useTranslation } from '../hooks/useTranslation';
+import { Search, Filter, ShoppingCart, Star, Coffee, SlidersHorizontal, Info } from 'lucide-react';
 import { MOCK_COFFEE } from '../constants';
-
-const CATEGORIES = [
-  'All',
-  'Single Origin',
-  'Blend',
-  'Specialty',
-  'Dark Roast',
-  'Organic',
-  'Gift Box',
-  'Traditional',
-  'Light Roast',
-  'Medium Roast',
-];
+import { motion, AnimatePresence } from 'framer-motion';
 
 const MenuPage = ({ addToCart, onProductClick }) => {
-  const { t, i18n } = useTranslation();
-  const [search, setSearch] = useState('');
+  const { t, language } = useTranslation();
+  const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
-  const [products, setProducts] = useState(MOCK_COFFEE);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const categories = [
+    { id: 'All', key: 'all_cats' },
+    { id: 'Single Origin', key: 'single_origin' },
+    { id: 'Blend', key: 'blend' },
+    { id: 'Specialty', key: 'specialty' },
+    { id: 'Dark Roast', key: 'dark_roast' },
+    { id: 'Organic', key: 'organic' },
+    { id: 'Gift Box', key: 'gift_box' },
+    { id: 'Traditional', key: 'traditional' },
+    { id: 'Light Roast', key: 'light_roast' },
+    { id: 'Medium Roast', key: 'medium_roast' }
+  ];
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await getProducts();
-        if (data && data.length > 0) setProducts(data);
-      } catch {
-        // fall back to mock
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
+    setTimeout(() => setIsLoading(false), 800);
   }, []);
 
-  const currentLang = i18n.language;
-
-  const filteredItems = products.filter((item) => {
-    const name = currentLang === 'am' ? item.name_am : currentLang === 'om' ? item.name_om : (item.name_en || item.name);
-    const matchesSearch = (name || '').toLowerCase().includes(search.toLowerCase());
-
-    let matchesCategory = true;
-    if (activeCategory !== 'All') {
-      if (activeCategory === 'Light Roast') {
-        matchesCategory = item.roast === 'Light';
-      } else if (activeCategory === 'Medium Roast') {
-        matchesCategory = item.roast === 'Medium' || item.roast === 'Medium-Dark';
-      } else {
-        matchesCategory = item.category === activeCategory;
-      }
-    }
+  const filteredProducts = MOCK_COFFEE.filter(product => {
+    const name = language === 'am' ? product.name_am : language === 'om' ? product.name_om : product.name;
+    const matchesSearch = name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          product.origin.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = activeCategory === 'All' || product.category === activeCategory || product.roast === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
   return (
-    <div className="min-h-screen bg-[#FDFCF8] py-12 px-4">
-      <div className="max-w-7xl mx-auto">
-
-        {/* Header */}
-        <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-6">
-          <div>
-            <span className="text-[#006341] font-bold uppercase tracking-widest text-xs">{t('nav.brand')}</span>
-            <h1 className="text-4xl font-extrabold text-[#4B2C20] mt-1">{t('nav.menu')}</h1>
-          </div>
-          <div className="relative w-full md:w-80">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+    <div className="min-h-screen bg-[#FDFCF8]">
+      {/* Search Header */}
+      <div className="bg-white border-b sticky top-16 z-40 px-4 py-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 items-center">
+          <div className="relative flex-grow w-full">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="text"
-              placeholder={t('shop.search')}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 rounded-2xl border-none bg-white shadow-sm focus:ring-2 focus:ring-[#006341] outline-none transition-all"
+              placeholder={t('shop.search_placeholder')}
+              className="w-full pl-14 pr-6 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341] transition text-sm font-medium"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
+          
+          <div className="flex items-center gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+            <div className="p-3 bg-gray-50 rounded-xl text-gray-400 shrink-0">
+               <Filter size={18} />
+            </div>
+            {categories.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-6 py-3 rounded-xl text-xs font-bold whitespace-nowrap transition all ${
+                  activeCategory === cat.id 
+                    ? 'bg-[#006341] text-white shadow-lg' 
+                    : 'bg-white text-gray-500 border border-gray-100 hover:border-gray-300'
+                }`}
+              >
+                {t(`shop.${cat.key}`)}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="flex items-center justify-between mb-10">
+           <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <Coffee size={20} className="text-[#006341]" /> 
+              {activeCategory === 'All' ? t('shop.all_cats') : t(`shop.${categories.find(c => c.id === activeCategory)?.key}`)}
+              <span className="text-sm font-normal text-gray-400 ml-2">({filteredProducts.length} {t('shop.results')})</span>
+           </h2>
+           <div className="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest">
+              <SlidersHorizontal size={14} /> {t('shop.roast_level')}
+           </div>
         </div>
 
-        {/* Category Tabs */}
-        <div className="flex gap-3 flex-wrap mb-10">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-200 whitespace-nowrap ${
-                activeCategory === cat
-                  ? 'bg-[#006341] text-white shadow-lg shadow-[#006341]/30'
-                  : 'bg-white text-gray-600 border border-gray-200 hover:border-[#006341] hover:text-[#006341]'
-              }`}
-            >
-              {cat === 'All' ? t('shop.showAll') : cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Results Count */}
-        <p className="text-sm text-gray-400 font-medium mb-6">
-          {t('shop.showing')} <span className="font-bold text-gray-700">{filteredItems.length}</span> {t('shop.results')}
-          {activeCategory !== 'All' && <> {t('shop.in')} <span className="font-bold text-[#006341]">{activeCategory}</span></>}
-        </p>
-
-        {/* Product Grid */}
-        {loading ? (
+        {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-white rounded-3xl overflow-hidden shadow-sm animate-pulse">
-                <div className="h-56 bg-gray-100" />
-                <div className="p-6 space-y-3">
-                  <div className="h-4 bg-gray-100 rounded w-2/3" />
-                  <div className="h-3 bg-gray-100 rounded w-1/2" />
-                </div>
+            {[1,2,3,4,5,6,7,8].map(n => (
+              <div key={n} className="animate-pulse">
+                <div className="bg-gray-200 aspect-[4/5] rounded-[32px] mb-4" />
+                <div className="h-4 bg-gray-200 rounded-full w-2/3 mb-2" />
+                <div className="h-4 bg-gray-200 rounded-full w-1/2" />
               </div>
             ))}
           </div>
-        ) : filteredItems.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 text-center">
-            <p className="text-5xl mb-4">☕</p>
-            <h3 className="text-xl font-bold text-gray-700 mb-2">{t('shop.noProducts')}</h3>
-            <p className="text-gray-400 text-sm">{t('shop.tryDifferent')}</p>
-            <button onClick={() => { setActiveCategory('All'); setSearch(''); }} className="mt-6 px-6 py-3 bg-[#006341] text-white rounded-xl font-bold text-sm hover:bg-[#004d32] transition">
-              {t('shop.showAll')}
-            </button>
-          </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {filteredItems.map((item) => {
-              const name = currentLang === 'am' ? item.name_am : currentLang === 'om' ? item.name_om : item.name;
-              const desc = currentLang === 'am' ? item.description_am : currentLang === 'om' ? item.description_om : item.description;
-              return (
-                <div key={item.id} className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col relative">
-                  <button onClick={() => onProductClick(item)} className="absolute top-4 right-4 z-10 bg-white/80 backdrop-blur text-gray-600 p-2 rounded-full opacity-0 group-hover:opacity-100 transition shadow-lg">
-                    <Info size={18} />
-                  </button>
+          <>
+            <AnimatePresence mode='popLayout'>
+              {filteredProducts.length > 0 ? (
+                <motion.div 
+                  layout
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+                >
+                  {filteredProducts.map((product) => {
+                    const name = language === 'am' ? product.name_am : language === 'om' ? product.name_om : product.name;
+                    return (
+                    <motion.div
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      key={product.id}
+                      className="bg-white rounded-[40px] border border-gray-100 p-5 shadow-sm hover:shadow-xl transition-all duration-500 group flex flex-col"
+                    >
+                      <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden mb-6">
+                        <img 
+                          src={product.imageUrl} 
+                          alt={name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition duration-700" 
+                        />
+                        <div className="absolute top-4 right-4 flex flex-col gap-2">
+                           <button 
+                            onClick={() => onProductClick(product)}
+                            className="p-3 bg-white/90 backdrop-blur-md rounded-2xl text-gray-900 shadow-sm hover:bg-white transition"
+                           >
+                              <Info size={18} />
+                           </button>
+                        </div>
+                        <div className="absolute bottom-4 left-4">
+                           <span className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider text-[#006341] shadow-sm">
+                              {product.origin}
+                           </span>
+                        </div>
+                      </div>
 
-                  {/* Category Badge */}
-                  <span className="absolute top-4 left-4 z-10 text-[10px] font-bold bg-white/80 backdrop-blur text-[#006341] px-3 py-1 rounded-full">
-                    {item.category}
-                  </span>
+                      <div className="px-2 flex-grow">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">{product.roast}</span>
+                          <div className="flex items-center gap-1">
+                            <Star size={12} fill="#FFD700" className="text-[#FFD700]" />
+                            <span className="text-xs font-bold text-gray-900">{product.rating}</span>
+                          </div>
+                        </div>
+                        <h3 className="text-lg font-bold text-[#4B2C20] mb-6 line-clamp-1 group-hover:text-[#006341] transition">{name}</h3>
+                      </div>
 
-                  <div className="relative h-56 overflow-hidden cursor-pointer" onClick={() => onProductClick(item)}>
-                    <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                      <div className="px-2 mt-auto">
+                        <div className="flex items-center justify-between bg-gray-50 p-4 rounded-3xl border border-gray-100 group-hover:bg-[#006341]/5 group-hover:border-[#006341]/10 transition">
+                           <div className="flex flex-col">
+                              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter leading-none mb-1">{t('shop.price')}</span>
+                              <span className="text-lg font-black text-[#4B2C20] leading-none">{product.price} <span className="text-[10px]">ETB</span></span>
+                           </div>
+                           <button 
+                            onClick={() => addToCart(product)}
+                            className="p-3 bg-[#006341] text-white rounded-2xl shadow-lg shadow-[#006341]/20 hover:scale-110 active:scale-95 transition"
+                           >
+                             <ShoppingCart size={20} />
+                           </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                    );
+                  })}
+                </motion.div>
+              ) : (
+                <motion.div 
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  className="py-32 text-center"
+                >
+                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300">
+                    <Coffee size={48} />
                   </div>
-
-                  <div className="p-6 flex-grow flex flex-col">
-                    <div className="flex items-center gap-1 text-[#FFD700] mb-2">
-                      <Star size={12} fill="currentColor" />
-                      <span className="text-[10px] font-bold text-gray-900">{item.rating || 4.8}</span>
-                    </div>
-                    <h3 className="font-bold text-lg mb-1 leading-tight">{name}</h3>
-                    <p className="text-gray-400 text-[11px] mb-4 uppercase tracking-tighter">{item.roast} {t('shop.roast')} • {item.origin}</p>
-                    <div className="flex flex-wrap gap-1 mb-4">
-                      {(item.flavorNotes || []).map((note) => (
-                        <span key={note} className="text-[10px] bg-[#006341]/10 text-[#006341] px-2 py-0.5 rounded-full font-bold">{note}</span>
-                      ))}
-                    </div>
-                    <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-50">
-                      <span className="font-bold text-[#006341] text-lg">{item.price} ETB</span>
-                      <button
-                        onClick={() => addToCart(item)}
-                        className="bg-[#006341] text-white p-3 rounded-xl hover:bg-[#004d32] transition flex items-center gap-1 shadow-md active:scale-95"
-                      >
-                        <Plus size={16} />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('shop.no_products')}</h3>
+                  <p className="text-gray-400">{t('shop.try_different')}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </>
         )}
       </div>
     </div>

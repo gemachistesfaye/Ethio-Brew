@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '../hooks/useTranslation';
 import { 
   Coffee, ShoppingCart, Menu as MenuIcon, X, ChevronRight, 
-  Award, User, LogOut, Settings, Github, Send, Phone as PhoneIcon, Mail
+  Award, User, LogOut, Settings, Github, Send, Phone as PhoneIcon, Mail, Instagram
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, points }) => {
-  const { t, i18n } = useTranslation();
+const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage }) => {
+  const { t, language, changeLanguage } = useTranslation();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
 
   const handleLogout = () => {
     logout();
@@ -30,7 +26,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
         <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setCurrentPage('home'); navigate('/'); }}>
             <Coffee className="w-8 h-8 text-[#006341]" />
-            <span className="text-2xl font-bold tracking-tight text-[#4B2C20]">{t('nav.brand', 'EthioBrew')}</span>
+            <span className="text-2xl font-bold tracking-tight text-[#4B2C20]">Ethio-Brew</span>
           </div>
 
           <div className="hidden md:flex items-center gap-8 font-medium">
@@ -40,7 +36,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
                 onClick={() => { setCurrentPage(page); navigate(page === 'home' ? '/' : page === 'shop' ? '/menu' : `/${page}`); }}
                 className={`capitalize hover:text-[#006341] transition ${currentPage === page ? 'text-[#006341] border-b-2 border-[#006341]' : 'text-gray-600'}`}
               >
-                {t(`nav.${page}`, page)}
+                {t(`nav.${page}`)}
               </button>
             ))}
           </div>
@@ -52,7 +48,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
                 <button
                   key={lang}
                   onClick={() => changeLanguage(lang)}
-                  className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase transition ${i18n.language === lang ? 'bg-white text-[#006341] shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                  className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase transition ${language === lang ? 'bg-white text-[#006341] shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
                 >
                   {lang}
                 </button>
@@ -68,7 +64,6 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
               )}
             </button>
 
-            {/* Auth Button/Menu */}
             {user ? (
               <div className="relative">
                 <button 
@@ -84,7 +79,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
                       <p className="text-[10px] text-gray-400 truncate">{user.email}</p>
                     </div>
                     <button onClick={() => { navigate('/settings'); setIsUserMenuOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 flex items-center gap-2">
-                      <Settings size={16} /> Settings
+                      <Settings size={16} /> {t('nav.settings')}
                     </button>
                     {user.role === 'admin' && (
                        <button onClick={() => { navigate('/admin'); setIsUserMenuOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 flex items-center gap-2">
@@ -92,7 +87,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
                       </button>
                     )}
                     <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2">
-                      <LogOut size={16} /> Logout
+                      <LogOut size={16} /> {t('nav.logout')}
                     </button>
                   </div>
                 )}
@@ -102,7 +97,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
                 onClick={() => navigate('/login')}
                 className="hidden sm:flex items-center gap-2 px-6 py-2 bg-[#4B2C20] text-white rounded-xl font-bold text-sm hover:bg-black transition"
               >
-                <User size={16} /> Login
+                <User size={16} /> {t('nav.login')}
               </button>
             )}
 
@@ -131,21 +126,21 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
                   }}
                   className="text-left capitalize text-xl flex items-center justify-between"
                 >
-                  {t(`nav.${page}`, page)}
+                  {t(`nav.${page}`)}
                   <ChevronRight size={18} />
                 </button>
               ))}
               {user ? (
                 <>
                   <button onClick={() => { navigate('/settings'); setIsMobileMenuOpen(false); }} className="text-left capitalize text-xl flex items-center justify-between">
-                    Settings <Settings size={18} />
+                    {t('nav.settings')} <Settings size={18} />
                   </button>
                   <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="text-left capitalize text-xl flex items-center justify-between text-red-600">
-                    Logout <LogOut size={18} />
+                    {t('nav.logout')} <LogOut size={18} />
                   </button>
                 </>
               ) : (
-                 <button onClick={() => { navigate('/login'); setIsMobileMenuOpen(false); }} className="mt-4 bg-[#006341] text-white py-4 rounded-xl font-bold">Login</button>
+                 <button onClick={() => { navigate('/login'); setIsMobileMenuOpen(false); }} className="mt-4 bg-[#006341] text-white py-4 rounded-xl font-bold">{t('nav.login')}</button>
               )}
             </div>
           </div>
@@ -162,23 +157,22 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
              </div>
              <div>
                 <p className="font-bold text-lg leading-tight">Ethio-Brew</p>
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Premium Coffee SaaS</p>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{t('footer.tagline')}</p>
              </div>
           </div>
 
           <div className="flex flex-col items-center md:items-end text-center md:text-right gap-1">
              <p className="text-sm font-bold text-gray-900">Developed by Gemachis Tesfaye</p>
-             <p className="text-xs text-gray-400 font-medium">Software Developer</p>
              <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 text-xs text-gray-500 font-medium mt-2">
-                <a href="tel:+251976601074" className="flex items-center gap-1.5 hover:text-[#006341] transition"><PhoneIcon size={14}/> +251976601074</a>
-                <a href="mailto:gemachistesfaye36@gmail.com" title="Email" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Mail size={16}/></a>
-                <a href="https://t.me/urjiiko1" target="_blank" rel="noreferrer" title="Telegram" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Send size={16}/></a>
-                <a href="https://github.com/gemachistesfaye" target="_blank" rel="noreferrer" title="GitHub" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Github size={16}/></a>
+                <a href="tel:+251911234567" className="flex items-center gap-1.5 hover:text-[#006341] transition"><PhoneIcon size={14}/> +251 911 234 567</a>
+                <a href="mailto:hello@ethiobrew.com" title="Email" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Mail size={16}/></a>
+                <a href="https://t.me/EthioBrew" target="_blank" rel="noreferrer" title="Telegram" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Send size={16}/></a>
+                <a href="https://instagram.com/EthioBrew" target="_blank" rel="noreferrer" title="Instagram" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Instagram size={16}/></a>
              </div>
           </div>
         </div>
         <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-gray-50 text-center text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">
-          &copy; {new Date().getFullYear()} Ethio-Brew Platform • All Rights Reserved
+          &copy; {new Date().getFullYear()} Ethio-Brew • {t('footer.copyright', { year: new Date().getFullYear() })}
         </div>
       </footer>
     </div>

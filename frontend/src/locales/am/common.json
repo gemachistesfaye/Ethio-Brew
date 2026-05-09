@@ -1,0 +1,186 @@
+{
+  "nav": {
+    "home": "መነሻ",
+    "shop": "መደብር",
+    "subscription": "ምዝገባ",
+    "stories": "ታሪኮች",
+    "about": "ስለ እኛ",
+    "contact": "ያግኙን",
+    "login": "ግባ",
+    "logout": "ውጣ",
+    "settings": "ቅንብሮች",
+    "brand": "ኢትዮ-ብሩ"
+  },
+  "hero": {
+    "title": "የኢትዮጵያን ነፍስ ይጣጣሙ",
+    "subtitle": "ከካፋ ተራሮች እስከ ደጃፍዎ፣ እውነተኛውን የቡና ባህል ይለማመዱ።",
+    "orderNow": "አሁኑኑ ይዘዙ",
+    "joinClub": "ክለቡን ይቀላቀሉ"
+  },
+  "home": {
+    "recommended": "ለእርስዎ የተመከሩ",
+    "badges": {
+      "secure": "ደህንነቱ የተጠበቀ ክፍያ",
+      "trade": "ቀጥተኛ ግብይት",
+      "delivery": "ፈጣን ማድረሻ",
+      "grades": "ከፍተኛ ጥራት"
+    },
+    "regions": {
+      "title": "የክልል ተወዳጆች",
+      "subtitle": "ከደጋማ ቦታዎች የተገኙ ምርጥ የቡና ፍሬዎች",
+      "yirgacheffe_note": "የአበባ ጣዕም እና ጣፋጭ",
+      "sidamo_note": "የቤሪ ጣዕም እና የበለፀገ",
+      "harrar_note": "ደፋር እና ፍራፍሬያማ"
+    },
+    "featured_stories": "ተለይተው የቀረቡ የቡና ታሪኮች",
+    "view_all": "ሁሉንም ታሪኮች ይመልከቱ"
+  },
+  "shop": {
+    "search_placeholder": "የሚወዱትን ቡና ይፈልጉ...",
+    "add_to_cart": "ወደ ጋሪ ይጨምሩ",
+    "categories": "ምድቦች",
+    "roast_level": "የመቁላት ደረጃ",
+    "origin": "መገኛ",
+    "price": "ዋጋ",
+    "showing": "እያሳየ ያለዉ",
+    "results": "ውጤቶች",
+    "no_products": "ከፍለጋዎ ጋር የሚዛመድ ቡና አልተገኘም።",
+    "show_all": "ሁሉንም አሳይ",
+    "all_cats": "ሁሉም",
+    "single_origin": "ነጠላ መገኛ",
+    "blend": "ውህድ",
+    "specialty": "ልዩ",
+    "dark_roast": "ጥቁር ቁላ",
+    "organic": "ኦርጋኒክ",
+    "gift_box": "የስጦታ ሳጥን",
+    "traditional": "ባህላዊ",
+    "light_roast": "ቀለል ያለ",
+    "medium_roast": "መካከለኛ",
+    "try_different": "ሌላ ምድብ ወይም የፍለጋ ቃል ይሞክሩ።"
+  },
+  "auth": {
+    "login_title": "እንኳን ደህና መጡ",
+    "register_title": "ቅርሱን ይቀላቀሉ",
+    "email": "ኢሜይል አድራሻ",
+    "password": "የይለፍ ቃል",
+    "full_name": "ሙሉ ስም",
+    "confirm_password": "የይለፍ ቃል ያረጋግጡ",
+    "forgot_password": "የይለፍ ቃል ረስተዋል?",
+    "dont_have_account": "መለያ የለዎትም?",
+    "already_have_account": "ቀድሞውኑ መለያ አለዎት?",
+    "sign_in": "ግባ",
+    "sign_up": "ተመዝገብ",
+    "verify_title": "ኢሜይልዎን ያረጋግጡ",
+    "verify_desc": "ወደ ኢሜይልዎ የተላከውን ኮድ ያስገቡ።",
+    "reset_title": "የይለፍ ቃል ይቀይሩ",
+    "loading": "በሂደት ላይ...",
+    "error_general": "ችግር ተከስቷል። እባክዎ እንደገና ይሞክሩ።",
+    "passwords_not_match": "የይለፍ ቃላት አይዛመዱም",
+    "creating_account": "መለያ በመፍጠር ላይ..."
+  },
+  "subscription": {
+    "title": "ኢትዮ-ብሩ ክለብ",
+    "subtitle": "በእርስዎ ምርጫ",
+    "description": "ትኩስ የኢትዮጵያ ቡና በየሳምንቱ ወደ ቤትዎ እንዲመጣ ይመዝገቡ።",
+    "save": "{{percent}} ይቆጥቡ",
+    "included": "ምን ተካቷል",
+    "send_gift": "በስጦታ ይላኩ",
+    "gift_desc": "የግል መልእክት እና የስጦታ መጠቅለያን ያካትታል",
+    "join_btn": "ክለቡን ይቀላቀሉ",
+    "gift_btn": "የስጦታ ምዝገባ ይላኩ",
+    "benefits": {
+      "delivery": "ሳምንታዊ ትኩስ ማድረሻ",
+      "access": "ለልዩ ምርቶች ቅድሚያ ማግኘት",
+      "cancel": "በማንኛውም ጊዜ ማቆም ይችላሉ",
+      "support": "ልዩ ድጋፍ"
+    },
+    "whatsIncluded": "ምን ተካቷል"
+  },
+  "stories": {
+    "title": "የቡና ቅርስ",
+    "subtitle": "ከእያንዳንዱ የቡና ፍሬ በስተጀርባ ያሉትን አፈ ታሪኮች፣ ሰዎች እና ምድር ያግኙ።",
+    "read_more": "ታሪኩን ያንብቡ",
+    "back": "ወደ ታሪኮች ይመለሱ",
+    "loading": "ታሪኮችን በመጫን ላይ...",
+    "empty": "በአሁኑ ጊዜ ምንም ታሪኮች የሉም።"
+  },
+  "about": {
+    "title": "ዓላማችን",
+    "subtitle": "ኢትዮ-ብሩ ለምን ተገነባ እና ለምን እንቆማለን።",
+    "q1": {
+      "title": "ኢትዮ-ብሩ ለምን ተገነባ?",
+      "content": "ኢትዮ-ብሩ የተገነባው በቡና መገኛ ቦታ እና በዓለም አቀፍ ሸማቾች መካከል ያለውን ሰፊ ​​ልዩነት ለመሙላት ነው።"
+    },
+    "q2": {
+      "title": "የኢትዮጵያ ቡና በዓለም አቀፍ ደረጃ ለምን አስፈላጊ ነው?",
+      "content": "ኢትዮጵያ የአረቢካ ቡና ዝርያ መገኛ ነች። በጫካዎቿ ውስጥ በዱር የሚበቅሉ በሺዎች የሚቆጠሩ ያልተመዘገቡ የቡና ዝርያዎች አሏት።"
+    },
+    "q3": {
+      "title": "አርሶ አደሮችን መደገፍ ለምን አስፈላጊ ነው?",
+      "content": "ቡና የኢትዮጵያ ኢኮኖሚ የጀርባ አጥንት ቢሆንም፣ አርሶ አደሮች ብዙውን ጊዜ የሚያገኙት የትርፍ ጥቂቱን ክፍል ብቻ ነው።"
+    },
+    "q4": {
+      "title": "ዲጂታል የቡና የገበያ ቦታ ለምን ያስፈልጋል?",
+      "content": "ዲጂታል የገበያ ቦታ ግልጽነትን ይሰጣል፣ ይህም ገዢዎች ቡናቸው በትክክል ከየት እንደመጣ እንዲያዩ ያስችላቸዋል።"
+    }
+  },
+  "contact": {
+    "title": "ያግኙን",
+    "subtitle": "ጥያቄ አለዎት? ከእርስዎ መስማት እንወዳለን።",
+    "info_title": "እንገናኝ",
+    "info_desc": "መቀመጫችን አዲስ አበባ፣ ኢትዮጵያ ነው። ሁልጊዜም ለውይይት ዝግጁ ነን።",
+    "form_name": "ስምዎ",
+    "form_email": "ኢሜይል አድራሻ",
+    "form_message": "መልእክት",
+    "form_send": "መልእክት ይላኩ",
+    "form_sending": "በመላክ ላይ...",
+    "success": "መልእክት ተልኳል! በቅርቡ እንገናኛለን።"
+  },
+  "cart": {
+    "title": "የእርስዎ ጋሪ",
+    "empty": "ጋሪዎ ባዶ ነው",
+    "checkout": "ክፍያ",
+    "total": "ጠቅላላ",
+    "subtotal": "ንዑስ ጠቅላላ",
+    "remove": "አስወግድ",
+    "summary": "የትዕዛዝ ማጠቃለያ",
+    "units": "ፍሬዎች"
+  },
+  "checkout": {
+    "title": "ክፍያ",
+    "deliveryInfo": "የማድረሻ መረጃ",
+    "address": "መንገድ፣ ከተማ (ለምሳሌ ቦሌ፣ አዲስ አበባ)",
+    "phone": "የስልክ ቁጥር",
+    "payment": "የክፍያ ዘዴ",
+    "instructions": "ከታች ወዳለው አካውንት ያስገቡ እና ማስረጃውን ይላኩ።",
+    "confirm": "ትዕዛዙን ያረጋግጡ",
+    "points": "የሚያገኙት ነጥብ",
+    "continue": "ወደ ክፍያ ይቀጥሉ",
+    "next": "ቀጣይ: ማረጋገጫ",
+    "back": "ወደ ማድረሻ ይመለሱ",
+    "merchant_phone": "የነጋዴ ስልክ",
+    "cbe_account": "የንግድ ባንክ አካውንት",
+    "verifying": "በማረጋገጥ ላይ...",
+    "submit_proof": "ማስረጃ ይላኩ",
+    "uploadProof": "የክፍያ ደረሰኝ ይላኩ",
+    "verifyLocally": "ክፍያው ተረጋግጧል",
+    "finish": "ትዕዛዙን ይጨርሱ"
+  },
+  "footer": {
+    "tagline": "ከኢትዮጵያ ደጋማ ቦታዎች የተመረጡ ቡናዎች፣ ለዓለም የቀረቡ።",
+    "explore": "ይመርምሩ",
+    "legal": "ህጋዊ",
+    "privacy": "የግላዊነት ፖሊሲ",
+    "terms": "የአጠቃቀም ደንቦች",
+    "copyright": "መብቱ በህግ የተጠበቀ ነው"
+  },
+  "common": {
+    "loading": "በመጫን ላይ...",
+    "error": "ስህተት",
+    "success": "ተሳክቷል",
+    "cancel": "ሰርዝ",
+    "save": "አስቀምጥ",
+    "edit": "አስተካክል",
+    "delete": "ሰርዝ"
+  }
+}

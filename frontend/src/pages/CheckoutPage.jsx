@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '../hooks/useTranslation';
 import { MapPin, CreditCard, Smartphone, Landmark, Upload, Image as ImageIcon, CheckCircle } from 'lucide-react';
 import { PAYMENT_DETAILS } from '../constants';
 
 const CheckoutPage = ({ cart, total, onOrderComplete }) => {
-  const { t, i18n } = useTranslation();
+  const { t, language } = useTranslation();
   const [step, setStep] = useState(1);
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
@@ -55,7 +55,7 @@ const CheckoutPage = ({ cart, total, onOrderComplete }) => {
               <h2 className="text-2xl font-bold flex items-center gap-2"><MapPin className="text-[#006341]"/> {t('checkout.deliveryInfo')}</h2>
               <input required placeholder={t('checkout.address')} value={address} onChange={e => setAddress(e.target.value)} className="w-full p-5 rounded-2xl border-none shadow-sm outline-none focus:ring-2 focus:ring-[#006341] bg-white" />
               <input required placeholder={t('checkout.phone')} value={phone} onChange={e => setPhone(e.target.value)} className="w-full p-5 rounded-2xl border-none shadow-sm outline-none focus:ring-2 focus:ring-[#006341] bg-white" />
-              <button onClick={() => setStep(2)} disabled={!address || !phone} className="w-full bg-[#006341] text-white py-5 rounded-2xl font-bold shadow-lg hover:bg-[#004d32] transition disabled:opacity-50">Continue to Payment</button>
+              <button onClick={() => setStep(2)} disabled={!address || !phone} className="w-full bg-[#006341] text-white py-5 rounded-2xl font-bold shadow-lg hover:bg-[#004d32] transition disabled:opacity-50">{t('checkout.continue')}</button>
             </div>
           )}
 
@@ -75,11 +75,11 @@ const CheckoutPage = ({ cart, total, onOrderComplete }) => {
                   ))}
               </div>
               <div className="bg-[#4B2C20] p-6 rounded-[32px] text-white text-center">
-                <p className="text-[10px] opacity-60 font-bold uppercase tracking-widest mb-1">{paymentMethod === 'Telebirr' ? 'Merchant Phone' : 'CBE Account'}</p>
+                <p className="text-[10px] opacity-60 font-bold uppercase tracking-widest mb-1">{paymentMethod === 'Telebirr' ? t('checkout.merchant_phone') : t('checkout.cbe_account')}</p>
                 <p className="text-2xl font-mono font-bold">{paymentMethod === 'Telebirr' ? PAYMENT_DETAILS.telebirr : PAYMENT_DETAILS.cbeAccount}</p>
               </div>
-              <button onClick={() => setStep(3)} className="w-full bg-[#006341] text-white py-5 rounded-2xl font-bold shadow-lg hover:bg-[#004d32] transition">Next: Confirmation</button>
-              <button onClick={() => setStep(1)} className="w-full text-gray-500 font-bold py-2">Back to Delivery</button>
+              <button onClick={() => setStep(3)} className="w-full bg-[#006341] text-white py-5 rounded-2xl font-bold shadow-lg hover:bg-[#004d32] transition">{t('checkout.next')}</button>
+              <button onClick={() => setStep(1)} className="w-full text-gray-500 font-bold py-2">{t('checkout.back')}</button>
             </div>
           )}
 
@@ -95,7 +95,7 @@ const CheckoutPage = ({ cart, total, onOrderComplete }) => {
                   </label>
                   {screenshot && (
                     <button onClick={simulateUpload} disabled={uploading} className="w-full bg-[#4B2C20] text-white py-5 rounded-2xl font-bold">
-                      {uploading ? 'Verifying...' : 'Submit Proof'}
+                      {uploading ? t('checkout.verifying') : t('checkout.submit_proof')}
                     </button>
                   )}
                 </div>
@@ -114,15 +114,14 @@ const CheckoutPage = ({ cart, total, onOrderComplete }) => {
           <h3 className="font-bold text-xl mb-6">{t('cart.summary')}</h3>
           <div className="space-y-4 mb-6">
             {cart.map(item => {
-              const currentLang = i18n.language;
-              const name = currentLang === 'am' ? item.name_am : currentLang === 'om' ? item.name_om : item.name;
+              const name = language === 'am' ? item.name_am : language === 'om' ? item.name_om : item.name;
               return (
                 <div key={item.id} className="flex justify-between items-center text-sm">
                   <div className="flex items-center gap-3">
                     <img src={item.imageUrl} className="w-10 h-10 rounded-lg object-cover" />
                     <div>
                       <p className="font-bold">{name}</p>
-                      <p className="text-xs text-gray-400">{item.quantity} units</p>
+                      <p className="text-xs text-gray-400">{item.quantity} {t('cart.units')}</p>
                     </div>
                   </div>
                   <span className="font-bold">{item.price * item.quantity} ETB</span>

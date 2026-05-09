@@ -1,0 +1,186 @@
+{
+  "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "subscription": "Subscription",
+    "stories": "Stories",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "logout": "Logout",
+    "settings": "Settings",
+    "brand": "Ethio-Brew"
+  },
+  "hero": {
+    "title": "Savor the Soul of Ethiopia",
+    "subtitle": "From the highlands of Kaffa to your doorstep, experience the original coffee tradition.",
+    "orderNow": "Order Now",
+    "joinClub": "Join the Club"
+  },
+  "home": {
+    "recommended": "Recommended for You",
+    "badges": {
+      "secure": "Secure Payments",
+      "trade": "Direct Trade",
+      "delivery": "Fast Delivery",
+      "grades": "Premium Grades"
+    },
+    "regions": {
+      "title": "Regional Favorites",
+      "subtitle": "Finest Beans from the Highlands",
+      "yirgacheffe_note": "Floral & Sweet",
+      "sidamo_note": "Berry & Rich",
+      "harrar_note": "Bold & Fruity"
+    },
+    "featured_stories": "Featured Coffee Stories",
+    "view_all": "View All Stories"
+  },
+  "shop": {
+    "search_placeholder": "Search for your favorite coffee...",
+    "add_to_cart": "Add to Cart",
+    "categories": "Categories",
+    "roast_level": "Roast Level",
+    "origin": "Origin",
+    "price": "Price",
+    "showing": "Showing",
+    "results": "results",
+    "no_products": "No coffees found matching your criteria.",
+    "show_all": "Show All",
+    "all_cats": "All",
+    "single_origin": "Single Origin",
+    "blend": "Blend",
+    "specialty": "Specialty",
+    "dark_roast": "Dark Roast",
+    "organic": "Organic",
+    "gift_box": "Gift Box",
+    "traditional": "Traditional",
+    "light_roast": "Light Roast",
+    "medium_roast": "Medium Roast",
+    "try_different": "Try a different category or search term."
+  },
+  "auth": {
+    "login_title": "Welcome Back",
+    "register_title": "Join the Heritage",
+    "email": "Email Address",
+    "password": "Password",
+    "full_name": "Full Name",
+    "confirm_password": "Confirm Password",
+    "forgot_password": "Forgot Password?",
+    "dont_have_account": "Don't have an account?",
+    "already_have_account": "Already have an account?",
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
+    "verify_title": "Verify Your Email",
+    "verify_desc": "Enter the code sent to your email.",
+    "reset_title": "Reset Password",
+    "loading": "Processing...",
+    "error_general": "Something went wrong. Please try again.",
+    "passwords_not_match": "Passwords do not match",
+    "creating_account": "Creating Account..."
+  },
+  "subscription": {
+    "title": "Ethio-Brew Club",
+    "subtitle": "Coffee on Your Terms",
+    "description": "Subscribe to fresh, highland-grown Ethiopian coffee delivered to your doorstep every week.",
+    "save": "SAVE {{percent}}",
+    "included": "What's included",
+    "send_gift": "Send as a Gift",
+    "gift_desc": "Includes personal message & gift wrap",
+    "join_btn": "Join the Club",
+    "gift_btn": "Send Gift Subscription",
+    "benefits": {
+      "delivery": "Weekly Fresh Delivery",
+      "access": "Rare Heirloom Access",
+      "cancel": "Pause Anytime",
+      "support": "Dedicated Support"
+    },
+    "whatsIncluded": "What's included"
+  },
+  "stories": {
+    "title": "Coffee Heritage",
+    "subtitle": "Discover the legends, the people, and the land behind every bean.",
+    "read_more": "Read Story",
+    "back": "Back to Stories",
+    "loading": "Loading stories...",
+    "empty": "No stories available at the moment."
+  },
+  "about": {
+    "title": "Our Purpose",
+    "subtitle": "Why Ethio-Brew was built and what we stand for.",
+    "q1": {
+      "title": "Why does Ethio-Brew exist?",
+      "content": "Ethio-Brew exists to bridge the massive gap between the birthplace of coffee and global consumers. Historically, Ethiopian coffee has been commoditized and mixed, losing its unique regional identities."
+    },
+    "q2": {
+      "title": "Why is Ethiopian coffee globally important?",
+      "content": "Ethiopia is the genetic birthplace of Coffea arabica. Unlike other regions where coffee was introduced, Ethiopia has thousands of undocumented heirloom varieties growing wild in its forests."
+    },
+    "q3": {
+      "title": "Why does supporting farmers matter?",
+      "content": "Coffee is the backbone of the Ethiopian economy, yet the farmers who cultivate these world-class beans often receive the smallest fraction of the profit."
+    },
+    "q4": {
+      "title": "Why is a digital coffee marketplace needed?",
+      "content": "In an era of instant global connectivity, the coffee trade has remained unnecessarily opaque. A digital marketplace provides transparency and removes geographical barriers."
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Have a question? We'd love to hear from you.",
+    "info_title": "Let's Connect",
+    "info_desc": "Based in Addis Ababa, Ethiopia. We are always open to conversations.",
+    "form_name": "Your Name",
+    "form_email": "Email Address",
+    "form_message": "Message",
+    "form_send": "Send Message",
+    "form_sending": "Sending...",
+    "success": "Message Sent! We will get back to you soon."
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "checkout": "Checkout",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "remove": "Remove",
+    "summary": "Order Summary",
+    "units": "units"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "deliveryInfo": "Delivery Info",
+    "address": "Street, City (e.g. Bole, Addis)",
+    "phone": "Phone Number",
+    "payment": "Payment Method",
+    "instructions": "Transfer to the account below and upload proof.",
+    "confirm": "Confirm Order",
+    "points": "Points to Earn",
+    "continue": "Continue to Payment",
+    "next": "Next: Confirmation",
+    "back": "Back to Delivery",
+    "merchant_phone": "Merchant Phone",
+    "cbe_account": "CBE Account",
+    "verifying": "Verifying...",
+    "submit_proof": "Submit Proof",
+    "uploadProof": "Upload Payment Screenshot",
+    "verifyLocally": "Payment Verified Locally",
+    "finish": "Finish Order"
+  },
+  "footer": {
+    "tagline": "Hand-picked beans from the Ethiopian highlands, roasted for the world.",
+    "explore": "Explore",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "copyright": "All Rights Reserved"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete"
+  }
+}

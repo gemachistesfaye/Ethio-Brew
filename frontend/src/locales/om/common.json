@@ -1,0 +1,186 @@
+{
+  "nav": {
+    "home": "Mana",
+    "shop": "Gabaa",
+    "subscription": "Galmee",
+    "stories": "Seenaawwan",
+    "about": "Waa'ee Keenya",
+    "contact": "Nu Quunnamaa",
+    "login": "Seeni",
+    "logout": "Ba'i",
+    "settings": "Qindaa'ina",
+    "brand": "Ethio-Brew"
+  },
+  "hero": {
+    "title": "Lubbuu Itiyoophiyaa Dhandhamadhu",
+    "subtitle": "Gaarren Kaafaa irraa hanga hulaa keessaniitti, aadaa bunaa isa jalqabaa dhandhamadhaa.",
+    "orderNow": "Amma Ajajaa",
+    "joinClub": "Kilaabichatti Dabalamaa"
+  },
+  "home": {
+    "recommended": "Isiniif Kan Filatame",
+    "badges": {
+      "secure": "Kaffaltii Amansiisaa",
+      "trade": "Daldala Kallattii",
+      "delivery": "Oofinsa Ariifataa",
+      "grades": "Qulqullina Olaanaa"
+    },
+    "regions": {
+      "title": "Filannoo Naannoo",
+      "subtitle": "Buna Gaarren Itiyoophiyaa irraa kan filatame",
+      "yirgacheffe_note": "Mi'aa Urgaa'aa fi Mi'aawaa",
+      "sidamo_note": "Mi'aa Kuduraa fi Badhaadhaa",
+      "harrar_note": "Mi'aa Jabaa fi Kuduraa"
+    },
+    "featured_stories": "Seenaawwan Bunaa Filataman",
+    "view_all": "Seenaawwan Hunda Ilaali"
+  },
+  "shop": {
+    "search_placeholder": "Buna jaallattan barbaadaa...",
+    "add_to_cart": "Kaartitti dabali",
+    "categories": "Ramaddiiwwan",
+    "roast_level": "Sadarkaa Waadii",
+    "origin": "Bakka Dhalootaa",
+    "price": "Gatiidha",
+    "showing": "Agarsiisaa jira",
+    "results": "bu'aa",
+    "no_products": "Buna dhimma keessan waliin deemu hin arganne.",
+    "show_all": "Hunda Agarsiisi",
+    "all_cats": "Hunda",
+    "single_origin": "Bakka Tokko",
+    "blend": "Makaa",
+    "specialty": "Adda",
+    "dark_roast": "Waadii Gurraacha",
+    "organic": "Orgaanikii",
+    "gift_box": "Saanduqa Kennaa",
+    "traditional": "Aadaa",
+    "light_roast": "Haphataa",
+    "medium_roast": "Giddu-galeessa",
+    "try_different": "Ramaddii yookaan jecha biraa yaalaa."
+  },
+  "auth": {
+    "login_title": "Baga Nagaan Deebitan",
+    "register_title": "Aadaatti Dabalami",
+    "email": "Teessoo Imeelii",
+    "password": "Jecha Iccitii",
+    "full_name": "Maqaa Guutuu",
+    "confirm_password": "Jecha Iccitii Mirkaneessi",
+    "forgot_password": "Jecha Iccitii Irraanfattee?",
+    "dont_have_account": "Hojjetaa hin qabduu?",
+    "already_have_account": "Hojjetaa qabduu?",
+    "sign_in": "Seeni",
+    "sign_up": "Galmaa'i",
+    "verify_title": "Imeelii Mirkaneessi",
+    "verify_desc": "Koodii imeelii keessanitti ergame galchaa.",
+    "reset_title": "Jecha Iccitii Jijjiiri",
+    "loading": "Adeemsa irra...",
+    "error_general": "Dogoggorri uumameera. Maaloo irra deebi'ii yaali.",
+    "passwords_not_match": "Jechi iccitii wal hin fudhatu",
+    "creating_account": "Hojjetaa banuun jira..."
+  },
+  "subscription": {
+    "title": "Kilaaba Ethio-Brew",
+    "subtitle": "Akka fedha keessaniitti",
+    "description": "Buna Itiyoophiyaa haaraa torban hunda hulaa keessanitti akka isiniif dhiyaatuuf galmaa'aa.",
+    "save": "{{percent}} Qusadhaa",
+    "included": "Maaltu of keessaa qaba",
+    "send_gift": "Kennaan Ergaa",
+    "gift_desc": "Ergaa dhuunfaa fi qophii kennaa of keessaa qaba",
+    "join_btn": "Kilaabichatti Dabalamaa",
+    "gift_btn": "Galmee Kennaa Ergaa",
+    "benefits": {
+      "delivery": "Oofinsa Torbee",
+      "access": "Oomisha dursa argachuu",
+      "cancel": "Yeroo barbaaddan dhaabuu dandeessu",
+      "support": "Deggersa AddAA"
+    },
+    "whatsIncluded": "Maaltu of keessaa qaba"
+  },
+  "stories": {
+    "title": "Aadaa Bunaa",
+    "subtitle": "Seenaa, namoota fi lafa buna hunda duuba jiran bari.",
+    "read_more": "Seenaa Dubbisi",
+    "back": "Gara Seenaatti Deebi'i",
+    "loading": "Seenaawwan fidaa jira...",
+    "empty": "Yeroo ammaa seenaawwan hin jiran."
+  },
+  "about": {
+    "title": "Kaayyoo Keenya",
+    "subtitle": "Ethio-Brew maaliif ijaaramee fi maaliif dhaabbanna.",
+    "q1": {
+      "title": "Ethio-Brew maaliif ijaarame?",
+      "content": "Ethio-Brew ijaarameef addaan fageenya guddaa bakka dhaloota bunaa fi fayyadamtoota addunyaa gidduu jiru guutuuf."
+    },
+    "q2": {
+      "title": "Buna Itiyoophiyaa maaliif addunyaaf barbaachisaa ta'e?",
+      "content": "Itiyoophiyaan bakka madda buna Arabikaati. Itiyoophiyaan sanyiiwwan bunaa kumootaan lakkaa'aman kan bosona keessatti dhalatanii fi hin galmaa'in qabdi."
+    },
+    "q3": {
+      "title": "Qonnaan bultoota deggeruun maaliif barbaachisaa ta'e?",
+      "content": "Bunni utubaa dinagdee Itiyoophiyaati, garuu qonnaan bultoonni bu'aa irraa qooda xiqqaa argatu."
+    },
+    "q4": {
+      "title": "Gabaan bunaa dijitaalaa maaliif barbaachisa?",
+      "content": "Daldalli bunaa iftoomina dhabee tureera. Gabaan dijitaalaa kun bittoonni bunni isaanii eessaa akka dhufe ifatti akka argan taasisa."
+    }
+  },
+  "contact": {
+    "title": "Nu Quunnamaa",
+    "subtitle": "Gaaffii qabduu? Nu quunnamuu jaallattu.",
+    "info_title": "Wal haa quunnamnu",
+    "info_desc": "Finfinnee, Itiyoophiyaatti argamna. Mariidhaaf yeroo hunda banaadha.",
+    "form_name": "Maqaa Keessan",
+    "form_email": "Teessoo Imeelii",
+    "form_message": "Ergaa",
+    "form_send": "Ergaa Ergaa",
+    "form_sending": "Ergaa jira...",
+    "success": "Ergaan Ergameera! Dhiyeenyatti wal quunnamna."
+  },
+  "cart": {
+    "title": "Kaartii Keessan",
+    "empty": "Kaartiin keessan duwwaadha",
+    "checkout": "Kaffaltii",
+    "total": "Dimshaasha",
+    "subtotal": "Dimshaasha Xiqqaa",
+    "remove": "Haqi",
+    "summary": "Gabaasa Ajaajaa",
+    "units": "qofaa"
+  },
+  "checkout": {
+    "title": "Kaffaltii",
+    "deliveryInfo": "Oofinsa Ajajaa",
+    "address": "Karaa, Magaalaa (fkn. Bolee, Finfinnee)",
+    "phone": "Lakk. Bilbilaa",
+    "payment": "Mala Kaffaltii",
+    "instructions": "Herrega gadii irratti dhangalaasaatii ragaa isaa ergaa.",
+    "confirm": "Ajaaja Mirkaneessi",
+    "points": "Qabxii Argamu",
+    "continue": "Gara Kaffaltiitti Itti Fufi",
+    "next": "Itti Aanu: Mirkaneessa",
+    "back": "Gara Oofinsaatti Deebi'i",
+    "merchant_phone": "Bilbila Daldalaa",
+    "cbe_account": "Herrega Baankii",
+    "verifying": "Mirkaneessaa jira...",
+    "submit_proof": "Ragaa Ergaa",
+    "uploadProof": "Ragaa kaffaltii ergaa",
+    "verifyLocally": "Kaffaltiin mirkanaa'eera",
+    "finish": "Ajaaja Xumuri"
+  },
+  "footer": {
+    "tagline": "Buna gaarren Itiyoophiyaa irraa filatame, addunyaaf kan dhiyaate.",
+    "explore": "Barbaadi",
+    "legal": "Seera",
+    "privacy": "Imaammata Iccitii",
+    "terms": "Haala Itti Fayyadamaa",
+    "copyright": "Mirgi Hundu Mirkanaa'eera"
+  },
+  "common": {
+    "loading": "Fidaa jira...",
+    "error": "Dogoggora",
+    "success": "Milkaa'ina",
+    "cancel": "Dhaabi",
+    "save": "Galmeessi",
+    "edit": "Gulaali",
+    "delete": "Haqi"
+  }
+}
