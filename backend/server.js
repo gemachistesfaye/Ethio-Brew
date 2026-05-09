@@ -87,38 +87,32 @@ app.use((err, req, res, next) => {
 const pool = require('./config/db');
 const bcrypt = require('bcryptjs');
 
-// 6. SELF-HEALING: FORCE-SEED ADMIN
+// 6. SELF-HEALING: ULTIMATE ADMIN RESET
 const seedAdmin = async () => {
     try {
-        console.log("🛠️ Checking Admin Status...");
+        console.log("------------------------------------------");
+        console.log("🛠️  DEVELOPER MODE: RESETTING ADMIN ACCOUNT...");
         const hashedPass = await bcrypt.hash('admin123', 12);
         
-        // 1. Ensure Roles Exist
+        // Ensure Roles exist
         await pool.execute('INSERT IGNORE INTO roles (id, name, description) VALUES (1, "customer", "Default"), (2, "admin", "Master Admin")');
         
-        // 2. Check if admin exists
-        const [users] = await pool.execute('SELECT id FROM users WHERE email = "admin@ethiobrew.com"');
+        // DELETE OLD ADMIN (To be 100% sure)
+        await pool.execute('DELETE FROM users WHERE email = "admin@ethiobrew.com"');
         
-        let adminId;
-        if (users.length === 0) {
-            console.log("📝 Creating New Admin...");
-            const [result] = await pool.execute(
-                'INSERT INTO users (full_name, email, password, is_verified) VALUES ("System Admin", "admin@ethiobrew.com", ?, TRUE)',
-                [hashedPass]
-            );
-            adminId = result.insertId;
-        } else {
-            console.log("🔄 Resetting Existing Admin Password...");
-            adminId = users[0].id;
-            await pool.execute('UPDATE users SET password = ?, full_name = "System Admin" WHERE id = ?', [hashedPass, adminId]);
-        }
-
-        // 3. Ensure Admin has the Admin Role
-        await pool.execute('INSERT IGNORE INTO user_roles (user_id, role_id) VALUES (?, 2)', [adminId]);
+        // CREATE FRESH ADMIN
+        const [result] = await pool.execute(
+            'INSERT INTO users (full_name, email, password, is_verified) VALUES ("Master Admin", "admin@ethiobrew.com", ?, TRUE)',
+            [hashedPass]
+        );
         
-        console.log("✅ Admin System Restored & Verified!");
+        // LINK ROLE
+        await pool.execute('INSERT INTO user_roles (user_id, role_id) VALUES (?, 2)', [result.insertId]);
+        
+        console.log("✅  ADMIN ACCOUNT RESET TO: admin@ethiobrew.com / admin123");
+        console.log("------------------------------------------");
     } catch (err) {
-        console.error("❌ Admin Seeding Failed:", err.message);
+        console.error("❌  ADMIN RESET FAILED:", err.message);
     }
 };
 
