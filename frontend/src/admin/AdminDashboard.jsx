@@ -33,7 +33,13 @@ const AdminDashboard = () => {
 
   const COLORS = ['#006341', '#FFD700', '#4B2C20', '#A52A2A'];
 
-  if (loading) return <div className="p-20 text-center font-bold text-[#4B2C20] animate-pulse">Loading Business Intelligence...</div>;
+  if (loading) return <div className="p-20 text-center font-bold text-[#4B2C20] animate-pulse italic">Brewing your business insights...</div>;
+  
+  if (!data || !data.overview) return (
+    <div className="p-20 text-center text-red-500 font-bold">
+      Failed to load analytics. Please ensure your backend is running and you are logged in as admin.
+    </div>
+  );
 
   return (
     <div className="p-8 bg-[#FDFCF8] min-h-screen">

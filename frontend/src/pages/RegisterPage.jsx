@@ -32,8 +32,8 @@ const RegisterPage = () => {
 
     setLoading(true);
     try {
-      const data = await authService.register(formData);
-      navigate('/verify', { state: { userId: data.userId, email: formData.email, password: formData.password } });
+      await authService.register(formData);
+      navigate('/login', { state: { message: 'Registration successful! Please login.' } });
     } catch (err) {
       setError(err.response?.data?.message || t('auth.error_general'));
     } finally {

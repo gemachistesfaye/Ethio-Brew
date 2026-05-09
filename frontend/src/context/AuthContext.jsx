@@ -19,7 +19,11 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     const data = await authService.login(credentials);
-    setUser(data.user);
+    if (data.user) {
+      localStorage.setItem('user', JSON.stringify(data.user));
+      if (data.token) localStorage.setItem('token', data.token);
+      setUser(data.user);
+    }
     return data;
   };
 
@@ -29,6 +33,8 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       console.error(err);
     }
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     setUser(null);
   };
 

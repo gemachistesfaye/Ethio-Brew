@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db'); // Assuming db.js exists and exports a promise-based pool
 
 // @desc    Get dashboard analytics
 // @route   GET /api/admin/analytics
 router.get('/analytics', async (req, res) => {
     try {
-        // In a real app, these would be separate optimized queries
-        // For now, we'll return structured mock data until the DB is fully populated
+        console.log("Admin Analytics Requested by:", req.user.email);
+        
+        // Return high-fidelity mock data for the enterprise demo
         const analytics = {
             overview: {
                 totalRevenue: 125430.50,
@@ -38,9 +38,10 @@ router.get('/analytics', async (req, res) => {
             ]
         };
 
-        res.json(analytics);
+        res.status(200).json(analytics);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("Analytics Route Error:", error);
+        res.status(500).json({ message: "Internal Server Error in Analytics" });
     }
 });
 

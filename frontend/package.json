@@ -20,7 +20,8 @@
     "react-chartjs-2": "^3.3.0",
     "react-dom": "^19.2.4",
     "react-i18next": "^15.4.0",
-    "react-router-dom": "^7.1.0"
+    "react-router-dom": "^7.1.0",
+    "recharts": "^2.12.7"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

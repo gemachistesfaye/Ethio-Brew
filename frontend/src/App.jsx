@@ -12,10 +12,9 @@ import ChatAssistant from './components/ChatAssistant';
 import OrderTracker from './components/OrderTracker';
 
 // Pages
-import HomePage from './pages/HomePage';
-import ShopPage from './pages/ShopPage';
+import HomePage from './pages/Home';
+import ShopPage from './pages/MenuPage';
 import StoriesPage from './pages/StoriesPage';
-import StoryDetailPage from './pages/StoryDetailPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
@@ -23,7 +22,7 @@ import RegisterPage from './pages/RegisterPage';
 import CheckoutPage from './pages/CheckoutPage';
 
 // Admin
-import AdminDashboard from './admin/AdminDashboard';
+import AdminLayout from './admin/AdminLayout';
 
 const App = () => {
   const { t, language } = useTranslation();
@@ -39,7 +38,6 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/stories" element={<StoriesPage />} />
-          <Route path="/stories/:id" element={<StoryDetailPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -50,7 +48,7 @@ const App = () => {
           <Route path="/track/:id" element={<div className="py-20 px-4 bg-gray-50"><OrderTracker /></div>} />
 
           {/* Admin Dashboard Route */}
-          <Route path="/admin/*" element={<AdminDashboard />} />
+          <Route path="/admin/*" element={<AdminLayout />} />
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
