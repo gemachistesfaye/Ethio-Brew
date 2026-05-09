@@ -16,9 +16,12 @@ const LoginPage = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
-    try {
-      await login(formData);
-      navigate('/');
+      const res = await login(formData);
+      if (res?.user?.roles?.includes('admin')) {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       if (err.response?.status === 403) {
         navigate('/verify', { state: { userId: err.response.data.userId } });
