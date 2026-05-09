@@ -181,6 +181,42 @@ const Home = ({ setPage, onProductClick }) => {
         </div>
       </section>
 
+      {/* Featured Story Section */}
+      <section className="py-24 px-6 bg-white overflow-hidden">
+         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="flex-1"
+            >
+               <div className="inline-block px-4 py-1.5 bg-[#FFD700] rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-6 shadow-sm">
+                  The Legend
+               </div>
+               <h2 className="text-4xl md:text-6xl font-black text-[#4B2C20] mb-8 leading-tight">
+                  The Soul of <br/> <span className="text-[#006341]">Ethiopia</span> in Every Sip
+               </h2>
+               <p className="text-lg text-gray-500 font-medium leading-relaxed mb-10 italic">
+                  "From the highlands of Guji to the ancient ceremonies of Addis Ababa, coffee is more than a drink—it is our history, our hospitality, and our heartbeat."
+               </p>
+               <button onClick={() => setPage('stories')} className="px-10 py-5 bg-[#4B2C20] text-white rounded-[24px] font-black text-sm shadow-2xl hover:scale-105 transition-all flex items-center gap-3 group">
+                  Read the Legend <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
+               </button>
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              className="flex-1 relative"
+            >
+               <div className="absolute -inset-4 bg-[#006341]/5 rounded-[60px] -rotate-3" />
+               <img 
+                 src="https://images.unsplash.com/photo-1544787210-2213d84ad960?auto=format&fit=crop&q=80&w=800" 
+                 className="relative w-full rounded-[48px] shadow-2xl rotate-3 hover:rotate-0 transition duration-700" 
+                 alt="Traditional Ceremony" 
+               />
+            </motion.div>
+         </div>
+      </section>
+
       {/* Featured Coffee Stories */}
       <section className="py-20 px-4 bg-gray-50/50 border-t border-gray-100">
         <div className="max-w-7xl mx-auto">

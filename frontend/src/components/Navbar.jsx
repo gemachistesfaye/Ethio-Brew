@@ -36,12 +36,12 @@ const Navbar = ({ toggleCart, cartCount = 0 }) => {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center gap-10 font-bold text-sm">
-          {['home', 'shop', 'stories', 'about', 'contact'].map((page) => (
+        <div className="hidden lg:flex items-center gap-8 font-bold text-sm">
+          {['home', 'shop', 'blog', 'stories', 'about', 'contact', 'settings'].map((page) => (
             <button
               key={page}
               onClick={() => navigate(page === 'home' ? '/' : `/${page}`)}
-              className="capitalize text-gray-500 hover:text-[#006341] transition tracking-wide"
+              className="capitalize text-gray-500 hover:text-[#006341] transition tracking-wide whitespace-nowrap"
             >
               {t(`nav.${page}`)}
             </button>
@@ -123,12 +123,12 @@ const Navbar = ({ toggleCart, cartCount = 0 }) => {
                <span className="font-black text-xl text-[#4B2C20]">Menu</span>
                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 bg-gray-100 rounded-full"><X size={20}/></button>
             </div>
-            <div className="flex flex-col gap-6">
-              {['home', 'shop', 'stories', 'about', 'contact'].map((page) => (
+            <div className="flex flex-col gap-5">
+              {['home', 'shop', 'blog', 'stories', 'about', 'contact', 'settings'].map((page) => (
                 <button
                   key={page}
                   onClick={() => { navigate(page === 'home' ? '/' : `/${page}`); setIsMobileMenuOpen(false); }}
-                  className="text-left text-2xl font-black text-[#4B2C20] active:text-[#006341]"
+                  className="text-left text-xl font-black text-[#4B2C20] active:text-[#006341]"
                 >
                   {t(`nav.${page}`)}
                 </button>

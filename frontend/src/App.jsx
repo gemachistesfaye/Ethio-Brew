@@ -15,6 +15,7 @@ import OrderTracker from './components/OrderTracker';
 import HomePage from './pages/Home';
 import ShopPage from './pages/MenuPage';
 import StoriesPage from './pages/StoriesPage';
+import BlogPage from './pages/BlogPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
@@ -38,8 +39,10 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/stories" element={<StoriesPage />} />
+          <Route path="/blog" element={<BlogPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/settings" element={<div className="p-20 text-center font-bold text-[#4B2C20]">User Settings Center (Coming Soon)</div>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
