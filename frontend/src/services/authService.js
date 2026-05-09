@@ -5,7 +5,9 @@ axios.defaults.withCredentials = true;
 
 const authService = {
   register: async (userData) => {
-    const response = await axios.post(`${API_URL}/register`, userData);
+    const response = await axios.post(`${API_URL}/register`, userData, {
+      withCredentials: true
+    });
     return response.data;
   },
   verify: async (userId) => {
