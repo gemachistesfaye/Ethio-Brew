@@ -64,88 +64,97 @@ export const MOCK_BLOGS = [
 ];
 
 export const MOCK_COFFEE = [
+  // --- Single Origin ---
   {
-    id: '1',
-    name: 'Yirgacheffe Special',
-    name_am: 'ይርጋጨፌ ልዩ',
-    name_om: 'Yirgaacheeffee Addaa',
+    id: '1', name: 'Yirgacheffe Special', name_am: 'ይርጋጨፌ ልዩ', name_om: 'Yirgaacheeffee Addaa',
     description: 'Floral and citric notes with a light body and complex acidity.',
-    description_am: 'የአበባ እና የሎሚ ጣዕም ያለው፣ ቀለል ያለ እና ውስብስብ አሲዳማነት ያለው።',
-    description_om: 'Mi\'a urgaa fi dhandhama loomii kan qabu.',
-    origin: 'Yirgacheffe',
-    roast: 'Light',
-    price: 450,
+    origin: 'Yirgacheffe', roast: 'Light', price: 450, rating: 4.9,
     imageUrl: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800',
-    flavorNotes: ['Floral', 'Lemon', 'Honey'],
-    category: 'Single Origin'
+    flavorNotes: ['Floral', 'Lemon', 'Honey'], category: 'Single Origin'
   },
   {
-    id: '2',
-    name: 'Sidamo Sun-Dried',
-    name_am: 'ሲዳሞ በፀሐይ የደረቀ',
-    name_om: 'Sidaamoo Aduun Goge',
+    id: '2', name: 'Sidamo Sun-Dried', name_am: 'ሲዳሞ በፀሐይ የደረቀ', name_om: 'Sidaamoo Aduun Goge',
     description: 'Rich berry flavors with a creamy mouthfeel and chocolate finish.',
-    description_am: 'የቤሪ ፍሬዎች ጣዕም ያለው፣ ክሬም የመሰለ እና የቸኮሌት መልክ ያለው።',
-    description_om: 'Dhandhama fuduraa fi chokolaataa kan qabu.',
-    origin: 'Sidamo',
-    roast: 'Medium',
-    price: 380,
+    origin: 'Sidamo', roast: 'Medium', price: 380, rating: 4.8,
     imageUrl: 'https://images.unsplash.com/photo-1580915411954-282cb1b0d780?auto=format&fit=crop&q=80&w=800',
-    flavorNotes: ['Blueberry', 'Chocolate', 'Nutty'],
-    category: 'Single Origin'
+    flavorNotes: ['Blueberry', 'Chocolate', 'Nutty'], category: 'Single Origin'
+  },
+  // --- Blend ---
+  {
+    id: '3', name: 'Habesha Blend', name_am: 'ሐበሻ ብሌንድ',
+    description: 'Our signature blend of the finest highland beans for everyday excellence.',
+    origin: 'Ethiopian Highlands', roast: 'Medium', price: 350, rating: 4.7,
+    imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800',
+    flavorNotes: ['Balanced', 'Sweet', 'Spicy'], category: 'Blend'
   },
   {
-    id: '3',
-    name: 'Harrar Bold',
-    nameAm: 'ሐረር ቦልድ',
-    description: 'Winey, heavy body with wild and exotic notes.',
-    descriptionAm: 'የወይን ጣዕም ያለው፣ ከበድ ያለ እና እንግዳ የሆኑ ጣዕሞች ያሉት።',
-    origin: 'Harrar',
-    roast: 'Dark',
-    price: 420,
-    imageUrl: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=1000',
-    flavorNotes: ['Blackberry', 'Wild', 'Earthy'],
-    category: 'Single Origin'
+    id: '4', name: 'Sunrise Espresso Blend', name_am: 'የንጋት ብሌንድ',
+    description: 'A rich, full-bodied espresso blend crafted for the perfect morning shot.',
+    origin: 'Multi-Region', roast: 'Dark', price: 390, rating: 4.8,
+    imageUrl: 'https://images.unsplash.com/photo-1534040385115-33dcb3acba5b?auto=format&fit=crop&q=80&w=800',
+    flavorNotes: ['Caramel', 'Cocoa', 'Bold'], category: 'Blend'
+  },
+  // --- Specialty ---
+  {
+    id: '5', name: 'Kaffa Heirloom', name_am: 'የካፋ ቅርስ',
+    description: 'Ancient heirloom varieties from the deep wild forests of Kaffa.',
+    origin: 'Kaffa', roast: 'Medium', price: 480, rating: 4.9,
+    imageUrl: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&q=80&w=800',
+    flavorNotes: ['Earthy', 'Spicy', 'Tobacco'], category: 'Specialty'
   },
   {
-    id: '4',
-    name: 'Habesha Blend',
-    nameAm: 'ሐበሻ ብሌንድ',
-    description: 'Our signature blend of the finest highland beans.',
-    descriptionAm: 'ከምርጥ የደጋ ጥራጥሬዎች የተመረጠ የእኛ ልዩ ድብልቅ።',
-    origin: 'Highlands',
-    roast: 'Medium',
-    price: 350,
-    imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000',
-    flavorNotes: ['Balanced', 'Sweet', 'Spicy'],
-    category: 'Blend'
-  },
-  {
-    id: '5',
-    name: 'Kaffa Heirloom',
-    nameAm: 'የካፋ ቅርስ',
-    description: 'Ancient heirloom varieties from the deep forests of Kaffa.',
-    descriptionAm: 'ከካፋ ጥልቅ ደኖች የተገኙ ጥንታዊ የቡና ዝርያዎች።',
-    origin: 'Kaffa',
-    roast: 'Medium',
-    price: 480,
-    imageUrl: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=800',
-    flavorNotes: ['Earthy', 'Spicy', 'Tobacco'],
-    category: 'Specialty'
-  },
-  {
-    id: '6',
-    name: 'Guji Honey',
-    nameAm: 'የጉጂ ማር',
-    description: 'Processed using the honey method for intense sweetness.',
-    descriptionAm: 'ለከፍተኛ ጣፋጭነት በማር ዘዴ የተዘጋጀ።',
-    origin: 'Guji',
-    roast: 'Light',
-    price: 520,
+    id: '6', name: 'Guji Honey Process', name_am: 'የጉጂ ማር',
+    description: 'Honey-processed for intense natural sweetness and a silky finish.',
+    origin: 'Guji', roast: 'Light', price: 520, rating: 5.0,
     imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=800',
-    flavorNotes: ['Jasmine', 'Honey', 'Peach'],
-    category: 'Specialty'
-  }
+    flavorNotes: ['Jasmine', 'Honey', 'Peach'], category: 'Specialty'
+  },
+  // --- Dark Roast ---
+  {
+    id: '7', name: 'Harrar Bold Dark', name_am: 'ሐረር ቦልድ',
+    description: 'Winey, heavy body with wild and exotic mocha-like notes.',
+    origin: 'Harrar', roast: 'Dark', price: 420, rating: 4.7,
+    imageUrl: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800',
+    flavorNotes: ['Blackberry', 'Wild', 'Earthy'], category: 'Dark Roast'
+  },
+  {
+    id: '8', name: 'Midnight Espresso', name_am: 'የሌሊት ቡና',
+    description: 'Deep-roasted Ethiopian dark beans for a bold, smoky espresso experience.',
+    origin: 'Sidamo', roast: 'Dark', price: 400, rating: 4.6,
+    imageUrl: 'https://images.unsplash.com/photo-1572286258217-40f8b21c0b4e?auto=format&fit=crop&q=80&w=800',
+    flavorNotes: ['Smoke', 'Dark Chocolate', 'Bold'], category: 'Dark Roast'
+  },
+  // --- Organic ---
+  {
+    id: '9', name: 'Jimma Organic', name_am: 'ጅማ ኦርጋኒክ',
+    description: 'Certified organic beans from the Jimma highlands, naturally grown.',
+    origin: 'Jimma', roast: 'Medium', price: 460, rating: 4.8,
+    imageUrl: 'https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&q=80&w=800',
+    flavorNotes: ['Clean', 'Sweet', 'Smooth'], category: 'Organic'
+  },
+  {
+    id: '10', name: 'Bench Maji Wild Organic', name_am: 'ቤንች ማጂ ዱር',
+    description: 'Wild-harvested organic coffee from the untouched Bench Maji forest.',
+    origin: 'Bench Maji', roast: 'Light', price: 510, rating: 4.9,
+    imageUrl: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=800',
+    flavorNotes: ['Floral', 'Herbal', 'Wild'], category: 'Organic'
+  },
+  // --- Gift Box ---
+  {
+    id: '11', name: 'Ethiopian Tasting Box', name_am: 'የኢትዮጵያ ቅምሻ ሳጥን',
+    description: 'A curated gift set of 4 premium Ethiopian single-origin coffees.',
+    origin: 'Multi-Region', roast: 'Mixed', price: 980, rating: 5.0,
+    imageUrl: 'https://images.unsplash.com/photo-1520341280432-4749d4d7bcf1?auto=format&fit=crop&q=80&w=800',
+    flavorNotes: ['Variety', 'Premium', 'Gift'], category: 'Gift Box'
+  },
+  // --- Traditional ---
+  {
+    id: '12', name: 'Buna Ceremony Blend', name_am: 'ቡና ስነ-ስርዓት ብሌንድ',
+    description: 'Inspired by the traditional Ethiopian ceremony — full body, rich aroma.',
+    origin: 'Kaffa / Jimma', roast: 'Medium-Dark', price: 430, rating: 4.8,
+    imageUrl: 'https://images.unsplash.com/photo-1578374173708-cbaf11b9b21a?auto=format&fit=crop&q=80&w=800',
+    flavorNotes: ['Incense', 'Earthy', 'Rich'], category: 'Traditional'
+  },
 ];
 
 export const TESTIMONIALS = [
