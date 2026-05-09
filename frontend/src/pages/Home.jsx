@@ -105,6 +105,56 @@ const Home = ({ setPage, onProductClick }) => {
           ))}
         </div>
       </section>
+      <section className="py-20 px-4 bg-gray-50/50 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-12">
+            <div>
+              <span className="text-[#006341] font-bold uppercase tracking-widest text-sm">Our Heritage</span>
+              <h2 className="text-3xl md:text-5xl font-bold mt-2">Featured Coffee Stories</h2>
+            </div>
+            <button onClick={() => setPage('blog')} className="hidden md:flex items-center gap-2 text-[#4B2C20] font-bold hover:text-[#006341] transition">
+              View All Stories <ChevronRight size={20} />
+            </button>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "The Legend of Kaldi",
+                desc: "Discover the mythological origins of coffee from the dancing goats of the Kaffa region.",
+                img: "https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&q=80&w=800"
+              },
+              {
+                title: "The Buna Ceremony",
+                desc: "An inside look into the traditional Ethiopian coffee ceremony and its cultural significance.",
+                img: "https://images.unsplash.com/photo-1620331006509-f00e69ba3e91?auto=format&fit=crop&q=80&w=800"
+              },
+              {
+                title: "From Bean to Cup",
+                desc: "Follow the journey of our beans from the high-altitude farms directly to your morning cup.",
+                img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800"
+              }
+            ].map((story, i) => (
+              <div key={i} className="bg-white rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition group flex flex-col border border-gray-100">
+                <img src={story.img} className="w-full h-56 object-cover group-hover:scale-105 transition duration-500" />
+                <div className="p-8 flex flex-col flex-grow">
+                  <h3 className="text-xl font-bold mb-3">{story.title}</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed mb-6 flex-grow">{story.desc}</p>
+                  <button 
+                    onClick={() => setPage('blog')}
+                    className="self-start px-6 py-3 bg-gray-50 text-[#006341] rounded-xl font-bold text-sm hover:bg-[#006341] hover:text-white transition"
+                  >
+                    Read Story
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button onClick={() => setPage('blog')} className="w-full mt-8 py-4 bg-gray-100 rounded-xl font-bold text-[#4B2C20] md:hidden">
+            View All Stories
+          </button>
+        </div>
+      </section>
     </div>
   );
 };

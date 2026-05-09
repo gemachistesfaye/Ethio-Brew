@@ -26,6 +26,17 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/auth', authRoutes);
 
+// AI Route (Simulated or Real depending on env)
+app.post('/api/ai', async (req, res) => {
+  const { message } = req.body;
+  if (!process.env.GEMINI_API_KEY) {
+    // Simulated AI response for demo if no key
+    return res.json({ response: "Hello! I am the Ethio-Brew AI assistant. I can help you pick the perfect coffee. How can I assist you today?" });
+  }
+  // If actual integration is required later, we would call the API here.
+  res.json({ response: `You asked: "${message}". Our coffee experts are currently offline, but this is a simulated response!` });
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Ethio-Brew API is live on port ${PORT}`);
@@ -33,4 +44,5 @@ app.listen(PORT, () => {
   console.log(`- Orders: http://localhost:${PORT}/api/orders`);
   console.log(`- Payments: http://localhost:${PORT}/api/payments`);
   console.log(`- Auth: http://localhost:${PORT}/api/auth`);
+  console.log(`- AI: http://localhost:${PORT}/api/ai`);
 });

@@ -1,51 +1,41 @@
 import React from 'react';
-import { Target, Heart, Eye, Handshake } from 'lucide-react';
 
 const AboutPage = () => {
   return (
-    <div className="py-20 px-4 max-w-7xl mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
-        <div className="relative">
-           <img 
-            src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=800" 
-            className="rounded-[60px] shadow-2xl relative z-10"
-           />
-           <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-[#FFD700] rounded-full -z-0 opacity-20 blur-3xl"></div>
-        </div>
-        <div>
-          <span className="text-[#006341] font-bold uppercase tracking-[0.3em] text-xs">Our Heritage</span>
-          <h1 className="text-4xl md:text-6xl font-extrabold mt-4 mb-8">More Than a Drink, It's a Tradition.</h1>
-          <p className="text-gray-500 text-lg leading-relaxed mb-8">
-            Ethio-Brew was founded with a single mission: to connect the world directly to the ancestral home of coffee. We believe that every bean tells the story of the farmers, the soil, and the rich Ethiopian tradition that dates back over a thousand years.
-          </p>
-          <div className="grid grid-cols-2 gap-8">
-            <div>
-              <p className="text-3xl font-extrabold text-[#4B2C20]">100%</p>
-              <p className="text-sm text-gray-400 font-medium">Direct Trade</p>
-            </div>
-            <div>
-              <p className="text-3xl font-extrabold text-[#4B2C20]">50+</p>
-              <p className="text-sm text-gray-400 font-medium">Local Farmers</p>
-            </div>
-          </div>
-        </div>
+    <div className="py-20 px-4 max-w-4xl mx-auto animate-in fade-in duration-500">
+      <div className="text-center mb-16">
+        <h1 className="text-4xl md:text-6xl font-extrabold mb-6 text-[#4B2C20]">Our Purpose</h1>
+        <p className="text-gray-500 text-lg">Why Ethio-Brew was built and what we stand for.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        {[
-          { icon: <Target />, title: "Our Mission", desc: "To empower Ethiopian farmers while delivering the freshest specialty beans to your doorstep." },
-          { icon: <Heart />, title: "Our Values", desc: "Fair pay, sustainable farming, and preserving the cultural sanctity of the coffee ceremony." },
-          { icon: <Handshake />, title: "Direct Partnerships", desc: "We skip the middlemen to ensure that the value returns to the highland communities." },
-          { icon: <Eye />, title: "Our Vision", desc: "To become the global bridge between Ethiopian heritage and the modern coffee connoisseur." }
-        ].map((item, i) => (
-          <div key={i} className="bg-white p-10 rounded-[40px] border border-gray-50 text-center hover:shadow-xl transition-all duration-500">
-            <div className="w-16 h-16 bg-gray-50 text-[#006341] rounded-3xl flex items-center justify-center mx-auto mb-6">
-              {item.icon}
-            </div>
-            <h3 className="text-xl font-bold mb-4">{item.title}</h3>
-            <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
-          </div>
-        ))}
+      <div className="space-y-16">
+        <section>
+          <h2 className="text-2xl font-bold text-[#006341] mb-4">Why does Ethio-Brew exist?</h2>
+          <p className="text-gray-600 leading-relaxed text-lg">
+            Ethio-Brew exists to bridge the massive gap between the birthplace of coffee and global consumers. Historically, Ethiopian coffee has been commoditized and mixed, losing its unique regional identities. We built this platform to offer a direct, transparent channel where consumers can buy 100% authentic, single-origin Ethiopian beans directly from the source.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold text-[#006341] mb-4">Why is Ethiopian coffee globally important?</h2>
+          <p className="text-gray-600 leading-relaxed text-lg">
+            Ethiopia is the genetic birthplace of Coffea arabica. Unlike other regions where coffee was introduced, Ethiopia has thousands of undocumented heirloom varieties growing wild in its forests. This incredible genetic diversity produces flavor profiles—from intense floral notes in Yirgacheffe to heavy berry profiles in Harrar—that simply cannot be replicated anywhere else on Earth.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold text-[#006341] mb-4">Why does supporting farmers matter?</h2>
+          <p className="text-gray-600 leading-relaxed text-lg">
+            Coffee is the backbone of the Ethiopian economy, yet the farmers who cultivate these world-class beans often receive the smallest fraction of the profit. Traditional supply chains are filled with middlemen. By prioritizing direct trade, Ethio-Brew ensures that farmers are paid fairly for their labor and expertise. Fair compensation empowers communities, funds local education, and encourages sustainable farming practices that protect the coffee forests.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold text-[#006341] mb-4">Why is a digital coffee marketplace needed?</h2>
+          <p className="text-gray-600 leading-relaxed text-lg">
+            In an era of instant global connectivity, the coffee trade has remained unnecessarily opaque. A digital marketplace cuts through the noise. It provides transparency, allowing buyers to see exactly where their coffee comes from, who grew it, and how it was processed. This digital infrastructure removes geographical barriers, allowing a farmer in the highlands of Sidamo to sell directly to a coffee lover halfway across the world, ensuring freshness and authenticity.
+          </p>
+        </section>
       </div>
     </div>
   );

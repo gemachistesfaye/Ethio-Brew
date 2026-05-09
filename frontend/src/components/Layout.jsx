@@ -34,10 +34,10 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
           </div>
 
           <div className="hidden md:flex items-center gap-8 font-medium">
-            {['home', 'menu', 'subscription', 'blog', 'about'].map((page) => (
+            {['home', 'shop', 'blog', 'about', 'stories', 'categories', 'contact'].map((page) => (
               <button
                 key={page}
-                onClick={() => { setCurrentPage(page); navigate(page === 'home' ? '/' : `/${page}`); }}
+                onClick={() => { setCurrentPage(page); navigate(page === 'home' ? '/' : page === 'shop' ? '/menu' : `/${page}`); }}
                 className={`capitalize hover:text-[#006341] transition ${currentPage === page ? 'text-[#006341] border-b-2 border-[#006341]' : 'text-gray-600'}`}
               >
                 {t(`nav.${page}`, page)}
@@ -46,10 +46,6 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-1 bg-[#FFD700]/10 text-[#4B2C20] px-3 py-1.5 rounded-full border border-[#FFD700]/30">
-              <Award size={14} className="text-[#DAA520]" />
-              <span className="text-xs font-bold">{points} <span className="opacity-60">{t('loyalty.points')}</span></span>
-            </div>
             
             <div className="flex bg-gray-100 p-1 rounded-xl">
               {['en', 'am', 'om'].map((lang) => (
@@ -88,7 +84,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
                       <p className="text-[10px] text-gray-400 truncate">{user.email}</p>
                     </div>
                     <button onClick={() => { navigate('/settings'); setIsUserMenuOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 flex items-center gap-2">
-                      <Settings size={16} /> {t('nav.settings')}
+                      <Settings size={16} /> Settings
                     </button>
                     {user.role === 'admin' && (
                        <button onClick={() => { navigate('/admin'); setIsUserMenuOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 flex items-center gap-2">
@@ -96,7 +92,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
                       </button>
                     )}
                     <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2">
-                      <LogOut size={16} /> {t('nav.logout')}
+                      <LogOut size={16} /> Logout
                     </button>
                   </div>
                 )}
@@ -125,21 +121,30 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
               <button onClick={() => setIsMobileMenuOpen(false)}><X /></button>
             </div>
             <div className="flex flex-col gap-6 font-medium">
-              {['home', 'menu', 'subscription', 'blog', 'about', 'contact'].map((page) => (
+              {['home', 'shop', 'blog', 'about', 'stories', 'categories', 'contact'].map((page) => (
                 <button
                   key={page}
                   onClick={() => { 
                     setCurrentPage(page); 
-                    navigate(page === 'home' ? '/' : `/${page}`);
+                    navigate(page === 'home' ? '/' : page === 'shop' ? '/menu' : `/${page}`);
                     setIsMobileMenuOpen(false); 
                   }}
                   className="text-left capitalize text-xl flex items-center justify-between"
                 >
-                  {t(`nav.${page}`)}
+                  {t(`nav.${page}`, page)}
                   <ChevronRight size={18} />
                 </button>
               ))}
-              {!user && (
+              {user ? (
+                <>
+                  <button onClick={() => { navigate('/settings'); setIsMobileMenuOpen(false); }} className="text-left capitalize text-xl flex items-center justify-between">
+                    Settings <Settings size={18} />
+                  </button>
+                  <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="text-left capitalize text-xl flex items-center justify-between text-red-600">
+                    Logout <LogOut size={18} />
+                  </button>
+                </>
+              ) : (
                  <button onClick={() => { navigate('/login'); setIsMobileMenuOpen(false); }} className="mt-4 bg-[#006341] text-white py-4 rounded-xl font-bold">Login</button>
               )}
             </div>

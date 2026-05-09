@@ -135,10 +135,6 @@ const CheckoutPage = ({ cart, total, onOrderComplete }) => {
                 <span>{t('cart.subtotal')}</span>
                 <span>{total} ETB</span>
              </div>
-             <div className="flex justify-between text-gray-500 text-sm">
-                <span>{t('cart.pointsEarned')}</span>
-                <span className="text-[#DAA520] font-bold">+{Math.floor(total / 10)}</span>
-             </div>
              <div className="flex justify-between items-center pt-4 text-2xl font-bold">
                 <span>{t('cart.total')}</span>
                 <span className="text-[#006341]">{total} ETB</span>

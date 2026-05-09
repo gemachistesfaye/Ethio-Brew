@@ -44,7 +44,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
 const Storefront = ({ 
   t, i18n, cart, cartCount, cartTotal, isCartOpen, setIsCartOpen, 
   currentPage, setCurrentPage, orderComplete, setOrderComplete,
-  selectedProduct, setSelectedProduct, points, addToCart, 
+  selectedProduct, setSelectedProduct, addToCart, 
   updateQuantity, removeFromCart, handleOrderComplete 
 }) => {
   const currentLang = i18n.language;
@@ -78,6 +78,9 @@ const Storefront = ({
         <Route path="subscription" element={<SubscriptionPage />} />
         <Route path="blog" element={<BlogPage />} />
         <Route path="about" element={<AboutPage />} />
+        <Route path="stories" element={<div className="py-32 text-center text-gray-400 font-bold text-2xl">Stories Coming Soon...</div>} />
+        <Route path="categories" element={<div className="py-32 text-center text-gray-400 font-bold text-2xl">Categories Coming Soon...</div>} />
+        <Route path="contact" element={<div className="py-32 text-center text-gray-400 font-bold text-2xl">Contact Page Coming Soon...</div>} />
         <Route path="checkout" element={
           <ProtectedRoute>
             <CheckoutPage cart={cart} total={cartTotal} onOrderComplete={handleOrderComplete} />
@@ -98,7 +101,6 @@ const Storefront = ({
       toggleCart={() => setIsCartOpen(!isCartOpen)} 
       currentPage={currentPage} 
       setCurrentPage={setCurrentPage}
-      points={points}
     >
       {renderPage()}
       <ProductModal item={selectedProduct} isOpen={!!selectedProduct} onClose={() => setSelectedProduct(null)} addToCart={addToCart} />
@@ -168,7 +170,6 @@ export function AppContent() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [orderComplete, setOrderComplete] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [points, setPoints] = useState(150);
 
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
   const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
@@ -194,8 +195,6 @@ export function AppContent() {
   const removeFromCart = (id) => setCart(prev => prev.filter(i => i.id !== id));
 
   const handleOrderComplete = (order) => {
-    const earnedPoints = Math.floor(order.total / 10);
-    setPoints(prev => prev + earnedPoints);
     setOrderComplete(order);
     setCart([]);
     setIsCartOpen(false);
@@ -204,7 +203,7 @@ export function AppContent() {
   const storefrontProps = {
     t, i18n, cart, cartCount, cartTotal, isCartOpen, setIsCartOpen,
     currentPage, setCurrentPage, orderComplete, setOrderComplete,
-    selectedProduct, setSelectedProduct, points, addToCart,
+    selectedProduct, setSelectedProduct, addToCart,
     updateQuantity, removeFromCart, handleOrderComplete
   };
 

@@ -29,16 +29,25 @@ const ChatAssistant = () => {
             <input 
               placeholder="Ask me anything..." 
               className="w-full p-4 bg-gray-50 rounded-2xl border-none outline-none text-sm focus:ring-1 focus:ring-[#006341]"
-              onKeyDown={(e) => {
+              onKeyDown={async (e) => {
                 if (e.key === 'Enter' && e.target.value) {
-                   setMessages(prev => [...prev, { text: e.target.value, isBot: false }]);
-                   const val = e.target.value.toLowerCase();
+                   const message = e.target.value;
+                   setMessages(prev => [...prev, { text: message, isBot: false }]);
                    e.target.value = '';
-                   setTimeout(() => {
-                     let response = "That's a great question! I'd recommend trying our Yirgacheffe Special for a bright, floral experience.";
-                     if (val.includes('price')) response = "Our specialty coffees range from 550 to 850 ETB per bag.";
-                     setMessages(prev => [...prev, { text: response, isBot: true }]);
-                   }, 1000);
+                   
+                   try {
+                     const res = await fetch("http://localhost:5000/api/ai", {
+                       method: "POST",
+                       headers: {
+                         "Content-Type": "application/json",
+                       },
+                       body: JSON.stringify({ message }),
+                     });
+                     const data = await res.json();
+                     setMessages(prev => [...prev, { text: data.response || "Sorry, I could not process that request.", isBot: true }]);
+                   } catch (error) {
+                     setMessages(prev => [...prev, { text: "Error connecting to AI server. Please try again later.", isBot: true }]);
+                   }
                 }
               }}
             />
