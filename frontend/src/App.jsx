@@ -80,7 +80,7 @@ const Storefront = ({
       <Routes>
         <Route index element={<Home setPage={setCurrentPage} onProductClick={setSelectedProduct} />} />
         <Route path="menu" element={<MenuPage addToCart={addToCart} onProductClick={setSelectedProduct} />} />
-        <Route path="subscription" element={<SubscriptionPage />} />
+        <Route path="subscription" element={<SubscriptionPage addToCart={addToCart} />} />
         <Route path="blog" element={<BlogPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="stories" element={<StoriesPage />} />

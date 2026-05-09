@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { CheckCircle, Gift, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -10,7 +11,7 @@ const SUBSCRIPTIONS = [
     price: 2800, 
     interval: 'Monthly (4 bags)', 
     savings: '15%',
-    featuresKey: 'subscription.plans.weekly.features'
+    imageUrl: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800'
   },
   { 
     id: 'sub2', 
@@ -18,16 +19,30 @@ const SUBSCRIPTIONS = [
     price: 5200, 
     interval: 'Monthly (8 bags)', 
     savings: '25%',
-    featuresKey: 'subscription.plans.connoisseur.features'
+    imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800'
   }
 ];
 
-const SubscriptionPage = () => {
+const SubscriptionPage = ({ addToCart }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [isGift, setIsGift] = useState({});
 
   const toggleGift = (id) => {
     setIsGift(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const handleSubscribe = (sub) => {
+    // Add to cart with specific gift flag if needed
+    const itemToAdd = {
+      ...sub,
+      name: t(sub.nameKey),
+      isGift: isGift[sub.id] || false
+    };
+    
+    addToCart(itemToAdd);
+    // Direct navigation to checkout as requested
+    navigate('/checkout');
   };
 
   // Static features translated via benefit keys
@@ -120,7 +135,10 @@ const SubscriptionPage = () => {
                 </div>
               </div>
 
-              <button className="w-full bg-[#006341] text-white py-5 rounded-3xl font-bold hover:bg-[#004d32] transition-all flex items-center justify-center gap-3 shadow-lg shadow-[#006341]/20 group-hover:scale-[1.02]">
+              <button 
+                onClick={() => handleSubscribe(sub)}
+                className="w-full bg-[#006341] text-white py-5 rounded-3xl font-bold hover:bg-[#004d32] transition-all flex items-center justify-center gap-3 shadow-lg shadow-[#006341]/20 group-hover:scale-[1.02]"
+              >
                 {isGift[sub.id] ? t('subscription.sendGiftSub') : t('subscription.joinClub')} <ArrowRight size={20} />
               </button>
             </motion.div>
