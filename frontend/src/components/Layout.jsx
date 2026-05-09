@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { 
   Coffee, ShoppingCart, Menu as MenuIcon, X, ChevronRight, 
-  Award, User, LogOut, Settings, Github, Send, Phone as PhoneIcon
+  Award, User, LogOut, Settings, Github, Send, Phone as PhoneIcon, Mail
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
         <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setCurrentPage('home'); navigate('/'); }}>
             <Coffee className="w-8 h-8 text-[#006341]" />
-            <span className="text-2xl font-bold tracking-tight text-[#4B2C20]">{t('nav.brand')}</span>
+            <span className="text-2xl font-bold tracking-tight text-[#4B2C20]">{t('nav.brand', 'EthioBrew')}</span>
           </div>
 
           <div className="hidden md:flex items-center gap-8 font-medium">
@@ -40,7 +40,7 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
                 onClick={() => { setCurrentPage(page); navigate(page === 'home' ? '/' : `/${page}`); }}
                 className={`capitalize hover:text-[#006341] transition ${currentPage === page ? 'text-[#006341] border-b-2 border-[#006341]' : 'text-gray-600'}`}
               >
-                {t(`nav.${page}`)}
+                {t(`nav.${page}`, page)}
               </button>
             ))}
           </div>
@@ -163,9 +163,11 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
 
           <div className="flex flex-col items-center md:items-end text-center md:text-right gap-1">
              <p className="text-sm font-bold text-gray-900">Developed by Gemachis Tesfaye</p>
+             <p className="text-xs text-gray-400 font-medium">Software Developer</p>
              <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 text-xs text-gray-500 font-medium mt-2">
-                <a href="tel:+251976601074" className="flex items-center gap-1.5 hover:text-[#006341] transition"><PhoneIcon size={14}/> +251 976 601 074</a>
-                <a href="https://t.me/urkiiko1" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Send size={14}/> @urkiiko1</a>
+                <a href="tel:+251976601074" className="flex items-center gap-1.5 hover:text-[#006341] transition"><PhoneIcon size={14}/> +251976601074</a>
+                <a href="mailto:gemachistesfaye36@gmail.com" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Mail size={14}/> gemachistesfaye36@gmail.com</a>
+                <a href="https://t.me/urjiiko1" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Send size={14}/> @urjiiko1</a>
                 <a href="https://github.com/gemachistesfaye" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Github size={14}/> gemachistesfaye</a>
              </div>
           </div>

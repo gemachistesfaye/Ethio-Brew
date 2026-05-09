@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Mail, Phone, MapPin, Save, CheckCircle } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Save, CheckCircle, Lock } from 'lucide-react';
 import authService from '../services/authService';
 
 const SettingsPage = () => {
@@ -113,6 +113,37 @@ const SettingsPage = () => {
             {saving ? 'Saving...' : 'Update Profile'} <Save size={20} />
           </button>
         </form>
+
+        <div className="mt-16 pt-12 border-t border-gray-100">
+          <h2 className="text-xl font-bold mb-8 flex items-center gap-2">
+            <Lock className="text-gray-400" size={20} /> Change Password
+          </h2>
+          <form className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">New Password</label>
+              <input 
+                type="password" 
+                className="w-full px-6 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341]" 
+                placeholder="••••••••"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">Confirm New Password</label>
+              <input 
+                type="password" 
+                className="w-full px-6 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341]" 
+                placeholder="••••••••"
+              />
+            </div>
+            <button 
+              type="button"
+              className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-bold hover:bg-gray-200 transition"
+              onClick={() => alert('Password change simulation initiated.')}
+            >
+              Update Password
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

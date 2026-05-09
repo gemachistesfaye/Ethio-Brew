@@ -64,8 +64,14 @@ const authController = {
         { expiresIn: '24h' }
       );
 
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      });
+
       res.json({
-        token,
         user: {
           id: user.id,
           name: user.name,
@@ -95,6 +101,11 @@ const authController = {
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
+  },
+
+  logout: (req, res) => {
+    res.clearCookie('token');
+    res.json({ message: 'Logged out successfully' });
   }
 };
 

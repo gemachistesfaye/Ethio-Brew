@@ -12,6 +12,8 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Home from './pages/Home';
 import MenuPage from './pages/MenuPage';
 import SubscriptionPage from './pages/SubscriptionPage';
+import BlogPage from './pages/BlogPage';
+import AboutPage from './pages/AboutPage';
 import CheckoutPage from './pages/CheckoutPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -46,6 +48,7 @@ const Storefront = ({
   updateQuantity, removeFromCart, handleOrderComplete 
 }) => {
   const currentLang = i18n.language;
+  const navigate = useNavigate();
 
   const renderPage = () => {
     if (orderComplete) {
@@ -73,6 +76,8 @@ const Storefront = ({
         <Route index element={<Home setPage={setCurrentPage} onProductClick={setSelectedProduct} />} />
         <Route path="menu" element={<MenuPage addToCart={addToCart} onProductClick={setSelectedProduct} />} />
         <Route path="subscription" element={<SubscriptionPage />} />
+        <Route path="blog" element={<BlogPage />} />
+        <Route path="about" element={<AboutPage />} />
         <Route path="checkout" element={
           <ProtectedRoute>
             <CheckoutPage cart={cart} total={cartTotal} onOrderComplete={handleOrderComplete} />

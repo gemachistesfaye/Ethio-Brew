@@ -9,8 +9,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
-    if (storedUser && token) {
+    // For HTTP-only cookies, we assume if user info is in localStorage, they might be logged in.
+    // Real-world apps verify this by calling a /me endpoint on load, but this works for demo.
+    if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
     setLoading(false);
@@ -22,8 +23,12 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
-  const logout = () => {
-    authService.logout();
+  const logout = async () => {
+    try {
+      await authService.logout();
+    } catch (err) {
+      console.error(err);
+    }
     setUser(null);
   };
 

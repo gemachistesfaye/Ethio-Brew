@@ -48,17 +48,17 @@ const Home = ({ setPage, onProductClick }) => {
         <div className="relative z-20 max-w-7xl mx-auto px-4 w-full">
           <div className="text-white max-w-3xl">
             <h1 className="text-5xl md:text-8xl font-extrabold leading-tight mb-6">
-              {t('hero.title')}
+              {t('hero.title', 'Savor the Soul of Ethiopia')}
             </h1>
             <p className="text-lg md:text-xl text-gray-200 mb-8 max-w-xl">
-              {t('hero.subtitle')}
+              {t('hero.subtitle', 'From the highlands of Kaffa to your doorstep, experience the original coffee tradition.')}
             </p>
             <div className="flex flex-wrap gap-4">
               <button onClick={() => setPage('menu')} className="bg-[#006341] text-white px-8 py-4 rounded-full font-bold hover:bg-[#004d32] transition shadow-lg flex items-center gap-2">
-                {t('hero.orderNow')} <ChevronRight size={18} />
+                {t('hero.orderNow', 'Order Now')} <ChevronRight size={18} />
               </button>
               <button onClick={() => setPage('subscription')} className="bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition shadow-lg">
-                {t('hero.joinClub')}
+                {t('hero.joinClub', 'Join the Club')}
               </button>
             </div>
           </div>
