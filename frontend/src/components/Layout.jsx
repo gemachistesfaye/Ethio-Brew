@@ -166,9 +166,9 @@ const Layout = ({ children, cartCount, toggleCart, currentPage, setCurrentPage, 
              <p className="text-xs text-gray-400 font-medium">Software Developer</p>
              <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 text-xs text-gray-500 font-medium mt-2">
                 <a href="tel:+251976601074" className="flex items-center gap-1.5 hover:text-[#006341] transition"><PhoneIcon size={14}/> +251976601074</a>
-                <a href="mailto:gemachistesfaye36@gmail.com" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Mail size={14}/> gemachistesfaye36@gmail.com</a>
-                <a href="https://t.me/urjiiko1" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Send size={14}/> @urjiiko1</a>
-                <a href="https://github.com/gemachistesfaye" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Github size={14}/> gemachistesfaye</a>
+                <a href="mailto:gemachistesfaye36@gmail.com" title="Email" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Mail size={16}/></a>
+                <a href="https://t.me/urjiiko1" target="_blank" rel="noreferrer" title="Telegram" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Send size={16}/></a>
+                <a href="https://github.com/gemachistesfaye" target="_blank" rel="noreferrer" title="GitHub" className="flex items-center gap-1.5 hover:text-[#006341] transition"><Github size={16}/></a>
              </div>
           </div>
         </div>
