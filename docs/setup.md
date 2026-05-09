@@ -1,66 +1,80 @@
 # Ethio-Brew Setup & Installation Guide
 
-This guide explains how to install and run the Ethio-Brew platform locally.
+This guide provides step-by-step instructions for installing and running the Ethio-Brew platform locally.
 
 ## Prerequisites
 
-- Node.js (v18+)
-- MySQL (via XAMPP or native)
-- Git
+Ensure you have the following installed on your machine:
+- **Node.js** (v18.0.0 or higher)
+- **npm** (v9.0.0 or higher)
+- **MySQL** (Native or via XAMPP)
+- **Git**
 
-## 1. Database Setup
+## 1. Clone the Repository
 
-1. Start your MySQL server (e.g., open XAMPP Control Panel and start MySQL).
-2. Open your preferred database tool (phpMyAdmin, MySQL Workbench, etc.).
-3. Create a database named `ethiobrew`.
-4. Run the SQL script found in `db/schema.sql` to create all required tables.
+Clone the project to your local machine:
+```bash
+git clone https://github.com/gemachistesfaye/Ethio-Brew.git
+cd Ethio-Brew
+```
 
-## 2. Backend Setup
+## 2. Database Setup
 
-1. Open a terminal and navigate to the `backend` directory.
+1. Start your MySQL server.
+2. Open your preferred database management tool (e.g., phpMyAdmin, MySQL Workbench).
+3. Create a new database named `ethiobrew`.
+4. Import the SQL schema located at `db/schema.sql` to generate all required tables:
+   ```sql
+   source db/schema.sql;
+   ```
+
+## 3. Backend Setup
+
+1. Navigate to the `backend` directory:
    ```bash
    cd backend
    ```
-2. Install dependencies:
+2. Install all required dependencies:
    ```bash
    npm install
    ```
-3. Create a `.env` file in the `backend` folder with the following credentials:
+3. Create a `.env` file in the root of the `backend` folder and add the following environment variables:
    ```env
+   PORT=5000
    DB_HOST=localhost
    DB_USER=root
    DB_PASSWORD=
    DB_NAME=ethiobrew
-   PORT=5000
-   JWT_SECRET=supersecretkey123
-   NODE_ENV=development
+   JWT_SECRET=your_super_secret_jwt_key
+   EMAIL_USER=your_email@gmail.com
+   EMAIL_PASS=your_app_password
+   GEMINI_API_KEY=optional_ai_key
    ```
-4. Start the backend server:
+4. Start the backend development server:
    ```bash
    npm start
-   # or node server.js
+   # The server will run on http://localhost:5000
    ```
 
-## 3. Frontend Setup
+## 4. Frontend Setup
 
-1. Open a new terminal and navigate to the `frontend` directory.
+1. Open a new terminal and navigate to the `frontend` directory:
    ```bash
    cd frontend
    ```
-2. Install dependencies (use legacy-peer-deps to avoid chart.js conflicts):
+2. Install the frontend dependencies (use `--legacy-peer-deps` if conflicts arise with specific React versions):
    ```bash
-   npm install --legacy-peer-deps
+   npm install
    ```
 3. Start the Vite development server:
    ```bash
    npm run dev
+   # The application will be available at http://localhost:3000
    ```
 
-## 4. Usage
+## 5. Usage
 
-1. Open your browser and go to `http://localhost:5173`.
+1. Open your browser and navigate to the frontend URL.
 2. Register a new user account.
-3. Complete the simulated verification.
-4. Log in to access protected features (Checkout, Settings).
-
-*Note: For admin access, you will need to manually change a user's role to 'admin' directly in the MySQL database.*
+3. Check your email for the verification link (or use the simulated verification page).
+4. Log in to access the platform's protected features.

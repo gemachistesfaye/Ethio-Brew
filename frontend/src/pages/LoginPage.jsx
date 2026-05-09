@@ -60,6 +60,9 @@ const LoginPage = () => {
               className="w-full pl-12 pr-4 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341] transition" 
             />
           </div>
+          <div className="flex justify-end">
+            <Link to="/forgot-password" className="text-sm text-[#006341] font-bold hover:underline">Forgot Password?</Link>
+          </div>
 
           <button 
             type="submit" 

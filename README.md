@@ -54,8 +54,6 @@ Ethio-Brew/
 
 ---
 
-## 📚 Documentation
-- [Architecture](./docs/architecture.md)
-- [API Reference](./docs/api-routes.md)
-- [Localization](./docs/localization-guide.md)
-- [Deployment](./docs/deployment-guide.md)
+## Documentation
+
+Detailed project documentation is available inside the `/docs` folder.

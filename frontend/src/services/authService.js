@@ -32,6 +32,14 @@ const authService = {
   updateProfile: async (userData) => {
     const response = await axios.put(`${API_URL}/profile`, userData);
     return response.data;
+  },
+  forgotPassword: async (email) => {
+    const response = await axios.post(`${API_URL}/forgot-password`, { email });
+    return response.data;
+  },
+  resetPassword: async (data) => {
+    const response = await axios.post(`${API_URL}/reset-password`, data);
+    return response.data;
   }
 };
 
