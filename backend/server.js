@@ -117,7 +117,18 @@ const seedAdmin = async () => {
 };
 
 const PORT = process.env.PORT || 5000;
+const ENV = process.env.NODE_ENV || 'development';
+
 app.listen(PORT, () => {
-  console.log(`🚀 Ethio-Brew Enterprise API running on port ${PORT}`);
+  console.log('==========================================');
+  console.log(`🚀  ETHIO-BREW ENTERPRISE API`);
+  console.log(`📡  Status: RUNNING`);
+  console.log(`🔗  Port: ${PORT}`);
+  console.log(`🏗️  Mode: ${ENV.toUpperCase()}`);
+  console.log('==========================================');
+  
+  // Initialize admin only if DB is likely ready
+  // The db.js already logs its own status
   seedAdmin();
 });
+
