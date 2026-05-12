@@ -4,37 +4,43 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 /**
- * DATABASE CONFIGURATION EXPLAINED:
- * 
- * 1. LOCAL DEVELOPMENT (XAMPP):
- *    - Host: localhost
- *    - Port: 3306
- *    - SSL: Not required
- * 
- * 2. PRODUCTION DEPLOYMENT (Render + Aiven):
- *    - Host: provided by Aiven (e.g., mysql-instance-name.aivencloud.com)
- *    - Port: provided by Aiven (usually not 3306)
- *    - SSL: REQUIRED by Aiven. 
- *    - Why localhost fails on Render: Render runs in a containerized environment. 
- *      'localhost' inside the container refers to the container itself, not your local machine 
- *      or the Aiven cloud database.
+ * PRODUCTION-READY DATABASE CONFIGURATION
+ * Optimized for: Render (Backend) + Aiven (MySQL)
  */
 
+// Debug Logs for Startup (Requirement #9)
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const DB_HOST = process.env.DB_HOST;
+const DB_PORT = process.env.DB_PORT || 18785; // Default to Aiven port, no 3306 fallback
+
+console.log('--- DB CONNECTION DEBUG ---');
+console.log(`📡 Host: ${DB_HOST || 'NOT DEFINED'}`);
+console.log(`🔌 Port: ${DB_PORT}`);
+console.log(`🏗️  Mode: ${NODE_ENV.toUpperCase()}`);
+console.log('---------------------------');
+
 const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || 3306,
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'ethiobrew',
+  host: DB_HOST,
+  port: parseInt(DB_PORT),
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-  // Aiven requires SSL. rejectUnauthorized: false is common for cloud providers
-  // if you don't want to manage specific CA certificates.
-  ssl: process.env.DB_HOST && process.env.DB_HOST !== 'localhost' ? {
+  // Aiven REQUIRED SSL
+  ssl: {
     rejectUnauthorized: false
-  } : null
+  }
 };
+
+// Check for missing required variables
+const requiredVars = ['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME'];
+const missingVars = requiredVars.filter(v => !process.env[v]);
+
+if (missingVars.length > 0 && NODE_ENV === 'production') {
+  console.error(`❌ CRITICAL ERROR: Missing environment variables: ${missingVars.join(', ')}`);
+}
 
 const pool = mysql.createPool(dbConfig);
 
@@ -43,23 +49,23 @@ const pool = mysql.createPool(dbConfig);
   try {
     const connection = await pool.getConnection();
     console.log('------------------------------------------');
-    console.log(`✅  DATABASE CONNECTED SUCCESSFULLY`);
-    console.log(`📍  Host: ${dbConfig.host}`);
-    console.log(`🔌  Port: ${dbConfig.port}`);
-    console.log(`🌍  Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`✅ MySQL connected successfully`);
+    console.log(`📍 Connected to: ${DB_HOST}`);
     console.log('------------------------------------------');
     connection.release();
   } catch (err) {
     console.error('------------------------------------------');
-    console.error('❌  DATABASE CONNECTION FAILED!');
+    console.error('❌ DATABASE CONNECTION FAILED!');
     console.error(`⚠️  Error: ${err.message}`);
-    console.error('💡  Check your .env variables and MySQL service status.');
+    console.error('💡 Troubleshooting:');
+    console.log('   1. Check if DB_HOST and DB_PORT are correct in Render/Env');
+    console.log('   2. Ensure Aiven MySQL is running and allows connections');
+    console.log('   3. Verify SSL configuration is accepted');
     console.error('------------------------------------------');
-    // We don't exit the process here to prevent the backend from crashing completely,
-    // allowing other parts of the app (like AI endpoints) to potentially function
-    // or allowing the developer to see the error in the logs.
+    // Backend will not crash, allowing for logs to be inspected
   }
 })();
 
 module.exports = pool;
+
 

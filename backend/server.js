@@ -19,7 +19,13 @@ app.use(cookieParser());
 app.use(express.json({ limit: '10kb' })); // Prevents large payload attacks
 
 // 2. CORS CONFIGURATION
-const allowedOrigins = ["http://localhost:3000", "http://localhost:5173", "http://localhost:5174"];
+const allowedOrigins = [
+  process.env.FRONTEND_URL, 
+  "http://localhost:3000", 
+  "http://localhost:5173", 
+  "http://localhost:5174"
+].filter(Boolean);
+
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -30,6 +36,7 @@ app.use(cors({
   },
   credentials: true,
 }));
+
 
 // 3. RATE LIMITING
 const limiter = rateLimit({
