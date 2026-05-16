@@ -62,6 +62,11 @@ An integrated AI expert trained on Abyssinian coffee heritage.
 | ![Blog](./assets/stories.png) | ![Checkout](./assets/checkout.png) | ![Contact](./assets/contact.png) |
 | *Cultural heritage portal* | *Secure order process* | *Customer support* |
 
+| **Admin Command** | **Live Tracking** | **Mobile Experience** |
+| :---: | :---: | :---: |
+| ![Admin](./assets/admin.png) | ![Track](./assets/track.png) | ![Mobile](./assets/mobile.png) |
+| *Business intelligence center* | *Real-time order tracker* | *Fully responsive design* |
+
 ---
 
 ## 📡 Infrastructure Configuration
