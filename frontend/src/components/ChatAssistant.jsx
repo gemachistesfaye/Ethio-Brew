@@ -91,9 +91,14 @@ const ChatAssistant = () => {
                     {m.text}
                   </div>
                 ) : (
-                  <div className={`max-w-[85%] p-4 rounded-[24px] text-sm leading-relaxed shadow-sm transition-all ${m.isBot ? 'bg-white text-gray-700 rounded-tl-none border border-gray-100' : 'bg-[#006341] text-white rounded-tr-none'}`}>
-                    {m.text}
-                  </div>
+                  <div 
+                    className={`max-w-[85%] p-4 rounded-[24px] text-sm leading-relaxed shadow-sm transition-all ${m.isBot ? 'bg-white text-gray-700 rounded-tl-none border border-gray-100' : 'bg-[#006341] text-white rounded-tr-none'}`}
+                    dangerouslySetInnerHTML={{ 
+                      __html: m.text
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    }}
+                  />
                 )}
               </div>
             ))}
