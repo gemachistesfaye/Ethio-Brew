@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from '../hooks/useTranslation';
 import { useAuth } from '../context/AuthContext';
 import { 
@@ -11,6 +11,7 @@ const Navbar = ({ toggleCart, cartCount = 0 }) => {
   const { t, language, changeLanguage } = useTranslation();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
@@ -37,15 +38,27 @@ const Navbar = ({ toggleCart, cartCount = 0 }) => {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-8 font-bold text-sm">
-          {['home', 'shop', 'blog', 'about', 'contact'].map((page) => (
-            <button
-              key={page}
-              onClick={() => navigate(page === 'home' ? '/' : `/${page}`)}
-              className="capitalize text-gray-500 hover:text-[#006341] transition tracking-wide whitespace-nowrap"
-            >
-              {t(`nav.${page}`)}
-            </button>
-          ))}
+          {['home', 'shop', 'blog', 'about', 'contact'].map((page) => {
+             const path = page === 'home' ? '/' : `/${page}`;
+             const isActive = location.pathname === path;
+             return (
+               <button
+                 key={page}
+                 onClick={() => navigate(path)}
+                 className={`capitalize transition tracking-wide whitespace-nowrap relative py-1 ${
+                   isActive ? 'text-[#006341] font-black' : 'text-gray-500 hover:text-[#006341] font-bold'
+                 }`}
+               >
+                 {t(`nav.${page}`)}
+                 {isActive && (
+                   <motion.div 
+                     layoutId="navUnderline"
+                     className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#006341] rounded-full"
+                   />
+                 )}
+               </button>
+             );
+           })}
         </div>
 
         {/* Action Bar */}
@@ -134,15 +147,21 @@ const Navbar = ({ toggleCart, cartCount = 0 }) => {
                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 bg-gray-100 rounded-full"><X size={20}/></button>
             </div>
             <div className="flex flex-col gap-5">
-              {['home', 'shop', 'blog', 'about', 'contact'].map((page) => (
-                <button
-                  key={page}
-                  onClick={() => { navigate(page === 'home' ? '/' : `/${page}`); setIsMobileMenuOpen(false); }}
-                  className="text-left text-xl font-black text-[#4B2C20] active:text-[#006341]"
-                >
-                  {t(`nav.${page}`)}
-                </button>
-              ))}
+              {['home', 'shop', 'blog', 'about', 'contact'].map((page) => {
+                 const path = page === 'home' ? '/' : `/${page}`;
+                 const isActive = location.pathname === path;
+                 return (
+                   <button
+                     key={page}
+                     onClick={() => { navigate(path); setIsMobileMenuOpen(false); }}
+                     className={`text-left text-xl font-black transition-colors ${
+                       isActive ? 'text-[#006341] pl-4 border-l-4 border-[#006341]' : 'text-[#4B2C20]'
+                     }`}
+                   >
+                     {t(`nav.${page}`)}
+                   </button>
+                 );
+               })}
               
               {isAdmin && (
                 <button onClick={() => { navigate('/admin'); setIsMobileMenuOpen(false); }} className="text-left text-2xl font-black text-[#006341] flex items-center gap-3 border-t border-gray-100 pt-6">
