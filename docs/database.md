@@ -1,9 +1,8 @@
-# Database Schema
+# 🗄️ Database Schema & Models
 
-Ethio-Brew uses a relational MySQL database designed for an e-commerce platform. The schema is highly normalized to ensure data integrity.
+Ethio-Brew uses a relational MySQL database designed for high performance and data integrity. The schema is optimized for e-commerce transactions and cultural content management.
 
-## Entity Relationship (ER) Diagram
-
+## 📐 Entity Relationship (ER) Diagram
 ```text
 +------------------+          +-------------------+
 |      USERS       |          |     ORDERS        |
@@ -12,60 +11,59 @@ Ethio-Brew uses a relational MySQL database designed for an e-commerce platform.
 |    name          |----------| FK user_id        |
 |    email         |          |    total_price    |
 |    password      |          |    status         |
-|    phone         |          |    created_at     |
-|    address       |          +-------------------+
-|    is_verified   |                    | 1
-|    role          |                    |
-+------------------+                    | *
-                               +-------------------+
-+------------------+           |   ORDER_ITEMS     |
-|    PRODUCTS      |           +-------------------+
-+------------------+ 1       * | PK id             |
-| PK id            |-----------| FK order_id       |
-|    name          |           | FK product_id     |
-|    description   |           |    quantity       |
-|    price         |           |    price_at_time  |
-|    stock         |           +-------------------+
-+------------------+
+|    created_at     |          |    created_at     |
++------------------+          +-------------------+
+                                        | 1
+                                        |
+                                        | *
++------------------+          +-------------------+
+|    PRODUCTS      |          |   ORDER_ITEMS     |
++------------------+ 1      * +-------------------+
+| PK id            |----------| PK id             |
+|    name          |          | FK order_id       |
+|    price         |          | FK product_id     |
+|    stock         |          |    quantity       |
++------------------+          +-------------------+
 ```
 
-## Tables & Columns
+---
 
-### 1. `users` Table
-Stores all user account information, authentication details, and roles.
+## 📋 Core Tables
 
-| Column        | Type         | Attributes                     | Description                          |
-|---------------|--------------|--------------------------------|--------------------------------------|
-| `id`          | INT          | PRIMARY KEY, AUTO_INCREMENT    | Unique identifier                    |
-| `name`        | VARCHAR(100) | NOT NULL                       | Full name of the user                |
-| `email`       | VARCHAR(100) | UNIQUE, NOT NULL               | Used for login and contact           |
-| `password`    | VARCHAR(255) | NOT NULL                       | Bcrypt hashed password               |
-| `phone`       | VARCHAR(20)  |                                | Contact number                       |
-| `address`     | TEXT         |                                | Delivery address                     |
-| `is_verified` | BOOLEAN      | DEFAULT FALSE                  | Email verification status            |
-| `role`        | ENUM         | DEFAULT 'user'                 | Defines permissions ('user', 'admin')|
+### 1. `users` (Identity Management)
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `id` | INT | Primary Key. |
+| `email` | VARCHAR | Unique identifier for login. |
+| `password` | VARCHAR | Bcrypt hashed (255 chars). |
+| `role` | ENUM | 'user' or 'admin'. |
+| `is_verified`| BOOLEAN | Email verification gate. |
 
-### 2. `products` Table
-Holds the catalog of Ethiopian coffee available on the marketplace.
+### 2. `products` (Coffee Inventory)
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `id` | INT | Primary Key. |
+| `name` | VARCHAR | Localized name (AM/OM support). |
+| `price` | DECIMAL | Stored in ETB. |
+| `stock` | INT | Real-time inventory count. |
 
-| Column        | Type         | Attributes                     | Description                          |
-|---------------|--------------|--------------------------------|--------------------------------------|
-| `id`          | INT          | PRIMARY KEY, AUTO_INCREMENT    | Unique identifier                    |
-| `name`        | VARCHAR(100) | NOT NULL                       | Name of the coffee (e.g., Yirgacheffe)|
-| `description` | TEXT         |                                | Flavor profile and origin details    |
-| `price`       | DECIMAL(10,2)| NOT NULL                       | Cost in ETB                          |
-| `stock`       | INT          | DEFAULT 0                      | Inventory tracking                   |
+### 3. `orders` (Transaction Ledger)
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `id` | INT | Primary Key. |
+| `user_id` | INT | Reference to buyer. |
+| `total` | DECIMAL | Grand total including delivery. |
+| `status` | ENUM | Pending, Processing, Delivered. |
+| `proof_url` | TEXT | Link to payment verification screenshot. |
 
-### 3. `orders` Table
-Tracks user purchases and their fulfillment status.
+---
 
-| Column        | Type         | Attributes                     | Description                          |
-|---------------|--------------|--------------------------------|--------------------------------------|
-| `id`          | INT          | PRIMARY KEY, AUTO_INCREMENT    | Unique identifier                    |
-| `user_id`     | INT          | FOREIGN KEY (users.id)         | The customer who placed the order    |
-| `total_price` | DECIMAL(10,2)| NOT NULL                       | Grand total of the purchase          |
-| `status`      | ENUM         | DEFAULT 'pending'              | pending, processing, shipped, etc.   |
-| `created_at`  | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP      | Time of purchase                     |
+## 🛠️ Database Setup
+The database logic is handled via connection pooling in `backend/config/db.js`.
+To initialize the schema:
+1. Access your MySQL instance (Local or Remote).
+2. Execute `db/schema.sql`.
+3. (Optional) Run `db/seeds.sql` to populate initial coffee varieties.
 
-## SQL Schema Generation
-To generate this schema, run the script provided in `db/schema.sql` against your MySQL instance.
+---
+*© 2026 Ethio-Brew — Database Architecture.*
