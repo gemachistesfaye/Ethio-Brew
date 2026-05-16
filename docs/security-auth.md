@@ -1,6 +1,6 @@
 # 🛡️ Security & Authentication Architecture
 
-Ethio-Brew implements enterprise-grade security protocols to protect user data, financial transactions, and system integrity.
+Ethio-Brew implements enterprise-grade security protocols to protect user data, financial transactions and system integrity.
 
 ## 🔑 Authentication Framework
 The platform uses a **Cookie-Based JWT Authentication** strategy.
@@ -25,7 +25,7 @@ The platform uses a **Cookie-Based JWT Authentication** strategy.
 
 ### 2. Role-Based Access Control (RBAC)
 - **Customer**: Access to shop, profile, and order tracking.
-- **Admin**: Exclusive access to the Business Intelligence Dashboard, Order Verification, and Content Management.
+- **Admin**: Exclusive access to the Business Intelligence Dashboard, Order Verification and Content Management.
 - **Middleware Gate**: Every administrative request passes through a `verifyAdmin` middleware.
 
 ### 3. Account Hardening
