@@ -9,6 +9,19 @@
 
 ---
 
+## 🌐 Live Production
+- **Frontend URL**: [https://ethio-brew.vercel.app](https://ethio-brew.vercel.app)
+- **API Backend**: [https://ethio-brew-1.onrender.com](https://ethio-brew-1.onrender.com)
+
+---
+
+## ⚠️ Important Deployment Notes
+- **Email Verification**: This platform requires real email verification for all new accounts. Ensure the `EMAIL_USER` and `EMAIL_PASS` (Google App Password) are set in the Render environment.
+- **Browser Compatibility**: Some "Site Blocker" or "AdBlock" browser extensions can interfere with React network requests and cause CORS false-positives. If the site is slow or buttons hang, please test in **Incognito Mode**.
+- **CORS Security**: The backend is strictly restricted to the Production Vercel URL. Any changes to the frontend domain require an update to the `FRONTEND_URL` in the backend environment settings.
+
+---
+
 ## 🚀 Key Features
 
 ### 🌍 Global Experience
