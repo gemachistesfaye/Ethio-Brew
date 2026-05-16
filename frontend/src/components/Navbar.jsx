@@ -37,7 +37,7 @@ const Navbar = ({ toggleCart, cartCount = 0 }) => {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-8 font-bold text-sm">
-          {['home', 'shop', 'blog', 'stories', 'about', 'contact', 'settings'].map((page) => (
+          {['home', 'shop', 'blog', 'about', 'contact'].map((page) => (
             <button
               key={page}
               onClick={() => navigate(page === 'home' ? '/' : `/${page}`)}
@@ -124,7 +124,7 @@ const Navbar = ({ toggleCart, cartCount = 0 }) => {
                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 bg-gray-100 rounded-full"><X size={20}/></button>
             </div>
             <div className="flex flex-col gap-5">
-              {['home', 'shop', 'blog', 'stories', 'about', 'contact', 'settings'].map((page) => (
+              {['home', 'shop', 'blog', 'about', 'contact'].map((page) => (
                 <button
                   key={page}
                   onClick={() => { navigate(page === 'home' ? '/' : `/${page}`); setIsMobileMenuOpen(false); }}
