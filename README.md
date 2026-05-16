@@ -2,7 +2,7 @@
 
 <img src="./assets/banner.png" width="100%" height="450" alt="Ethio-Brew Banner" />
 
-**Ethio-Brew** is a high-fidelity, production-grade e-commerce ecosystem designed to bring the heritage of Ethiopian coffee into the digital age. Built with **React**, **Node.js**, **MySQL**, and **Google Gemini 2.0 AI**.
+**Ethio-Brew** is a high-fidelity, production-grade e-commerce ecosystem designed to bring the heritage of Ethiopian coffee into the digital age. Built with **React**, **Node.js**, **MySQL** and **Google Gemini 2.0 AI**.
 
 ---
 
@@ -29,7 +29,7 @@ Architected specifically for the Ethiopian market with zero latency language swi
 ### 🤖 AI Coffee Sommelier (Gemini 2.0)
 An elite AI expert trained on Abyssinian coffee history and flavor profiles.
 - **Recommendations**: Personalized suggestions based on regional bean profiles.
-- **Multi-Lingual Chat**: Converse naturally in Amharic, Oromifa, or English.
+- **Multi-Lingual Chat**: Converse naturally in Amharic, Oromifa or English.
 - **Heritage Knowledge**: Deep understanding of the traditional *Jebena Buna* ceremony.
 
 ### 🛡️ Enterprise Security
