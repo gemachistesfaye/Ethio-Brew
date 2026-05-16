@@ -61,7 +61,7 @@ const BlogPage = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-6xl font-black text-[#4B2C20] mb-6 tracking-tight"
            >
-             Stories & Blog
+             Blog
            </motion.h1>
            <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto leading-relaxed">
              The soul of Ethiopia through heritage legends, brewing guides, and community stories.

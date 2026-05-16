@@ -65,7 +65,7 @@ export const STORIES = [
     readTime: '5 min read',
     readTime_am: 'የ5 ደቂቃ ንባብ',
     readTime_om: 'Dubbisa daq. 5',
-    image: 'https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800',
     shortDesc: 'The essential role women play from picking to processing and serving.',
     shortDesc_am: 'ሴቶች ከቡና ለቀማ እስከ ዝግጅት እና ማቅረብ ድረስ የሚጫወቱት ወሳኝ ሚና።',
     shortDesc_om: 'Qooda dubartoonni funaansaa irraa hanga dhiyeessititti qaban.',
