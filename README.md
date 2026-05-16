@@ -1,6 +1,6 @@
 # ☕ Ethio-Brew — AI-Powered Ethiopian Coffee Platform
 
-![Banner](./assets/banner.png)
+<img src="./assets/banner.png" height="400" alt="Ethio-Brew Banner" />
 
 **Ethio-Brew** is a high-fidelity, production-grade e-commerce ecosystem designed to bring the heritage of Ethiopian coffee into the digital age. Built with **React**, **Node.js**, **MySQL**, and **Google Gemini 2.0 AI**.
 
