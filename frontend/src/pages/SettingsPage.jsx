@@ -60,7 +60,7 @@ const SettingsPage = () => {
     }
   };
 
-  if (loading) return <div className="py-20 text-center font-bold text-[#006341]">Loading Profile...</div>;
+  if (loading) return <div className="py-20 text-center font-bold text-[#006341]">{t('common.loading')}</div>;
 
   return (
     <div className="py-12 px-4 max-w-2xl mx-auto animate-in fade-in duration-500">
@@ -77,19 +77,19 @@ const SettingsPage = () => {
           </div>
           <div>
             <h1 className="text-2xl font-bold">{profile?.name}</h1>
-            <p className="text-gray-400 text-sm italic">{profile?.role || 'Customer'} Account</p>
+            <p className="text-gray-400 text-sm italic">{t('settings.account_type', { type: profile?.role || 'Customer' })}</p>
           </div>
         </div>
 
         {success && (
           <div className="mb-6 p-4 bg-green-50 text-[#006341] rounded-2xl text-sm font-bold flex items-center gap-2 animate-in zoom-in-95">
-            <CheckCircle size={18} /> Profile updated successfully!
+            <CheckCircle size={18} /> {t('settings.update_success')}
           </div>
         )}
 
         <form onSubmit={handleUpdate} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">Full Name</label>
+            <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">{t('auth.full_name')}</label>
             <div className="relative">
               <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input 
@@ -101,7 +101,7 @@ const SettingsPage = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">Email Address</label>
+            <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">{t('auth.email')}</label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 opacity-50" size={18} />
               <input 
@@ -112,7 +112,7 @@ const SettingsPage = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">Phone Number</label>
+            <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">{t('checkout.phone')}</label>
             <div className="relative">
               <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input 
@@ -124,7 +124,7 @@ const SettingsPage = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">Delivery Address</label>
+            <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">{t('checkout.address')}</label>
             <div className="relative">
               <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input 
@@ -140,22 +140,22 @@ const SettingsPage = () => {
             disabled={saving}
             className="w-full bg-[#4B2C20] text-white py-5 rounded-2xl font-bold shadow-xl hover:bg-black transition flex items-center justify-center gap-2 disabled:opacity-50"
           >
-            {saving ? 'Saving...' : 'Update Profile'} <Save size={20} />
+            {saving ? t('settings.saving') : t('settings.update_btn')} <Save size={20} />
           </button>
         </form>
 
         <div className="mt-16 pt-12 border-t border-gray-100">
           <h2 className="text-xl font-bold mb-8 flex items-center gap-2">
-            <Lock className="text-gray-400" size={20} /> Change Password
+            <Lock className="text-gray-400" size={20} /> {t('settings.password_title')}
           </h2>
           {passSuccess && (
             <div className="mb-6 p-4 bg-green-50 text-[#006341] rounded-2xl text-sm font-bold flex items-center gap-2 animate-in zoom-in-95">
-              <CheckCircle size={18} /> Password updated successfully!
+              <CheckCircle size={18} /> {t('settings.password_success')}
             </div>
           )}
           <form onSubmit={handlePasswordUpdate} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">New Password</label>
+              <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">{t('settings.new_password')}</label>
               <input 
                 type="password" required
                 value={passForm.new} onChange={(e) => setPassForm({...passForm, new: e.target.value})}
@@ -164,7 +164,7 @@ const SettingsPage = () => {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">Confirm New Password</label>
+              <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">{t('settings.confirm_password')}</label>
               <input 
                 type="password" required
                 value={passForm.confirm} onChange={(e) => setPassForm({...passForm, confirm: e.target.value})}
@@ -176,7 +176,7 @@ const SettingsPage = () => {
               type="submit" disabled={passSaving}
               className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-bold hover:bg-gray-200 transition disabled:opacity-50"
             >
-              {passSaving ? 'Updating...' : 'Update Password'}
+              {passSaving ? t('settings.updating') : t('settings.password_btn')}
             </button>
           </form>
         </div>

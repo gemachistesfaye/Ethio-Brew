@@ -190,16 +190,21 @@ const Home = ({ setPage, onProductClick }) => {
               className="flex-1"
             >
                <div className="inline-block px-4 py-1.5 bg-[#FFD700] rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-6 shadow-sm">
-                  The Legend
+                  {t('home.legend.tag')}
                </div>
                <h2 className="text-4xl md:text-6xl font-black text-[#4B2C20] mb-8 leading-tight">
-                  The Soul of <br/> <span className="text-[#006341]">Ethiopia</span> in Every Sip
+                  {t('home.legend.title').split('Ethiopia').map((part, i, arr) => (
+                    <React.Fragment key={i}>
+                      {part}
+                      {i < arr.length - 1 && <span className="text-[#006341]">Ethiopia</span>}
+                    </React.Fragment>
+                  ))}
                </h2>
                <p className="text-lg text-gray-500 font-medium leading-relaxed mb-10 italic">
-                  "From the highlands of Guji to the ancient ceremonies of Addis Ababa, coffee is more than a drink—it is our history, our hospitality, and our heartbeat."
+                  {t('home.legend.quote')}
                </p>
                <button onClick={() => setPage('stories')} className="px-10 py-5 bg-[#4B2C20] text-white rounded-[24px] font-black text-sm shadow-2xl hover:scale-105 transition-all flex items-center gap-3 group">
-                  Read the Legend <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
+                  {t('home.legend.cta')} <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
                </button>
             </motion.div>
             <motion.div 

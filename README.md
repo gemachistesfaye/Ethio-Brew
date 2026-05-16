@@ -10,8 +10,8 @@
 | Component | Status | URL |
 | :--- | :--- | :--- |
 | **Storefront (Vercel)** | 🟢 Online | [https://ethio-brew.vercel.app](https://ethio-brew.vercel.app) |
-| **API Backend (Render)** | 🟢 Online | [https://ethio-brew-1.onrender.com](https://ethio-brew-1.onrender.com) |
-| **Admin Panel** | 🔐 Restricted | [Login to Access](/login) |
+| **API Backend (Render)** | 🟢 Healthy | [https://ethio-brew-1.onrender.com](https://ethio-brew-1.onrender.com) |
+| **Admin Panel** | 🔐 Restricted | [Login to Access](https://ethio-brew.vercel.app/login) |
 
 ---
 

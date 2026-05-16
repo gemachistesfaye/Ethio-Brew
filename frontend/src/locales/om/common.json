@@ -4,18 +4,23 @@
     "shop": "Gabaa",
     "subscription": "Galmee",
     "stories": "Seenaawwan",
+    "blog": "Bloogii",
     "about": "Waa'ee Keenya",
     "contact": "Nu Quunnamaa",
     "login": "Seeni",
     "logout": "Ba'i",
     "settings": "Qindaa'ina",
-    "brand": "Ethio-Brew"
+    "brand": "Ethio-Brew",
+    "expert": "Ogeessa Bunaa",
+    "ai_powered": "AI Assistant Gemini 2.0'n kan deeggarame"
   },
   "hero": {
     "title": "Lubbuu Itiyoophiyaa Dhandhamadhu",
     "subtitle": "Gaarren Kaafaa irraa hanga hulaa keessaniitti, aadaa bunaa isa jalqabaa dhandhamadhaa.",
     "orderNow": "Amma Ajajaa",
-    "joinClub": "Kilaabichatti Dabalamaa"
+    "joinClub": "Kilaabichatti Dabalamaa",
+    "cta_shop": "Amma Bitadhu",
+    "cta_learn": "Seenaa Keenya"
   },
   "home": {
     "recommended": "Isiniif Kan Filatame",
@@ -33,7 +38,13 @@
       "harrar_note": "Mi'aa Jabaa fi Kuduraa"
     },
     "featured_stories": "Seenaawwan Bunaa Filataman",
-    "view_all": "Seenaawwan Hunda Ilaali"
+    "view_all": "Seenaawwan Hunda Ilaali",
+    "legend": {
+      "tag": "Seenaa",
+      "title": "Lubbuu Itiyoophiyaa Unkurama Hunda Keessatti",
+      "quote": "\"Gaarren Gujii irraa hanga sirna aadaa Finfinneetti, bunni dhugaatii qofa miti—seenaa keenya, keessummaa simannaa keenya fi onnee keenyadha.\"",
+      "cta": "Seenaa Dubbisi"
+    }
   },
   "shop": {
     "search_placeholder": "Buna jaallattan barbaadaa...",
@@ -175,13 +186,28 @@
     "verifyLocally": "Kaffaltiin mirkanaa'eera",
     "finish": "Ajaaja Xumuri"
   },
+  "settings": {
+    "title": "Qindaa'ina Herregaa",
+    "profile_title": "Odeeffannoo Profile",
+    "account_type": "Herrega {{type}}",
+    "update_success": "Profile milkaa'inaan haaromeera!",
+    "password_title": "Jecha Iccitii Jijjiiri",
+    "password_success": "Jechi iccitii milkaa'inaan jijjiirameera!",
+    "new_password": "Jecha Iccitii Haaraa",
+    "confirm_password": "Jecha Iccitii Mirkaneessi",
+    "update_btn": "Profile Haaromsi",
+    "password_btn": "Jecha Iccitii Haaromsi",
+    "updating": "Haaromaa jira...",
+    "saving": "Galmeessaa jira..."
+  },
   "footer": {
     "tagline": "Buna gaarren Itiyoophiyaa irraa filatame, addunyaaf kan dhiyaate.",
-    "explore": "Barbaadi",
-    "legal": "Seera",
-    "privacy": "Imaammata Iccitii",
-    "terms": "Haala Itti Fayyadamaa",
-    "copyright": "Mirgi Hundu Mirkanaa'eeera"
+    "premium": "Buna Qulqullina Olaanaa",
+    "authentic": "Buna Itiyoophiyaa Dhugaa.",
+    "contact_title": "Nu Quunnamaa",
+    "developer_title": "Software Developer",
+    "built_by": "Kan Hojjetame",
+    "rights": "Mirgi Hundu Mirkanaa'eeera"
   },
   "common": {
     "loading": "Fidaa jira...",
@@ -190,6 +216,9 @@
     "cancel": "Dhaabi",
     "save": "Galmeessi",
     "edit": "Gulaali",
-    "delete": "Haqi"
+    "delete": "Haqi",
+    "etb": "ETB",
+    "currency": "ETB",
+    "online": "Onlainii"
   }
 }

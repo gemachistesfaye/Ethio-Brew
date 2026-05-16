@@ -16,18 +16,18 @@ const Footer = () => {
                  <Coffee size={24} />
               </div>
               <div>
-                 <p className="font-black text-xl leading-tight text-[#4B2C20]">Ethio-Brew</p>
-                 <p className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">Premium Origin Coffee</p>
+                 <p className="font-black text-xl leading-tight text-[#4B2C20]">{t('nav.brand')}</p>
+                 <p className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">{t('footer.premium')}</p>
               </div>
            </div>
            <p className="text-sm text-gray-500 max-w-xs leading-tight font-medium">
-             Authentic Ethiopian coffee.
+             {t('footer.authentic')}
            </p>
         </div>
 
         {/* 2. BUSINESS CONTACT SECTION */}
         <div className="flex flex-col gap-3">
-           <h4 className="text-[#4B2C20] font-black text-xs uppercase tracking-[0.2em]">Store Contact</h4>
+           <h4 className="text-[#4B2C20] font-black text-xs uppercase tracking-[0.2em]">{t('footer.contact_title')}</h4>
            <div className="space-y-2">
               <a href="tel:+251911234567" className="flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-[#006341] transition">
                 <PhoneIcon size={14} className="text-[#4B2C20]/20"/> +251 911 234 567
@@ -44,14 +44,14 @@ const Footer = () => {
 
         {/* 3. DEVELOPER SECTION (Minimizing the Card Container) */}
         <div className="flex flex-col gap-3">
-           <h4 className="text-[#4B2C20] font-black text-xs uppercase tracking-[0.2em]">Software Developer</h4>
+           <h4 className="text-[#4B2C20] font-black text-xs uppercase tracking-[0.2em]">{t('footer.developer_title')}</h4>
            <div className="bg-[#FDFCF8] px-5 py-4 rounded-[30px] border border-gray-100 shadow-sm flex items-center gap-6">
               <div className="flex items-center gap-3 border-r border-gray-100 pr-6">
                  <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center text-white">
                     <Code size={20} />
                  </div>
                  <div>
-                    <p className="text-[9px] text-gray-400 font-black uppercase leading-none mb-1">Built by</p>
+                    <p className="text-[9px] text-gray-400 font-black uppercase leading-none mb-1">{t('footer.built_by')}</p>
                     <p className="font-black text-sm text-gray-900 whitespace-nowrap">Gemachis Tesfaye</p>
                  </div>
               </div>
@@ -69,7 +69,7 @@ const Footer = () => {
       </div>
 
       <div className="max-w-7xl mx-auto mt-10 pt-6 border-t border-gray-50 text-center text-[10px] text-gray-300 font-black uppercase tracking-[0.4em]">
-        &copy; {new Date().getFullYear()} Ethio-Brew • All Cultural Rights Reserved
+        &copy; {new Date().getFullYear()} {t('nav.brand')} • {t('footer.rights')}
       </div>
     </footer>
   );

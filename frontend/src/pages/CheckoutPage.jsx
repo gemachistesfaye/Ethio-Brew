@@ -124,7 +124,7 @@ const CheckoutPage = ({ cart, total, onOrderComplete }) => {
                       <p className="text-xs text-gray-400">{item.quantity} {t('cart.units')}</p>
                     </div>
                   </div>
-                  <span className="font-bold">{item.price * item.quantity} ETB</span>
+                  <span className="font-bold">{item.price * item.quantity} {t('common.etb')}</span>
                 </div>
               );
             })}
@@ -132,11 +132,11 @@ const CheckoutPage = ({ cart, total, onOrderComplete }) => {
           <div className="border-t border-dashed pt-6 space-y-2">
              <div className="flex justify-between text-gray-500 text-sm">
                 <span>{t('cart.subtotal')}</span>
-                <span>{total} ETB</span>
+                <span>{total} {t('common.etb')}</span>
              </div>
              <div className="flex justify-between items-center pt-4 text-2xl font-bold">
                 <span>{t('cart.total')}</span>
-                <span className="text-[#006341]">{total} ETB</span>
+                <span className="text-[#006341]">{total} {t('common.etb')}</span>
              </div>
           </div>
         </div>

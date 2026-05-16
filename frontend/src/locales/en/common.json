@@ -4,18 +4,23 @@
     "shop": "Shop",
     "subscription": "Subscription",
     "stories": "Stories",
+    "blog": "Blog",
     "about": "About",
     "contact": "Contact",
     "login": "Login",
     "logout": "Logout",
     "settings": "Settings",
-    "brand": "Ethio-Brew"
+    "brand": "Ethio-Brew",
+    "expert": "Coffee Expert",
+    "ai_powered": "AI Assistant powered by Gemini 2.0"
   },
   "hero": {
     "title": "Savor the Soul of Ethiopia",
     "subtitle": "From the highlands of Kaffa to your doorstep, experience the original coffee tradition.",
     "orderNow": "Order Now",
-    "joinClub": "Join the Club"
+    "joinClub": "Join the Club",
+    "cta_shop": "Shop Now",
+    "cta_learn": "Our Story"
   },
   "home": {
     "recommended": "Recommended for You",
@@ -33,7 +38,13 @@
       "harrar_note": "Bold & Fruity"
     },
     "featured_stories": "Featured Coffee Stories",
-    "view_all": "View All Stories"
+    "view_all": "View All Stories",
+    "legend": {
+      "tag": "The Legend",
+      "title": "The Soul of Ethiopia in Every Sip",
+      "quote": "\"From the highlands of Guji to the ancient ceremonies of Addis Ababa, coffee is more than a drink—it is our history, our hospitality, and our heartbeat.\"",
+      "cta": "Read the Legend"
+    }
   },
   "shop": {
     "search_placeholder": "Search for your favorite coffee...",
@@ -175,13 +186,28 @@
     "verifyLocally": "Payment Verified Locally",
     "finish": "Finish Order"
   },
+  "settings": {
+    "title": "Account Settings",
+    "profile_title": "Profile Information",
+    "account_type": "{{type}} Account",
+    "update_success": "Profile updated successfully!",
+    "password_title": "Change Password",
+    "password_success": "Password updated successfully!",
+    "new_password": "New Password",
+    "confirm_password": "Confirm New Password",
+    "update_btn": "Update Profile",
+    "password_btn": "Update Password",
+    "updating": "Updating...",
+    "saving": "Saving..."
+  },
   "footer": {
     "tagline": "Hand-picked beans from the Ethiopian highlands, roasted for the world.",
-    "explore": "Explore",
-    "legal": "Legal",
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
-    "copyright": "All Rights Reserved"
+    "premium": "Premium Origin Coffee",
+    "authentic": "Authentic Ethiopian coffee.",
+    "contact_title": "Store Contact",
+    "developer_title": "Software Developer",
+    "built_by": "Built by",
+    "rights": "All Cultural Rights Reserved"
   },
   "common": {
     "loading": "Loading...",
@@ -190,6 +216,9 @@
     "cancel": "Cancel",
     "save": "Save",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "etb": "ETB",
+    "currency": "ETB",
+    "online": "Online"
   }
 }

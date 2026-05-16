@@ -59,10 +59,10 @@ const ChatAssistant = () => {
                 <Coffee size={20} />
               </div>
               <div>
-                <p className="font-bold text-sm">Coffee Expert</p>
+                <p className="font-bold text-sm">{t('nav.expert')}</p>
                 <div className="flex items-center gap-1.5">
                   <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                  <p className="text-[10px] text-green-400 font-bold uppercase tracking-wider">Online</p>
+                  <p className="text-[10px] text-green-400 font-bold uppercase tracking-wider">{t('common.online')}</p>
                 </div>
               </div>
             </div>
@@ -132,7 +132,7 @@ const ChatAssistant = () => {
                 <Send size={18} />
               </button>
             </div>
-            <p className="text-[9px] text-center text-gray-400 mt-2 font-medium uppercase tracking-tight">AI Assistant powered by Gemini 2.0</p>
+            <p className="text-[9px] text-center text-gray-400 mt-2 font-medium uppercase tracking-tight">{t('nav.ai_powered')}</p>
           </div>
         </div>
       )}
