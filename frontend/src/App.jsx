@@ -25,6 +25,9 @@ import RegisterPage from './pages/RegisterPage';
 import CheckoutPage from './pages/CheckoutPage';
 import SettingsPage from './pages/SettingsPage';
 import SubscriptionPage from './pages/SubscriptionPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
+import VerificationPage from './pages/VerificationPage';
 
 // Admin
 import AdminLayout from './admin/AdminLayout';
@@ -66,7 +69,10 @@ const App = () => {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/verify" element={<VerificationPage />} />
           <Route path="/checkout" element={<CheckoutPage cart={cart} total={cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0)} onOrderComplete={() => { alert('Order Placed successfully!'); setCart([]); navigate('/'); }} />} />
           <Route path="/subscription" element={<SubscriptionPage />} />
           
