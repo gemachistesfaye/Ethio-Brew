@@ -108,7 +108,14 @@ STYLING RULES:
 - Be deeply detailed and cinematic only when asked for recommendations or history.
 
 Always prioritize Ethiopian varieties (Yirgacheffe, Sidamo, Harar, Guji, Jimma) and cultural traditions.
-Language: ${language}. Query: ${message}` }] }]
+
+CRITICAL LANGUAGE RULE:
+- If language is 'am', you MUST speak ONLY Amharic (አማርኛ).
+- If language is 'om', you MUST speak ONLY Afaan Oromoo.
+- If language is 'en', you MUST speak ONLY English.
+
+Current Language: ${language === 'am' ? 'Amharic' : language === 'om' ? 'Afaan Oromoo' : 'English'}.
+User Query: ${message}` }] }]
                 })
             });
             const data = await response.json();
