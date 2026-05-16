@@ -16,14 +16,16 @@
 ---
 
 ## ✨ Product Interface Gallery
-| Page | Detailed Description | Actual Screenshot |
-| :--- | :--- | :--- |
-| **Home Page** | Cinematic landing experience with immersive background imagery, cultural storytelling, and call-to-actions. | ![Home](./assets/home.png) |
-| **Coffee Shop** | Dynamic catalog featuring regional varieties (Jimma, Sidama, Yirgacheffe) with real-time filtering. | ![Shop](./assets/shop.png) |
-| **Product Discovery** | High-fidelity product cards with roast level indicators, ratings, and origin tracking. | ![Details](./assets/shop_details.png) |
-| **Stories & Blog** | A unified content portal for legends of Kaldi, brewing guides, and sustainable sourcing stories. | ![Blog](./assets/stories.png) |
-| **Checkout Flow** | Secure order process with cart persistence, automatic total calculation, and regional validation. | ![Checkout](./assets/checkout.png) |
-| **Contact Center** | Integrated contact form for customer support and business inquiries. | ![Contact](./assets/contact.png) |
+
+| **Home Page** | **Coffee Shop** | **Product Discovery** |
+| :---: | :---: | :---: |
+| ![Home](./assets/home.png) | ![Shop](./assets/shop.png) | ![Details](./assets/shop_details.png) |
+| *Cinematic landing experience* | *Dynamic coffee catalog* | *Regional varieties & cards* |
+
+| **Stories & Blog** | **Checkout Flow** | **Contact Center** |
+| :---: | :---: | :---: |
+| ![Blog](./assets/stories.png) | ![Checkout](./assets/checkout.png) | ![Contact](./assets/contact.png) |
+| *Cultural heritage portal* | *Secure order process* | *Customer support portal* |
 
 ---
 
