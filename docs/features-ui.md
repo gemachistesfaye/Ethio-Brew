@@ -5,7 +5,7 @@ Ethio-Brew is designed to be more than a marketplace; it is a high-fidelity digi
 ## 🚀 Key Capabilities
 
 ### 🛒 Consumer Ecosystem
-- **Cultural Marketplace**: Discover beans from Yirgacheffe, Sidamo, and Harar with localized descriptions.
+- **Cultural Marketplace**: Discover beans from Yirgacheffe, Sidam and Harar with localized descriptions.
 - **Order Timeline**: High-fidelity, real-time tracking from roasting to doorstep delivery.
 - **Heritage Portal**: Immersive blog and story system featuring high-resolution coffee culture photography.
 - **EthioPoints**: Built-in loyalty system rewarding every purchase with redeemable points.
@@ -13,7 +13,7 @@ Ethio-Brew is designed to be more than a marketplace; it is a high-fidelity digi
 ### 🔐 Business Intelligence (Admin)
 - **Analytics Hub**: Real-time sales metrics, revenue tracking, and customer growth trends.
 - **Verification Engine**: Secure portal for reviewing and approving Telebirr/CBE payment screenshots.
-- **Inventory Management**: Direct control over stock levels, pricing, and regional categories.
+- **Inventory Management**: Direct control over stock levels, pricing and regional categories.
 
 ---
 
