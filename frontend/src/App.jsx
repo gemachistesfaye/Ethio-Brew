@@ -24,6 +24,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import CheckoutPage from './pages/CheckoutPage';
 import SettingsPage from './pages/SettingsPage';
+import SubscriptionPage from './pages/SubscriptionPage';
 
 // Admin
 import AdminLayout from './admin/AdminLayout';
@@ -58,9 +59,8 @@ const App = () => {
       
       <main>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage setPage={(page) => navigate(page === 'menu' ? '/shop' : '/' + page)} onProductClick={handleProductClick} />} />
           <Route path="/shop" element={<ShopPage addToCart={handleAddToCart} onProductClick={handleProductClick} />} />
-          <Route path="/stories" element={<StoriesPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
@@ -68,6 +68,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/checkout" element={<CheckoutPage cart={cart} total={cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0)} onOrderComplete={() => { alert('Order Placed successfully!'); setCart([]); navigate('/'); }} />} />
+          <Route path="/subscription" element={<SubscriptionPage />} />
           
           {/* Advanced Tracking Route */}
           <Route path="/track/:id" element={<div className="py-20 px-4 bg-gray-50"><OrderTracker /></div>} />
