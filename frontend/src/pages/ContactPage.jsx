@@ -53,7 +53,7 @@ const ContactPage = () => {
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="relative rounded-3xl overflow-hidden"
+          className="relative rounded-[48px] overflow-hidden min-h-[600px] shadow-2xl"
         >
           {/* Background image with overlay */}
           <img
@@ -112,7 +112,7 @@ const ContactPage = () => {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white rounded-3xl shadow-xl p-10 flex flex-col justify-center"
+          className="bg-white rounded-[48px] shadow-2xl p-10 flex flex-col justify-center border border-gray-50"
         >
           {!sent ? (
             <>

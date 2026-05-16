@@ -65,6 +65,16 @@ const orderRoutes = require('./routes/orderRoutes');
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes'); // New Admin Routes
 
+// Root Route (Health Check & Welcome)
+app.get(['/', '/api'], (req, res) => {
+  res.json({
+    message: "Welcome to Ethio-Brew Enterprise API",
+    status: "Healthy",
+    version: "1.0.0",
+    docs: "https://github.com/gemachistesfaye/Ethio-Brew"
+  });
+});
+
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/auth', authRoutes);
