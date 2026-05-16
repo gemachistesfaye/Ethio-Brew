@@ -6,11 +6,11 @@
 
 ---
 
-## 🌐 Live Production Links
+## 🌐 Live Production
 | Component | Status | URL |
 | :--- | :--- | :--- |
-| **Storefront (Vercel)** | 🟢 Online | [https://ethio-brew.vercel.app](https://ethio-brew.vercel.app) |
-| **API Backend (Render)** | 🟢 Healthy | [https://ethio-brew-1.onrender.com](https://ethio-brew-1.onrender.com) |
+| **Storefront** | 🟢 Online | [https://ethio-brew.vercel.app](https://ethio-brew.vercel.app) |
+| **API Backend** | 🟢 Healthy | [https://ethio-brew-1.onrender.com](https://ethio-brew-1.onrender.com) |
 | **Admin Panel** | 🔐 Restricted | [Login to Access](https://ethio-brew.vercel.app/login) |
 
 > [!NOTE]
@@ -18,35 +18,24 @@
 
 ---
 
-## ✨ Pro Enterprise Features
+## ✨ Core Pillars
 
 ### 🌍 100% Native Localization
-Unlike generic platforms, Ethio-Brew is architected for the Ethiopian market.
+Architected specifically for the Ethiopian market with zero latency language switching.
 - **English**: International standard.
-- **Amharic (አማርኛ)**: Full UI and content coverage.
+- **Amharic (አማርኛ)**: Full UI and heritage content coverage.
 - **Afaan Oromoo**: Native support for the Oromia region.
-- *Switch languages instantly with 0.1ms latency.*
 
 ### 🤖 AI Coffee Sommelier (Gemini 2.0)
-An integrated AI expert trained on Abyssinian coffee heritage.
-- **Regional Recommendations**: Personalized suggestions based on Yirgacheffe, Sidamo, or Harar profiles.
+An elite AI expert trained on Abyssinian coffee history and flavor profiles.
+- **Recommendations**: Personalized suggestions based on regional bean profiles.
 - **Multi-Lingual Chat**: Converse naturally in Amharic, Oromifa, or English.
-- **Cultural Wisdom**: Deep knowledge of the traditional *Jebena Buna* ceremony.
+- **Heritage Knowledge**: Deep understanding of the traditional *Jebena Buna* ceremony.
 
-### 🛡️ Enterprise-Grade Security
-- **JWT Authentication**: Secure role-based access for Customers and Admins.
-- **Email Verification**: Real-world SMTP integration for account hardening.
-- **Payment Verification**: Manual proof-of-payment workflow optimized for local banking (Telebirr/CBE).
-
----
-
-## 🚧 Platform Limitations
-> [!IMPORTANT]
-> **Beta Status**: This platform is currently in a high-priority stabilization phase.
-
-1. **AI Language Maturity**: Full conversational support for Amharic and Afaan Oromoo is currently under active development. While the AI is trained on these languages, users may experience occasional English interjections for specialized coffee science terms. We are working towards a 100% pure local language experience.
-2. **Real-Time Tracking**: Order tracking status is updated manually by the Admin team after payment verification.
-3. **Regional Delivery**: Shipping calculations are currently optimized for Addis Ababa and major regional hubs.
+### 🛡️ Enterprise Security
+- **JWT Auth**: Secure role-based access control (RBAC).
+- **Email Verification**: Production SMTP integration for account security.
+- **Local Payments**: Optimized manual verification for Telebirr and CBE.
 
 ---
 
@@ -55,26 +44,44 @@ An integrated AI expert trained on Abyssinian coffee heritage.
 | **Home Page** | **Coffee Shop** | **Product Discovery** |
 | :---: | :---: | :---: |
 | ![Home](./assets/home.png) | ![Shop](./assets/shop.png) | ![Details](./assets/shop_details.png) |
-| *Cinematic landing experience* | *Dynamic coffee catalog* | *Regional varieties* |
+| *Cinematic landing* | *Dynamic catalog* | *Regional varieties* |
 
 | **Stories & Blog** | **Checkout Flow** | **Contact Center** |
 | :---: | :---: | :---: |
 | ![Blog](./assets/stories.png) | ![Checkout](./assets/checkout.png) | ![Contact](./assets/contact.png) |
-| *Cultural heritage portal* | *Secure order process* | *Customer support* |
+| *Heritage portal* | *Secure ordering* | *Support portal* |
 
 | **Admin Command** | **Live Tracking** | **Mobile Experience** |
 | :---: | :---: | :---: |
 | ![Admin](./assets/admin.png) | ![Track](./assets/track.png) | ![Mobile](./assets/mobile.png) |
-| *Business intelligence center* | *Real-time order tracker* | *Fully responsive design* |
+| *Business BI center* | *Real-time tracker* | *Fully responsive* |
 
 ---
 
-## 📡 Infrastructure Configuration
+## 🛠️ Technical Infrastructure
 
-### 📡 Backend (Render)
-- `FRONTEND_URL`: `https://ethio-brew.vercel.app`
-- `EMAIL_USER`: System SMTP endpoint.
-- `GEMINI_API_KEY`: Google AI integration key.
+### 📡 Backend Configuration (Render)
+| Variable | Purpose |
+| :--- | :--- |
+| `DB_HOST` | Aiven/AWS MySQL Host. |
+| `EMAIL_USER` | System SMTP Email Address. |
+| `EMAIL_PASS` | Google Security App Password. |
+| `GEMINI_API_KEY` | Google AI Integration Key. |
+
+### 🎨 Frontend Configuration (Vercel)
+| Variable | Purpose |
+| :--- | :--- |
+| `VITE_API_URL` | Live connection to Production API. |
+
+---
+
+## 🚧 Platform Limitations
+> [!IMPORTANT]
+> **Stabilization Phase**: This platform is currently in a high-priority Beta.
+
+1. **AI Language Maturity**: Full conversational support for Amharic and Afaan Oromoo is under active optimization. We are working towards a 100% pure local language experience.
+2. **Real-Time Tracking**: Status is updated manually by the Admin team post-verification.
+3. **Regional Delivery**: Logistics are currently optimized for Addis Ababa and regional hubs.
 
 ---
 
