@@ -26,11 +26,11 @@ const register = async (req, res) => {
         );
 
         // 4. Assign Default Role (customer) - Self-healing logic
-        let [roleResult] = await pool.execute('SELECT id FROM roles WHERE name = "customer"');
+        let [roleResult] = await pool.execute("SELECT id FROM roles WHERE name = 'customer'");
         let roleId;
         
         if (roleResult.length === 0) {
-            const [newRole] = await pool.execute('INSERT INTO roles (name, description) VALUES ("customer", "Default customer role")');
+            const [newRole] = await pool.execute("INSERT INTO roles (name, description) VALUES ('customer', 'Default customer role')");
             roleId = newRole.insertId;
         } else {
             roleId = roleResult[0].id;
