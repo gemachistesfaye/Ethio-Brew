@@ -1,104 +1,74 @@
-# ☕ Ethio-Brew — AI-Powered Ethiopian Coffee E-Commerce Platform
+# ☕ Ethio-Brew — AI-Powered Ethiopian Coffee E-Commerce
 
-![Version](https://img.shields.io/badge/version-1.0.0-gold)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Node](https://img.shields.io/badge/Node.js-v18-green)
-![React](https://img.shields.io/badge/React-v18-blue)
+![Banner](file:///C:/Users/HP/.gemini/antigravity/brain/f615579d-ea59-44ad-91ca-c8d84cbe4665/ethio_brew_banner_1778959805830.png)
 
-**Ethio-Brew** is a production-grade, enterprise-level e-commerce ecosystem designed to bring the heritage of Ethiopian coffee to the digital age. Built with AI-driven intelligence, multilingual support, and a robust business command center.
+**Ethio-Brew** is a high-fidelity, production-grade e-commerce ecosystem designed to bring the heritage of Ethiopian coffee into the digital age. Built with **React**, **Node.js**, **MySQL**, and **Google Gemini AI**.
 
 ---
 
-## 🌐 Live Production
-- **Frontend URL**: [https://ethio-brew.vercel.app](https://ethio-brew.vercel.app)
-- **API Backend**: [https://ethio-brew-1.onrender.com](https://ethio-brew-1.onrender.com)
+## 🌍 Live Production Links
+| Component | Status | URL |
+| :--- | :--- | :--- |
+| **Storefront (Vercel)** | 🟢 Online | [https://ethio-brew.vercel.app](https://ethio-brew.vercel.app) |
+| **API Backend (Render)** | 🟢 Online | [https://ethio-brew-1.onrender.com](https://ethio-brew-1.onrender.com) |
+| **Admin Panel** | 🔐 Restricted | [Login to Access](/login) |
 
 ---
 
-## ⚠️ Important Deployment Notes
-- **Email Verification**: This platform requires real email verification for all new accounts. Ensure the `EMAIL_USER` and `EMAIL_PASS` (Google App Password) are set in the Render environment.
-- **Browser Compatibility**: Some "Site Blocker" or "AdBlock" browser extensions can interfere with React network requests and cause CORS false-positives. If the site is slow or buttons hang, please test in **Incognito Mode**.
-- **CORS Security**: The backend is strictly restricted to the Production Vercel URL. Any changes to the frontend domain require an update to the `FRONTEND_URL` in the backend environment settings.
+## ✨ Features & Interface
+| Feature | Description | Preview |
+| :--- | :--- | :--- |
+| **AI Sommelier** | Get brewing tips and coffee recommendations from our integrated Gemini AI expert. | ☕ |
+| **Premium Shop** | Interactive catalog with regional filtering (Sidamo, Yirgacheffe, Harar). | ![Shop](file:///C:/Users/HP/.gemini/antigravity/brain/f615579d-ea59-44ad-91ca-c8d84cbe4665/ethio_brew_shop_preview_1778959882675.png) |
+| **Stories & Blog** | Immerse yourself in the cultural history of coffee through our unified story portal. | 📖 |
+| **Multilingual** | Full native support for English, Amharic (አማርኛ), and Afaan Oromo. | 🌍 |
 
 ---
 
-## 🚀 Key Features
+## 🛠️ Infrastructure Requirements (Production)
 
-### 🌍 Global Experience
-- **Multilingual Excellence**: Full native support for English, Amharic (አማርኛ), and Afaan Oromo.
-- **Cultural Immersion**: Interactive stories about Kaldi, the history of coffee, and traditional ceremonies.
-- **Regional Discovery**: Shop by origin (Yirgacheffe, Sidamo, Harar) with deep terroir insights.
+To run this platform in production, the following **Environment Variables** are mandatory:
 
-### 🤖 AI Intelligence
-- **Gemini AI Expert**: A multilingual coffee sommelier that recommends blends and explains brewing science.
-- **Smart Analytics**: AI-driven business intelligence that identifies flavor trends and suggests inventory adjustments.
-- **Sentiment Analysis**: Automated customer satisfaction tracking.
+### 📡 Backend (Render/Heroku)
+| Key | Required Value | Purpose |
+| :--- | :--- | :--- |
+| `DB_HOST` | Aiven/AWS MySQL Host | Database connectivity. |
+| `EMAIL_USER` | your-email@gmail.com | System email for verification & resets. |
+| `EMAIL_PASS` | 16-character App Password | **Google Security App Password** (Mandatory). |
+| `FRONTEND_URL` | `https://ethio-brew.vercel.app` | CORS & Email link security. |
+| `GEMINI_API_KEY` | Google AI Studio Key | Powers the Coffee AI Expert. |
 
-### 📊 Admin Command Center (Business Intelligence)
-- **Live Dashboard**: Real-time charts for Revenue, Orders, and Regional Demand.
-- **Inventory Control**: Professional CRUD management for the entire product catalog.
-- **Order Pipeline**: One-click status management (Roasting -> Packaging -> Shipping -> Delivered).
-- **Payment Verification**: Secure audit system for verifying Telebirr and bank receipts.
-
----
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React.js, Tailwind CSS, Framer Motion, Lucide Icons.
-- **Backend**: Node.js, Express.js.
-- **Database**: MySQL (Relational Schema).
-- **Security**: JWT Authentication, Bcrypt Hashing, Role-Based Access (RBAC).
-- **AI Engine**: Google Gemini Pro.
+### 🎨 Frontend (Vercel)
+| Key | Required Value | Purpose |
+| :--- | :--- | :--- |
+| `VITE_API_URL` | `https://ethio-brew-1.onrender.com/api` | Direct connection to production API. |
 
 ---
 
-## 📂 Documentation
+## ⚠️ Important Security Notes
+> [!IMPORTANT]
+> **Email Verification**: This platform uses a "Double Opt-In" system. Users MUST verify their email address before they can log in. Ensure your SMTP settings are correctly configured in the backend environment.
 
-Detailed documentation is available in the `/docs` folder:
-- [📖 Project Architecture](./docs/architecture.md)
-- [📡 API Documentation](./docs/api-documentation.md)
+> [!WARNING]
+> **Browser Extensions**: Some "Site Blocker" or "AdBlock" extensions may interfere with the React lifecycle. If you experience a "CORS" error while the server is live, please test in **Incognito Mode**.
+
+---
+
+## 📂 Project Documentation
+- [📖 Architecture Overview](./docs/architecture.md)
+- [📡 API Reference](./docs/api-documentation.md)
 - [🗄️ Database Schema](./docs/database-schema.md)
-- [✨ Features Overview](./docs/features-overview.md)
-- [🛠️ Setup Guide](./docs/setup-guide.md)
-- [🚀 Deployment Guide](./docs/deployment-guide.md)
+- [🛠️ Detailed Setup Guide](./docs/setup-guide.md)
 
 ---
 
-## 🚦 Getting Started
-
-### Environment Variables
-Create a `.env` file in the `/backend` directory:
-```env
-PORT=5000
-DB_HOST=localhost
-DB_USER=root
-DB_PASS=your_password
-DB_NAME=ethio_brew
-JWT_SECRET=your_jwt_secret
-GEMINI_API_KEY=your_gemini_key
-```
-
-### Installation
-1. **Clone**: `git clone https://github.com/gemachistesfaye/Ethio-Brew.git`
-2. **Database**: Run `db/schema.sql` in your MySQL client.
-3. **Backend**: `cd backend && npm install && node server.js`
-4. **Frontend**: `cd frontend && npm install && npm run dev`
-
----
-
-## 👤 Developer Profile
-
-**Developed by Gemachis Tesfaye**  
-*Software Developer & Coffee Enthusiast*
+## 👤 Lead Developer
+**Gemachis Tesfaye**  
+*Full Stack Developer & Coffee Enthusiast*
 
 - 📞 **Phone**: +251 976 601 074
 - 📧 **Email**: [gemachistesfaye36@gmail.com](mailto:gemachistesfaye36@gmail.com)
 - 📍 **Telegram**: [@urjiiko1](https://t.me/urjiiko1)
-- 🌐 **GitHub**: [github.com/gemachistesfaye](https://github.com/gemachistesfaye)
 
 ---
-
-## 📜 License
-This project is licensed under the MIT License.
-
-*☕ Ethio-Brew — Preserving Heritage, Empowering Farmers, Brewing Excellence.*
+*© 2026 Ethio-Brew — Preserving Heritage, Brewing Excellence.*
