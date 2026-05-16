@@ -14,6 +14,7 @@ const BlogPage = () => {
       id: 'b1',
       title: 'How to Brew the Perfect Jebena Buna',
       excerpt: 'Master the traditional Ethiopian clay pot brewing method at home with these simple steps.',
+      fullStory: 'The **Jebena** is the heart of Ethiopian coffee culture. To brew the perfect cup, start by roasting fresh green beans until they are dark and oily. Grind them finely and add to the Jebena with water. Let it boil three times—this is the secret to the rich, intense flavor that makes Jebena Buna unique.',
       author: 'Abebe Bikila',
       date: 'May 9, 2026',
       readTime: '8 min read',
@@ -25,6 +26,7 @@ const BlogPage = () => {
       id: 'b2',
       title: 'Light vs Dark Roast: Which is Best for You?',
       excerpt: 'Understanding the flavor profiles of different roast levels and how they impact your caffeine intake.',
+      fullStory: 'Light roasts preserve the unique **terroir** of the bean, offering floral and acidic notes. Dark roasts, on the other hand, bring out bold, smoky, and chocolatey flavors. In Ethiopia, we often prefer a medium-dark roast that balances the bean\'s natural fruitiness with the richness of the roast.',
       author: 'Selam Tesfaye',
       date: 'May 8, 2026',
       readTime: '5 min read',
@@ -36,6 +38,7 @@ const BlogPage = () => {
       id: 'b3',
       title: 'Sustainable Sourcing in the Oromia Region',
       excerpt: 'How Ethio-Brew is partnering with local cooperatives to ensure the future of organic coffee.',
+      fullStory: 'Sustainability is not just a buzzword; it is a way of life for Ethiopian farmers. By working directly with **Oromia** cooperatives, we ensure that farmers receive premium prices while maintaining organic farming practices that protect Abyssinia\'s rich biodiversity.',
       author: 'Gemachis Tesfaye',
       date: 'May 6, 2026',
       readTime: '10 min read',
@@ -97,7 +100,7 @@ const BlogPage = () => {
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.4 }}
                     className="flex flex-col group cursor-pointer bg-white rounded-[40px] border border-gray-50 shadow-sm hover:shadow-2xl transition-all p-4"
-                    onClick={() => item.type === 'Story' ? setActiveStory(item) : null}
+                    onClick={() => setActiveStory(item)}
                   >
                       <div className="relative h-64 rounded-[32px] overflow-hidden mb-8">
                         <img src={item.image} className="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt={title} />
