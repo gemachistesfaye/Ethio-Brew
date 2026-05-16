@@ -20,7 +20,7 @@ The AI is not a generic chatbot; it is specialized with:
 ---
 
 ## 🌍 Universal Localization
-The platform supports zero-latency switching between English, Amharic, and Afaan Oromoo.
+The platform supports zero-latency switching between English, Amharic and Afaan Oromoo.
 
 ### 1. Language Architecture
 - **Tech Stack**: Custom `LanguageContext` and `useTranslation` hook.
