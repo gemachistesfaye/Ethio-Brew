@@ -13,6 +13,9 @@ dotenv.config();
 
 const app = express();
 
+// Enable trust proxy for cloud platforms (Render, Heroku, Vercel)
+app.set('trust proxy', 1);
+
 // 1. GLOBAL SECURITY MIDDLEWARE
 app.use(helmet()); // Sets various HTTP headers for security
 app.use(cookieParser());
