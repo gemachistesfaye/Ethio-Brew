@@ -1,4 +1,4 @@
-# ☕ Ethio-Brew — AI-Powered Ethiopian Coffee E-Commerce
+# ☕ Ethio-Brew — AI-Powered Ethiopian Coffee Platform
 
 ![Banner](file:///C:/Users/HP/.gemini/antigravity/brain/f615579d-ea59-44ad-91ca-c8d84cbe4665/ethio_brew_banner_1778959805830.png)
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 🌍 Live Production Links
+## 🌐 Live Production Links
 | Component | Status | URL |
 | :--- | :--- | :--- |
 | **Storefront (Vercel)** | 🟢 Online | [https://ethio-brew.vercel.app](https://ethio-brew.vercel.app) |
@@ -15,56 +15,45 @@
 
 ---
 
-## ✨ Features & Interface
-| Feature | Description | Preview |
+## ✨ Product Features & Interface
+| Page | Detailed Description | Actual Screenshot |
 | :--- | :--- | :--- |
-| **AI Sommelier** | Get brewing tips and coffee recommendations from our integrated Gemini AI expert. | ☕ |
-| **Premium Shop** | Interactive catalog with regional filtering (Sidamo, Yirgacheffe, Harar). | ![Shop](file:///C:/Users/HP/.gemini/antigravity/brain/f615579d-ea59-44ad-91ca-c8d84cbe4665/ethio_brew_shop_preview_1778959882675.png) |
-| **Stories & Blog** | Immerse yourself in the cultural history of coffee through our unified story portal. | 📖 |
-| **Multilingual** | Full native support for English, Amharic (አማርኛ), and Afaan Oromo. | 🌍 |
+| **Home Page** | Cinematic landing experience with immersive background imagery, cultural storytelling, and call-to-actions for the coffee club and shop. | ![Home](file:///C:/Users/HP/.gemini/antigravity/brain/f615579d-ea59-44ad-91ca-c8d84cbe4665/home_page_viewport_1778960274219.png) |
+| **Coffee Shop** | Dynamic catalog featuring regional varieties (Jimma, Sidama, Yirgacheffe). Includes real-time filtering by roast level and category. | ![Shop](file:///C:/Users/HP/.gemini/antigravity/brain/f615579d-ea59-44ad-91ca-c8d84cbe4665/shop_page_products_1778960319913.png) |
+| **Checkout Flow** | Secure, streamlined order process with cart persistence, automatic total calculation, and regional phone/address validation. | ![Checkout](file:///C:/Users/HP/.gemini/antigravity/brain/f615579d-ea59-44ad-91ca-c8d84cbe4665/checkout_page_summary_1778960358091.png) |
+| **Stories & Blog** | A unified content portal for legends of Kaldi, brewing guides (Jebena Buna), and sustainable sourcing stories from Oromia and beyond. | ![Blog](file:///C:/Users/HP/.gemini/antigravity/brain/f615579d-ea59-44ad-91ca-c8d84cbe4665/blog_page_stories_1778960377361.png) |
 
 ---
 
-## 🛠️ Infrastructure Requirements (Production)
+## 🛠️ Infrastructure Requirements
 
-To run this platform in production, the following **Environment Variables** are mandatory:
-
-### 📡 Backend (Render/Heroku)
-| Key | Required Value | Purpose |
+### 📡 Backend Configuration (Render)
+| Variable | Value Requirement | Purpose |
 | :--- | :--- | :--- |
 | `DB_HOST` | Aiven/AWS MySQL Host | Database connectivity. |
-| `EMAIL_USER` | your-email@gmail.com | System email for verification & resets. |
-| `EMAIL_PASS` | 16-character App Password | **Google Security App Password** (Mandatory). |
-| `FRONTEND_URL` | `https://ethio-brew.vercel.app` | CORS & Email link security. |
-| `GEMINI_API_KEY` | Google AI Studio Key | Powers the Coffee AI Expert. |
+| `EMAIL_USER` | System Email Address | For sending verification/reset emails. |
+| `EMAIL_PASS` | 16-char App Password | **Google Security App Password** (Mandatory). |
+| `FRONTEND_URL` | `https://ethio-brew.vercel.app` | Security & CORS validation. |
 
-### 🎨 Frontend (Vercel)
-| Key | Required Value | Purpose |
+### 🎨 Frontend Configuration (Vercel)
+| Variable | Value Requirement | Purpose |
 | :--- | :--- | :--- |
-| `VITE_API_URL` | `https://ethio-brew-1.onrender.com/api` | Direct connection to production API. |
+| `VITE_API_URL` | `https://ethio-brew-1.onrender.com/api` | Live connection to Production API. |
 
 ---
 
-## ⚠️ Important Security Notes
+## ⚠️ Deployment & Security Notes
 > [!IMPORTANT]
-> **Email Verification**: This platform uses a "Double Opt-In" system. Users MUST verify their email address before they can log in. Ensure your SMTP settings are correctly configured in the backend environment.
+> **Email Verification**: This platform requires real email verification for all new accounts. Ensure your SMTP settings are correctly configured in the backend environment.
 
 > [!WARNING]
-> **Browser Extensions**: Some "Site Blocker" or "AdBlock" extensions may interfere with the React lifecycle. If you experience a "CORS" error while the server is live, please test in **Incognito Mode**.
+> **Browser Extensions**: Some "Site Blocker" or "AdBlock" browser extensions can interfere with React network requests. If the site hangs during checkout or registration, please test in **Incognito Mode**.
 
 ---
 
-## 📂 Project Documentation
-- [📖 Architecture Overview](./docs/architecture.md)
-- [📡 API Reference](./docs/api-documentation.md)
-- [🗄️ Database Schema](./docs/database-schema.md)
-- [🛠️ Detailed Setup Guide](./docs/setup-guide.md)
-
----
-
-## 👤 Lead Developer
+## 👤 Developer Profile
 **Gemachis Tesfaye**  
-*Full Stack Developer & Coffee Enthusiast*
+*Full Stack Software Engineer*
 
 - 📞 **Phone**: +251 976 601 074
 - 📧 **Email**: [gemachistesfaye36@gmail.com](mailto:gemachistesfaye36@gmail.com)
