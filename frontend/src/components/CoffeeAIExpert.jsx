@@ -6,6 +6,8 @@ import {
 } from 'lucide-react';
 import { useTranslation } from '../hooks/useTranslation';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const steps = [
   {
     id: 'roast',
@@ -60,7 +62,7 @@ const CoffeeAIExpert = () => {
       const prompt = `Based on these preferences: Roast: ${finalSelections.roast}, Flavor: ${finalSelections.flavor}, Method: ${finalSelections.method}. 
       Suggest the best Ethiopian coffee bean (Yirgacheffe, Sidamo, Harar, Guji, or Jimma) and explain why in a premium professional way.`;
       
-      const res = await fetch('http://localhost:5000/api/ai', {
+      const res = await fetch(`${API_URL}/ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: prompt, language })

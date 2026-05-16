@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const AdminDashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,7 +19,7 @@ const AdminDashboard = () => {
     // Fetch analytics from API
     const fetchAnalytics = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/admin/analytics', {
+            const res = await fetch(`${API_URL}/admin/analytics`, {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
             const json = await res.json();
@@ -33,7 +35,7 @@ const AdminDashboard = () => {
 
   const handleStatusUpdate = async (orderId, newStatus) => {
     try {
-      await fetch('http://localhost:5000/api/admin/orders/status', {
+      await fetch(`${API_URL}/admin/orders/status`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',

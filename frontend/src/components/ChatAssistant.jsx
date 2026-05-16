@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { X, Zap, Maximize2, Minimize2, Send, Coffee } from 'lucide-react';
 import { useTranslation } from '../hooks/useTranslation';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const ChatAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
@@ -32,7 +34,7 @@ const ChatAssistant = () => {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/ai", {
+      const res = await fetch(`${API_URL}/ai`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userMessage, language }),
