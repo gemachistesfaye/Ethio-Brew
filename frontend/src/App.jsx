@@ -38,7 +38,13 @@ const App = () => {
   const [cart, setCart] = useState([]);
 
   const handleAddToCart = (product) => {
-    setCart(prev => [...prev, product]);
+    setCart(prev => {
+      const existing = prev.find(p => p.id === product.id);
+      if (existing) {
+        return prev.map(p => p.id === product.id ? { ...p, quantity: (p.quantity || 1) + 1 } : p);
+      }
+      return [...prev, { ...product, quantity: 1 }];
+    });
     alert(`Added to cart!`);
   };
 
@@ -61,7 +67,7 @@ const App = () => {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/checkout" element={<CheckoutPage cart={cart} total={cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0)} onOrderComplete={() => { alert('Order Placed successfully!'); setCart([]); navigate('/'); }} />} />
           
           {/* Advanced Tracking Route */}
           <Route path="/track/:id" element={<div className="py-20 px-4 bg-gray-50"><OrderTracker /></div>} />
