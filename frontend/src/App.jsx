@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useTranslation } from './hooks/useTranslation';
+import { AnimatePresence } from 'framer-motion';
 
 // Components
 import Navbar from './components/Navbar';
@@ -10,6 +11,7 @@ import CoffeeAIExpert from './components/CoffeeAIExpert';
 import OriginMap from './components/OriginMap';
 import ChatAssistant from './components/ChatAssistant';
 import OrderTracker from './components/OrderTracker';
+import ProductModal from './components/ProductModal';
 
 // Pages
 import HomePage from './pages/Home';
@@ -21,6 +23,7 @@ import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import CheckoutPage from './pages/CheckoutPage';
+import SettingsPage from './pages/SettingsPage';
 
 // Admin
 import AdminLayout from './admin/AdminLayout';
@@ -28,21 +31,34 @@ import AdminLayout from './admin/AdminLayout';
 const App = () => {
   const { t, language } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
   const isAdminPath = location.pathname.startsWith('/admin');
+
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [cart, setCart] = useState([]);
+
+  const handleAddToCart = (product) => {
+    setCart(prev => [...prev, product]);
+    alert(`Added to cart!`);
+  };
+
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+  };
 
   return (
     <div className={`min-h-screen bg-white ${language === 'am' || language === 'om' ? 'font-noto' : 'font-inter'}`}>
-      {!isAdminPath && <Navbar />}
+      {!isAdminPath && <Navbar cartCount={cart.length} toggleCart={() => navigate('/checkout')} />}
       
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/shop" element={<ShopPage />} />
+          <Route path="/shop" element={<ShopPage addToCart={handleAddToCart} onProductClick={handleProductClick} />} />
           <Route path="/stories" element={<StoriesPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/settings" element={<div className="p-20 text-center font-bold text-[#4B2C20]">User Settings Center (Coming Soon)</div>} />
+          <Route path="/settings" element={<SettingsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
@@ -68,6 +84,16 @@ const App = () => {
 
       {!isAdminPath && <Footer />}
       <ChatAssistant />
+      
+      <AnimatePresence>
+        {selectedProduct && (
+          <ProductModal 
+            product={selectedProduct} 
+            onClose={() => setSelectedProduct(null)} 
+            addToCart={handleAddToCart} 
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
