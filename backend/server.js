@@ -102,14 +102,14 @@ const seedAdmin = async () => {
         const hashedPass = await bcrypt.hash('admin123', 12);
         
         // Ensure Roles exist
-        await pool.execute('INSERT IGNORE INTO roles (id, name, description) VALUES (1, "customer", "Default"), (2, "admin", "Master Admin")');
+        await pool.execute("INSERT IGNORE INTO roles (id, name, description) VALUES (1, 'customer', 'Default'), (2, 'admin', 'Master Admin')");
         
         // DELETE OLD ADMIN (To be 100% sure)
-        await pool.execute('DELETE FROM users WHERE email = "admin@ethiobrew.com"');
+        await pool.execute("DELETE FROM users WHERE email = 'admin@ethiobrew.com'");
         
         // CREATE FRESH ADMIN
         const [result] = await pool.execute(
-            'INSERT INTO users (full_name, email, password, is_verified) VALUES ("Master Admin", "admin@ethiobrew.com", ?, TRUE)',
+            "INSERT INTO users (full_name, email, password, is_verified) VALUES ('Master Admin', 'admin@ethiobrew.com', ?, TRUE)",
             [hashedPass]
         );
         
