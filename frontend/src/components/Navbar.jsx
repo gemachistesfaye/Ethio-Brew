@@ -64,6 +64,16 @@ const Navbar = ({ toggleCart, cartCount = 0 }) => {
             ))}
           </div>
 
+          {/* Cart Button */}
+          <button onClick={toggleCart} className="relative p-2 text-[#4B2C20] hover:text-[#006341] transition">
+            <ShoppingCart size={24} />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md animate-in zoom-in">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
           {/* User Menu */}
           {user ? (
             <div className="relative">
