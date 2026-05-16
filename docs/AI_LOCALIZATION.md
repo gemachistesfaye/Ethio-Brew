@@ -37,7 +37,7 @@ The platform supports zero-latency switching between English, Amharic, and Afaan
 ### 3. AI Language Integration
 The AI assistant detects the active UI language and automatically switches its response mode:
 - **Amharic**: Responds in native Ge'ez script.
-- **Oromifa**: Responds in native Qubee script.
+- **Afaan Oromoo**: Responds in native Qubee script.
 - **English**: Standard professional tone.
 
 ---

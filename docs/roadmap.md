@@ -14,7 +14,7 @@ The following outlines the planned future development vision for the Ethio-Brew 
 - [ ] **Admin Analytics Dashboard**: Comprehensive data visualization using Chart.js for sales, revenue, and user growth.
 
 ## Phase 3: Communication & Reach
-- [ ] **Afaan Oromo Localization Completion**: Finalize all JSON translation keys for full regional support.
+- [ ] **Afaan Oromoo Localization Completion**: Finalize all JSON translation keys for full regional support.
 - [ ] **SMS Notifications**: Integrate Twilio or a local Ethiopian SMS gateway to notify users of order dispatch and delivery.
 - [ ] **AI-Powered Customer Assistant**: Expand the chat widget to handle automated customer support queries and order modifications.
 

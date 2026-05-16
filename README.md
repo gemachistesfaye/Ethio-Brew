@@ -29,7 +29,7 @@ Architected specifically for the Ethiopian market with zero latency language swi
 ### 🤖 AI Coffee Sommelier (Gemini 2.0)
 An elite AI expert trained on Abyssinian coffee history and flavor profiles.
 - **Recommendations**: Personalized suggestions based on regional bean profiles.
-- **Multi-Lingual Chat**: Converse naturally in Amharic, Oromifa, or English.
+- **Multi-Lingual Chat**: Converse naturally in Amharic, Afaan Oromoo, or English.
 - **Heritage Knowledge**: Deep understanding of the traditional *Jebena Buna* ceremony.
 
 ### 🛡️ Enterprise Security
