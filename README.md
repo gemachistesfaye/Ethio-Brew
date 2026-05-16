@@ -44,7 +44,7 @@ An integrated AI expert trained on Abyssinian coffee heritage.
 > [!IMPORTANT]
 > **Beta Status**: This platform is currently in a high-priority stabilization phase.
 
-1. **AI Language Nuance**: While the AI supports Amharic and Afaan Oromoo, complex technical coffee terminology may occasionally default to English roots due to the underlying LLM training data.
+1. **AI Language Maturity**: Full conversational support for Amharic and Afaan Oromoo is currently under active development. While the AI is trained on these languages, users may experience occasional English interjections for specialized coffee science terms. We are working towards a 100% pure local language experience.
 2. **Real-Time Tracking**: Order tracking status is updated manually by the Admin team after payment verification.
 3. **Regional Delivery**: Shipping calculations are currently optimized for Addis Ababa and major regional hubs.
 
