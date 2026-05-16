@@ -94,15 +94,27 @@ app.use((err, req, res, next) => {
 const pool = require('./config/db');
 const bcrypt = require('bcryptjs');
 
-// 6. SELF-HEALING: ULTIMATE ADMIN RESET
-const seedAdmin = async () => {
+// 6. SELF-HEALING: DATABASE INITIALIZATION
+const initializeDB = async () => {
     try {
         console.log("------------------------------------------");
-        console.log("🛠️  DEVELOPER MODE: RESETTING ADMIN ACCOUNT...");
-        const hashedPass = await bcrypt.hash('admin123', 12);
+        console.log("🛠️  DEVELOPER MODE: INITIALIZING DATABASE...");
         
         // Ensure Roles exist
         await pool.execute("INSERT IGNORE INTO roles (id, name, description) VALUES (1, 'customer', 'Default'), (2, 'admin', 'Master Admin')");
+        
+        // Ensure Password Resets table exists
+        await pool.execute(`
+            CREATE TABLE IF NOT EXISTS password_resets (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                email VARCHAR(100) NOT NULL,
+                token VARCHAR(255) NOT NULL,
+                expires_at DATETIME NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `);
+
+        const hashedPass = await bcrypt.hash('admin123', 12);
         
         // DELETE OLD ADMIN (To be 100% sure)
         await pool.execute("DELETE FROM users WHERE email = 'admin@ethiobrew.com'");
@@ -116,10 +128,10 @@ const seedAdmin = async () => {
         // LINK ROLE
         await pool.execute('INSERT INTO user_roles (user_id, role_id) VALUES (?, 2)', [result.insertId]);
         
-        console.log("✅  ADMIN ACCOUNT RESET TO: admin@ethiobrew.com / admin123");
+        console.log("✅  DATABASE INITIALIZED & ADMIN ACCOUNT READY");
         console.log("------------------------------------------");
     } catch (err) {
-        console.error("❌  ADMIN RESET FAILED:", err.message);
+        console.error("❌  DB INITIALIZATION FAILED:", err.message);
     }
 };
 
@@ -134,8 +146,6 @@ app.listen(PORT, () => {
   console.log(`🏗️  Mode: ${ENV.toUpperCase()}`);
   console.log('==========================================');
   
-  // Initialize admin only if DB is likely ready
-  // The db.js already logs its own status
-  seedAdmin();
+  initializeDB();
 });
 
