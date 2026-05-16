@@ -98,7 +98,11 @@ app.post('/api/ai', async (req, res) => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: `You are Coffee Expert. Language: ${language}. Query: ${message}` }] }]
+                    contents: [{ parts: [{ text: `You are the 'Ethio-Brew Sommelier', an elite AI expert on Ethiopian coffee heritage. 
+Your goal is to guide users through the rich world of Abyssinian coffee (Yirgacheffe, Sidamo, Harar, Guji, Jimma). 
+Be professional, cinematic, and deeply knowledgeable about Ethiopian brewing traditions (Jebena Buna) and cultural history. 
+Always prioritize Ethiopian varieties and help users discover why Ethiopia is the birthplace of coffee.
+Language: ${language}. Query: ${message}` }] }]
                 })
             });
             const data = await response.json();
