@@ -5,6 +5,8 @@ import { Star } from 'lucide-react';
 import { MOCK_COFFEE } from '../constants';
 import { STORIES } from '../data/stories';
 import { AnimatePresence, motion } from 'framer-motion';
+import { renderSafeMarkdown } from '../utils/safeMarkdown';
+import { renderSafeMarkdown } from '../utils/safeMarkdown';
 
 const RecommendationEngine = ({ onProductClick }) => {
   const { t, language } = useTranslation();
@@ -90,7 +92,7 @@ const StoryModal = ({ story, onClose }) => {
           <div className="p-8 overflow-y-auto">
             {content.split('\n\n').map((para, i) => (
               <p key={i} className="text-gray-700 leading-relaxed mb-4 text-base"
-                dangerouslySetInnerHTML={{ __html: para.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}
+                dangerouslySetInnerHTML={{ __html: renderSafeMarkdown(para) }}
               />
             ))}
           </div>

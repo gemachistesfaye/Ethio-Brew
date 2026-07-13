@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import authService from '../services/authService';
 
 const AuthContext = createContext();
@@ -7,39 +7,58 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  /**
+   * SECURITY: do not blindly trust whatever is in localStorage. On app load we
+   * call /auth/profile with the stored token; if the server rejects it the
+   * session is cleared. This prevents a forged localStorage `user` object from
+   * granting admin UI access on the client.
+   */
+  const verifySession = useCallback(async () => {
+    const token = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
-    // For HTTP-only cookies, we assume if user info is in localStorage, they might be logged in.
-    // Real-world apps verify this by calling a /me endpoint on load, but this works for demo.
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+
+    if (!token || !storedUser) {
+      setLoading(false);
+      return;
     }
-    setLoading(false);
+
+    try {
+      const profile = await authService.getProfile();
+      // Use the server-authoritative user object, not the local copy.
+      if (profile?.user) {
+        setUser(profile.user);
+        localStorage.setItem('user', JSON.stringify(profile.user));
+      }
+    } catch (err) {
+      // 401/403 or network — treat as logged out.
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    verifySession();
+  }, [verifySession]);
 
   const login = async (credentials) => {
     const data = await authService.login(credentials);
     if (data.user) {
       localStorage.setItem('user', JSON.stringify(data.user));
-      if (data.token) localStorage.setItem('token', data.token);
       setUser(data.user);
     }
     return data;
   };
 
   const logout = async () => {
-    try {
-      await authService.logout();
-    } catch (err) {
-      console.error(err);
-    }
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    await authService.logout();
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout, loading, verifySession }}>
       {children}
     </AuthContext.Provider>
   );

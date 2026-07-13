@@ -1,12 +1,18 @@
 const Payment = require('../models/Payment');
 
 const paymentController = {
+  // SECURITY: record which admin/user uploaded the proof from the JWT.
   uploadProof: async (req, res) => {
     try {
-      const paymentId = await Payment.create(req.body);
+      const { order_id, method, proof_image } = req.body;
+      if (!order_id || !method) {
+        return res.status(400).json({ error: 'order_id and method are required' });
+      }
+      const paymentId = await Payment.create({ order_id, method, proof_image, uploaded_by: req.user.id });
       res.status(201).json({ message: 'Payment proof uploaded', paymentId });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error('uploadProof error:', error);
+      res.status(500).json({ error: 'Could not upload payment proof.' });
     }
   },
   getPendingPayments: async (req, res) => {
@@ -14,15 +20,22 @@ const paymentController = {
       const payments = await Payment.findAllPending();
       res.json(payments);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error('getPendingPayments error:', error);
+      res.status(500).json({ error: 'Could not load payments.' });
     }
   },
   verifyPayment: async (req, res) => {
     try {
-      await Payment.verify(req.params.id, req.body.status, req.body.admin_notes);
+      const allowed = ['Pending', 'Approved', 'Rejected'];
+      if (!allowed.includes(req.body.status)) {
+        return res.status(400).json({ error: 'Invalid payment status' });
+      }
+      // Record the verifying admin for an audit trail.
+      await Payment.verify(req.params.id, req.body.status, req.body.admin_notes, req.user.id);
       res.json({ message: 'Payment verification updated' });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error('verifyPayment error:', error);
+      res.status(500).json({ error: 'Could not verify payment.' });
     }
   }
 };

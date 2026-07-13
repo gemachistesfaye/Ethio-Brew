@@ -4,12 +4,19 @@ const dotenv = require('dotenv');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
-const fetch = require('node-fetch');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 // Security Utilities
 const { protect, authorize } = require('./middleware/authMiddleware');
 
 dotenv.config();
+
+// SECURITY: require a strong JWT secret at boot (tokenUtils throws otherwise).
+// Importing here validates configuration as early as possible.
+require('./utils/tokenUtils');
+
+// Lazy-init the Gemini client once (key read from env, never placed in a URL).
+const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
 
 const app = express();
 
@@ -59,6 +66,13 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
+// 3b. STRICTER RATE LIMITING for the expensive AI endpoint
+const aiLimiter = rateLimit({
+  windowMs: 60 * 1000,        // 1 minute
+  max: 8,                     // 8 AI requests per IP per minute
+  message: { status: 'error', message: 'Too many AI requests, slow down.' }
+});
+
 // 4. ROUTES
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
@@ -80,30 +94,28 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', protect, authorize('admin'), adminRoutes);
 
-// 5. AMAZING AI ENDPOINT (Updated with Security)
-app.post('/api/ai', async (req, res) => {
+// 5. AI ENDPOINT — uses the official SDK, key in Authorization header (never in URL).
+app.post('/api/ai', aiLimiter, async (req, res) => {
     const { message, language } = req.body;
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) return res.status(500).json({ response: "AI Config Error" });
 
-    const attempts = [
-        { ver: 'v1beta', model: 'gemini-2.0-flash' },
-        { ver: 'v1beta', model: 'gemini-2.5-flash' }
-    ];
+    // Input validation
+    if (typeof message !== 'string' || message.trim().length === 0) {
+        return res.status(400).json({ response: 'A non-empty message is required.' });
+    }
+    if (message.length > 1000) {
+        return res.status(413).json({ response: 'Message too long (max 1000 characters).' });
+    }
+    const lang = ['am', 'om', 'en'].includes(language) ? language : 'en';
 
-    for (const attempt of attempts) {
-        try {
-            const url = `https://generativelanguage.googleapis.com/${attempt.ver}/models/${attempt.model}:generateContent?key=${apiKey}`;
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: `You are the 'Ethio-Brew Sommelier', an elite AI expert on Ethiopian coffee heritage. 
+    if (!genAI) {
+        return res.status(503).json({ response: 'AI service is not configured.' });
+    }
+
+    const SYSTEM_PROMPT = `You are the 'Ethio-Brew Sommelier', an elite AI expert on Ethiopian coffee heritage.
 
 STYLING RULES:
 - Use **bolding** for coffee regions and *italics* for flavor notes.
 - Use emojis SPARINGLY (max 1 per response, only at the end).
-- Do NOT use too many emojis. Keep it professional.
 - Be concise and punchy for simple greetings.
 - Be deeply detailed and cinematic only when asked for recommendations or history.
 
@@ -114,35 +126,55 @@ CRITICAL LANGUAGE RULE:
 - If language is 'om', you MUST speak ONLY Afaan Oromoo.
 - If language is 'en', you MUST speak ONLY English.
 
-Current Language: ${language === 'am' ? 'Amharic' : language === 'om' ? 'Afaan Oromoo' : 'English'}.
-User Query: ${message}` }] }]
-                })
-            });
-            const data = await response.json();
-            if (data.candidates) return res.json({ response: data.candidates[0].content.parts[0].text });
-        } catch (err) { continue; }
+Current Language: ${lang === 'am' ? 'Amharic' : lang === 'om' ? 'Afaan Oromoo' : 'English'}.`;
+
+    const models = ['gemini-2.0-flash', 'gemini-2.5-flash'];
+    for (const modelName of models) {
+        try {
+            const model = genAI.getGenerativeModel({ model: modelName });
+            const result = await model.generateContent([
+                { text: SYSTEM_PROMPT },
+                { text: `User Query: ${message}` }
+            ]);
+            const text = result.response.text();
+            if (text) return res.json({ response: text });
+        } catch (err) {
+            // Try the next model.
+            continue;
+        }
     }
-    res.status(500).json({ response: "AI Connection Failed" });
+    res.status(502).json({ response: 'AI service is temporarily unavailable.' });
 });
 
-// 6. GLOBAL ERROR HANDLER
+// 6. GLOBAL ERROR HANDLER — never leak internal error details to clients.
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ status: 'error', message: err.message });
+    console.error(err.stack || err);
+
+    // Preserve intended status codes from controllers that throw with a status.
+    const status = err.status && Number.isInteger(err.status) ? err.status : 500;
+
+    if (status >= 500) {
+        // Generic message for server errors; full detail stays in logs.
+        return res.status(status).json({ status: 'error', message: 'Internal server error' });
+    }
+    // For 4xx, the controller's message is safe to surface.
+    return res.status(status).json({ status: 'error', message: err.message || 'Request error' });
 });
 
 const pool = require('./config/db');
 const bcrypt = require('bcryptjs');
 
-// 6. SELF-HEALING: DATABASE INITIALIZATION
+// 6. IDEMPOTENT SEED: ensures the customer/admin roles and the password_resets
+//    table exist, and creates an admin account ONLY if none exists yet.
+//    SECURITY: never deletes or overwrites an existing admin, and never hardcodes
+//    a password — the admin password must come from ADMIN_PASSWORD env var.
 const initializeDB = async () => {
     try {
-        console.log("------------------------------------------");
-        console.log("🛠️  DEVELOPER MODE: INITIALIZING DATABASE...");
-        
         // Ensure Roles exist
-        await pool.execute("INSERT IGNORE INTO roles (id, name, description) VALUES (1, 'customer', 'Default'), (2, 'admin', 'Master Admin')");
-        
+        await pool.execute(
+            "INSERT IGNORE INTO roles (id, name, description) VALUES (1, 'customer', 'Default'), (2, 'admin', 'Master Admin')"
+        );
+
         // Ensure Password Resets table exists
         await pool.execute(`
             CREATE TABLE IF NOT EXISTS password_resets (
@@ -154,22 +186,32 @@ const initializeDB = async () => {
             )
         `);
 
-        const hashedPass = await bcrypt.hash('admin123', 12);
-        
-        // DELETE OLD ADMIN (To be 100% sure)
-        await pool.execute("DELETE FROM users WHERE email = 'admin@ethiobrew.com'");
-        
-        // CREATE FRESH ADMIN
-        const [result] = await pool.execute(
-            "INSERT INTO users (full_name, email, password, is_verified) VALUES ('Master Admin', 'admin@ethiobrew.com', ?, TRUE)",
-            [hashedPass]
+        // Seed an admin ONLY if one does not already exist. We do NOT touch any
+        // existing admin row, so editing admin credentials in production survives
+        // redeploys. The password is read from env, with no insecure default.
+        const [adminRows] = await pool.execute(
+            "SELECT u.id FROM users u JOIN user_roles ur ON u.id = ur.user_id WHERE ur.role_id = 2 LIMIT 1"
         );
-        
-        // LINK ROLE
-        await pool.execute('INSERT INTO user_roles (user_id, role_id) VALUES (?, 2)', [result.insertId]);
-        
-        console.log("✅  DATABASE INITIALIZED & ADMIN ACCOUNT READY");
-        console.log("------------------------------------------");
+
+        if (adminRows.length === 0) {
+            const adminEmail = process.env.ADMIN_EMAIL || 'admin@ethiobrew.com';
+            const adminPassword = process.env.ADMIN_PASSWORD;
+
+            if (!adminPassword || adminPassword.length < 8) {
+                console.warn("⚠️  No admin user found and ADMIN_PASSWORD missing/too short — skipping admin seed.");
+                console.warn("    Set ADMIN_EMAIL and ADMIN_PASSWORD (>=8 chars) to create one on next boot.");
+            } else {
+                const hashedPass = await bcrypt.hash(adminPassword, 12);
+                const [result] = await pool.execute(
+                    "INSERT INTO users (full_name, email, password, is_verified) VALUES ('Master Admin', ?, ?, TRUE)",
+                    [adminEmail, hashedPass]
+                );
+                await pool.execute('INSERT INTO user_roles (user_id, role_id) VALUES (?, 2)', [result.insertId]);
+                console.log(`✅  Admin account created for ${adminEmail} (change this password after first login).`);
+            }
+        } else {
+            console.log("✅  Admin account already present — skipping seed.");
+        }
     } catch (err) {
         console.error("❌  DB INITIALIZATION FAILED:", err.message);
     }

@@ -7,8 +7,8 @@ const productController = {
       const [products] = await pool.execute('SELECT * FROM products ORDER BY created_at DESC');
       res.json(products);
     } catch (error) {
-      console.error('API Error:', error);
-      res.status(500).json({ error: error.message });
+      console.error('getProducts error:', error);
+      res.status(500).json({ error: 'Could not load products.' });
     }
   },
 
@@ -19,21 +19,26 @@ const productController = {
       if (products.length === 0) return res.status(404).json({ message: 'Product not found' });
       res.json(products[0]);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error('getProductById error:', error);
+      res.status(500).json({ error: 'Could not load product.' });
     }
   },
 
   // Admin: Create product
   createProduct: async (req, res) => {
     const { name_en, name_am, name_or, description_en, price, stock, region, image_url } = req.body;
+    if (!name_en || price == null) {
+      return res.status(400).json({ error: 'name_en and price are required' });
+    }
     try {
       const [result] = await pool.execute(
         'INSERT INTO products (name_en, name_am, name_or, description_en, price, stock, region, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-        [name_en, name_am, name_or, description_en, price, stock, region, image_url]
+        [name_en, name_am || null, name_or || null, description_en || null, price, stock || 0, region || null, image_url || null]
       );
       res.status(201).json({ id: result.insertId, message: 'Product created successfully' });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error('createProduct error:', error);
+      res.status(500).json({ error: 'Could not create product.' });
     }
   },
 
@@ -47,7 +52,8 @@ const productController = {
       );
       res.json({ message: 'Product updated successfully' });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error('updateProduct error:', error);
+      res.status(500).json({ error: 'Could not update product.' });
     }
   },
 
@@ -57,7 +63,8 @@ const productController = {
       await pool.execute('DELETE FROM products WHERE id = ?', [req.params.id]);
       res.json({ message: 'Product deleted' });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error('deleteProduct error:', error);
+      res.status(500).json({ error: 'Could not delete product.' });
     }
   }
 };

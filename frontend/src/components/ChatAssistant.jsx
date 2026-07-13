@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Zap, Maximize2, Minimize2, Send, Coffee } from 'lucide-react';
 import { useTranslation } from '../hooks/useTranslation';
+import { renderSafeMarkdown } from '../utils/safeMarkdown';
+import { renderSafeMarkdown } from '../utils/safeMarkdown';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -91,13 +93,9 @@ const ChatAssistant = () => {
                     {m.text}
                   </div>
                 ) : (
-                  <div 
+                  <div
                     className={`max-w-[85%] p-4 rounded-[24px] text-sm leading-relaxed shadow-sm transition-all ${m.isBot ? 'bg-white text-gray-700 rounded-tl-none border border-gray-100' : 'bg-[#006341] text-white rounded-tr-none'}`}
-                    dangerouslySetInnerHTML={{ 
-                      __html: m.text
-                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    }}
+                    dangerouslySetInnerHTML={{ __html: renderSafeMarkdown(m.text) }}
                   />
                 )}
               </div>
