@@ -1,12 +1,5 @@
 const pool = require('../config/db');
 
-/**
- * User model — aligned with production_schema.sql.
- *
- * Columns: id, full_name, email, password, phone, profile_pic,
- *          is_verified, is_blocked, preferred_language, points,
- *          created_at, updated_at
- */
 const User = {
   create: async ({ full_name, email, password, phone }) => {
     const [result] = await pool.execute(
@@ -42,10 +35,6 @@ const User = {
     return rows[0] || null;
   },
 
-  verifyUser: async (id) => {
-    await pool.execute('UPDATE users SET is_verified = TRUE WHERE id = ?', [id]);
-  },
-
   updateProfile: async (id, { full_name, phone }) => {
     const [result] = await pool.execute(
       'UPDATE users SET full_name = ?, phone = ? WHERE id = ?',
@@ -62,7 +51,8 @@ const User = {
     return result.affectedRows;
   },
 
-  findAll: async () => {
+  findAll: async ({ page = 1, limit = 20 } = {}) => {
+    const offset = (page - 1) * limit;
     const [rows] = await pool.execute(
       `SELECT u.id, u.full_name, u.email, u.phone, u.is_verified, u.is_blocked,
               u.preferred_language, u.points, u.created_at,
@@ -71,9 +61,12 @@ const User = {
        LEFT JOIN user_roles ur ON u.id = ur.user_id
        LEFT JOIN roles r ON ur.role_id = r.id
        GROUP BY u.id
-       ORDER BY u.created_at DESC`
+       ORDER BY u.created_at DESC
+       LIMIT ? OFFSET ?`,
+      [String(limit), String(offset)]
     );
-    return rows;
+    const [[{ total }]] = await pool.execute('SELECT COUNT(*) as total FROM users');
+    return { users: rows, total, page, limit, totalPages: Math.ceil(total / limit) };
   },
 
   count: async () => {
@@ -82,10 +75,19 @@ const User = {
   },
 
   updateRole: async (userId, roleId) => {
-    // Replace all roles for a user with the given role.
     await pool.execute('DELETE FROM user_roles WHERE user_id = ?', [userId]);
     await pool.execute('INSERT INTO user_roles (user_id, role_id) VALUES (?, ?)', [userId, roleId]);
-  }
+  },
+
+  block: async (id) => {
+    const [result] = await pool.execute('UPDATE users SET is_blocked = TRUE WHERE id = ?', [id]);
+    return result.affectedRows;
+  },
+
+  unblock: async (id) => {
+    const [result] = await pool.execute('UPDATE users SET is_blocked = FALSE WHERE id = ?', [id]);
+    return result.affectedRows;
+  },
 };
 
 module.exports = User;

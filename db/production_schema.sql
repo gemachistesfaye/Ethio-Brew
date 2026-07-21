@@ -1,29 +1,23 @@
--- Ethio-Brew "THE FINAL NUKE" Schema (v2.0.2)
--- Description: Forces a clean wipe of ALL previous and current tables.
+-- Ethio-Brew Production Schema (v3.0)
+-- Description: Clean, indexed, production-ready schema.
 
--- THE NUCLEAR OPTION: Turn off all safety checks
 SET FOREIGN_KEY_CHECKS = 0;
 
--- List every possible table name used in any version of this project
-DROP TABLE IF EXISTS 
-    order_items, 
-    order_details, 
-    payments, 
-    subscriptions, 
-    reviews, 
-    notifications, 
-    refresh_tokens, 
-    password_resets, 
-    user_roles, 
-    orders, 
-    products, 
-    categories, 
-    users, 
-    roles, 
-    cart_items, 
-    contacts;
+DROP TABLE IF EXISTS
+    order_items,
+    payments,
+    subscriptions,
+    reviews,
+    notifications,
+    refresh_tokens,
+    password_resets,
+    user_roles,
+    orders,
+    products,
+    categories,
+    users,
+    roles;
 
--- Re-enable safety for the build process
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- 1. ROLES SYSTEM
@@ -34,7 +28,7 @@ CREATE TABLE roles (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO roles (name, description) VALUES 
+INSERT INTO roles (name, description) VALUES
 ('customer', 'Regular store customer'),
 ('admin', 'Super administrator with full access'),
 ('coffee_manager', 'Manages products, roasting and inventory'),
@@ -53,7 +47,9 @@ CREATE TABLE users (
     preferred_language ENUM('en', 'am', 'om') DEFAULT 'en',
     points INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_users_email (email),
+    INDEX idx_users_is_blocked (is_blocked)
 );
 
 CREATE TABLE user_roles (
@@ -67,9 +63,23 @@ CREATE TABLE user_roles (
 CREATE TABLE refresh_tokens (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    token VARCHAR(500) NOT NULL,
+    token VARCHAR(1024) NOT NULL,
     expires_at DATETIME NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_refresh_tokens_user_id (user_id),
+    INDEX idx_refresh_tokens_token (token(255)),
+    INDEX idx_refresh_tokens_expires (expires_at)
+);
+
+CREATE TABLE password_resets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_password_resets_email (email),
+    INDEX idx_password_resets_token (token)
 );
 
 -- 3. PRODUCT & INVENTORY SYSTEM
@@ -78,7 +88,9 @@ CREATE TABLE categories (
     name_en VARCHAR(100),
     name_am VARCHAR(100),
     name_om VARCHAR(100),
-    description_en TEXT
+    description_en TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE products (
@@ -99,7 +111,14 @@ CREATE TABLE products (
     image_url VARCHAR(255),
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
+    INDEX idx_products_category (category_id),
+    INDEX idx_products_is_active (is_active),
+    INDEX idx_products_price (price),
+    INDEX idx_products_created_at (created_at),
+    INDEX idx_products_origin_region (origin_region),
+    INDEX idx_products_roast_level (roast_level)
 );
 
 -- 4. ORDER & TRACKING SYSTEM
@@ -115,7 +134,12 @@ CREATE TABLE orders (
     tracking_number VARCHAR(100) UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_orders_user_id (user_id),
+    INDEX idx_orders_status (status),
+    INDEX idx_orders_payment_status (payment_status),
+    INDEX idx_orders_created_at (created_at),
+    INDEX idx_orders_user_created (user_id, created_at)
 );
 
 CREATE TABLE order_items (
@@ -124,8 +148,11 @@ CREATE TABLE order_items (
     product_id INT,
     quantity INT NOT NULL,
     price_at_purchase DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL,
+    INDEX idx_order_items_order_id (order_id),
+    INDEX idx_order_items_product_id (product_id)
 );
 
 -- 5. PAYMENT VERIFICATION SYSTEM
@@ -133,24 +160,34 @@ CREATE TABLE payments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT,
     transaction_id VARCHAR(100),
+    method VARCHAR(50) NOT NULL,
     screenshot_url VARCHAR(255),
     amount DECIMAL(10,2),
+    admin_notes TEXT,
     verified_by INT,
     verified_at DATETIME,
     status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (verified_by) REFERENCES users(id) ON DELETE SET NULL
+    FOREIGN KEY (verified_by) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_payments_order_id (order_id),
+    INDEX idx_payments_status (status),
+    INDEX idx_payments_created_at (created_at)
 );
 
--- 6. SUBSCRIPTION & REVIEWS
+-- 6. SUBSCRIPTIONS & REVIEWS
 CREATE TABLE subscriptions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    plan_name VARCHAR(50),
-    frequency_days INT,
+    plan_name VARCHAR(50) NOT NULL,
+    frequency_days INT NOT NULL DEFAULT 30,
     status ENUM('Active', 'Paused', 'Cancelled') DEFAULT 'Active',
     next_delivery_date DATE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_subscriptions_user_id (user_id),
+    INDEX idx_subscriptions_status (status)
 );
 
 CREATE TABLE reviews (
@@ -161,18 +198,26 @@ CREATE TABLE reviews (
     comment TEXT,
     sentiment_score FLOAT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_product_review (user_id, product_id),
+    INDEX idx_reviews_product_id (product_id),
+    INDEX idx_reviews_user_id (user_id),
+    INDEX idx_reviews_rating (rating)
 );
 
 -- 7. NOTIFICATION SYSTEM
 CREATE TABLE notifications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    title VARCHAR(255),
-    message TEXT,
-    type ENUM('Order', 'System', 'Promotion', 'Security'),
+    title VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    type ENUM('Order', 'System', 'Promotion', 'Security') DEFAULT 'System',
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_notifications_user_id (user_id),
+    INDEX idx_notifications_is_read (is_read),
+    INDEX idx_notifications_user_read (user_id, is_read)
 );

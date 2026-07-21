@@ -1,19 +1,46 @@
-const pool = require('../config/db');
 const Product = require('../models/Product');
 
 const productController = {
-  // Public: list active products
   getProducts: async (req, res) => {
     try {
-      const products = await Product.findAll(true);
-      res.json(products);
+      const { page = 1, limit = 20, search, category, roast, sort, order } = req.query;
+      const result = await Product.findAll({
+        onlyActive: true,
+        page: parseInt(page),
+        limit: Math.min(parseInt(limit) || 20, 100),
+        search,
+        category: category ? parseInt(category) : undefined,
+        roast,
+        sort,
+        order,
+      });
+      res.json(result);
     } catch (error) {
       console.error('getProducts error:', error);
       res.status(500).json({ error: 'Could not load products.' });
     }
   },
 
-  // Public: single product
+  getAllProducts: async (req, res) => {
+    try {
+      const { page = 1, limit = 20, search, category, roast, sort, order } = req.query;
+      const result = await Product.findAll({
+        onlyActive: false,
+        page: parseInt(page),
+        limit: Math.min(parseInt(limit) || 20, 100),
+        search,
+        category: category ? parseInt(category) : undefined,
+        roast,
+        sort,
+        order,
+      });
+      res.json(result);
+    } catch (error) {
+      console.error('getAllProducts error:', error);
+      res.status(500).json({ error: 'Could not load products.' });
+    }
+  },
+
   getProductById: async (req, res) => {
     try {
       const product = await Product.findById(req.params.id);
@@ -25,7 +52,6 @@ const productController = {
     }
   },
 
-  // Admin: create product
   createProduct: async (req, res) => {
     try {
       const id = await Product.create(req.body);
@@ -36,11 +62,10 @@ const productController = {
     }
   },
 
-  // Admin: update product — accepts any subset of fields
   updateProduct: async (req, res) => {
     try {
       const affected = await Product.update(req.params.id, req.body);
-      if (affected === 0) return res.status(404).json({ message: 'Product not found' });
+      if (affected === 0) return res.status(404).json({ message: 'Product not found or no changes' });
       res.json({ message: 'Product updated successfully' });
     } catch (error) {
       console.error('updateProduct error:', error);
@@ -48,7 +73,6 @@ const productController = {
     }
   },
 
-  // Admin: delete product
   deleteProduct: async (req, res) => {
     try {
       const affected = await Product.delete(req.params.id);
@@ -58,7 +82,7 @@ const productController = {
       console.error('deleteProduct error:', error);
       res.status(500).json({ error: 'Could not delete product.' });
     }
-  }
+  },
 };
 
 module.exports = productController;

@@ -1,19 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
+const { updateUserRoleRules, adminUpdateOrderStatusRules, adminVerifyPaymentRules, paginationRules } = require('../middleware/validation');
 
-// Analytics (delegates to the real controller — no more hardcoded demo data)
 router.get('/analytics', adminController.getAnalytics);
 
-// User Management
-router.get('/users', adminController.getUsers);
-router.put('/users/role', adminController.updateUserRole);
+router.get('/users', paginationRules, adminController.getUsers);
+router.put('/users/role', updateUserRoleRules, adminController.updateUserRole);
+router.put('/users/:id/block', adminController.blockUser);
+router.put('/users/:id/unblock', adminController.unblockUser);
 
-// Order Management
-router.get('/orders', adminController.getOrders);
-router.put('/orders/status', adminController.updateOrderStatus);
+router.get('/orders', paginationRules, adminController.getOrders);
+router.get('/orders/:id', adminController.getOrderById);
+router.put('/orders/status', adminUpdateOrderStatusRules, adminController.updateOrderStatus);
 
-// Payment Verification
-router.post('/payments/verify', adminController.verifyPayment);
+router.get('/payments', paginationRules, adminController.getPayments);
+router.post('/payments/verify', adminVerifyPaymentRules, adminController.verifyPayment);
 
 module.exports = router;

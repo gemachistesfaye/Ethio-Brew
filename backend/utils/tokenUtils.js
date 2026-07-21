@@ -13,10 +13,10 @@ const jwt = require('jsonwebtoken');
 const ACCESS_SECRET = process.env.JWT_SECRET;
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 
-if (!ACCESS_SECRET || ACCESS_SECRET.length < 16) {
+if (!ACCESS_SECRET || ACCESS_SECRET.length < 32) {
     throw new Error('FATAL: JWT_SECRET is missing or too short. Set a strong random value (>=32 chars) in your environment.');
 }
-if (!REFRESH_SECRET || REFRESH_SECRET.length < 16) {
+if (!REFRESH_SECRET || REFRESH_SECRET.length < 32) {
     throw new Error('FATAL: JWT_REFRESH_SECRET is missing or too short. Set a strong random value (>=32 chars) in your environment.');
 }
 if (ACCESS_SECRET === REFRESH_SECRET) {

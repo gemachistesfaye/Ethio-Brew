@@ -2,16 +2,13 @@ const express = require('express');
 const router = express.Router();
 const orderController = require('../controllers/orderController');
 const { protect, authorize } = require('../middleware/authMiddleware');
+const { createOrderRules, updateOrderStatusRules, idParamRules, paginationRules } = require('../middleware/validation');
 
-// Customers create orders for themselves — must be authenticated.
-router.post('/', protect, orderController.createOrder);
-
-// Listing all orders is admin-only; a logged-in customer should only see their
-// own (handled at the controller level). For now, require auth + admin for the
-// global list to avoid leaking every order's PII.
-router.get('/', protect, authorize('admin'), orderController.getAllOrders);
-
-// Status changes are admin-only.
-router.put('/:id/status', protect, authorize('admin'), orderController.updateOrderStatus);
+router.post('/', protect, createOrderRules, orderController.createOrder);
+router.get('/mine', protect, paginationRules, orderController.getMyOrders);
+router.get('/mine/:id', protect, idParamRules, orderController.getMyOrderById);
+router.get('/', protect, authorize('admin'), paginationRules, orderController.getAllOrders);
+router.get('/:id', protect, authorize('admin'), idParamRules, orderController.getOrderById);
+router.put('/:id/status', protect, authorize('admin'), idParamRules, updateOrderStatusRules, orderController.updateOrderStatus);
 
 module.exports = router;
