@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
+import { ToastProvider } from './components/Toast';
 import './index.css';
 
 const rootElement = document.getElementById('root');
@@ -17,7 +19,11 @@ root.render(
     <BrowserRouter>
       <LanguageProvider>
         <AuthProvider>
-          <App />
+          <CartProvider>
+            <ToastProvider>
+              <App />
+            </ToastProvider>
+          </CartProvider>
         </AuthProvider>
       </LanguageProvider>
     </BrowserRouter>

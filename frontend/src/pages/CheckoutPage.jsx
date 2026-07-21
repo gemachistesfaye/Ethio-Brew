@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../hooks/useTranslation';
 import { MapPin, CreditCard, Smartphone, Landmark, Upload, Image as ImageIcon, CheckCircle } from 'lucide-react';
+import { useCart } from '../context/CartContext';
+import { useToast } from '../components/Toast';
+import { createOrder } from '../services/api';
 import { PAYMENT_DETAILS } from '../constants';
 
-const CheckoutPage = ({ cart, total, onOrderComplete }) => {
+const CheckoutPage = () => {
   const { t, language } = useTranslation();
+  const navigate = useNavigate();
+  const { cart, cartTotal, clearCart } = useCart();
+  const { addToast } = useToast();
   const [step, setStep] = useState(1);
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
@@ -12,6 +19,7 @@ const CheckoutPage = ({ cart, total, onOrderComplete }) => {
   const [screenshot, setScreenshot] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const simulateUpload = () => {
     if (!screenshot) return;
@@ -22,19 +30,49 @@ const CheckoutPage = ({ cart, total, onOrderComplete }) => {
     }, 1500);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const order = {
-      id: Math.random().toString(36).substr(2, 9).toUpperCase(),
-      items: cart,
-      total,
-      address,
-      phone,
-      paymentMethod,
-      date: new Date().toISOString()
-    };
-    onOrderComplete(order);
+    if (cart.length === 0) return;
+
+    setSubmitting(true);
+    try {
+      const orderData = {
+        items: cart.map(item => ({
+          product_id: item.id,
+          quantity: item.quantity || 1,
+          unit_price: item.price
+        })),
+        delivery_address: address,
+        phone_number: phone,
+        payment_method: paymentMethod,
+        notes: ''
+      };
+
+      await createOrder(orderData);
+      clearCart();
+      addToast('Order placed successfully!', 'success');
+      navigate('/');
+    } catch (err) {
+      addToast(err.response?.data?.message || 'Failed to place order. Please try again.', 'error');
+    } finally {
+      setSubmitting(false);
+    }
   };
+
+  if (cart.length === 0) {
+    return (
+      <div className="py-20 px-4 max-w-5xl mx-auto text-center">
+        <div className="bg-white p-12 rounded-[40px] border border-gray-50 shadow-sm">
+          <ImageIcon size={48} className="text-gray-300 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-700 mb-2">{t('cart.empty') || 'Your cart is empty'}</h2>
+          <p className="text-gray-400 mb-6">{t('cart.empty_desc') || 'Add some coffee to get started!'}</p>
+          <button onClick={() => navigate('/shop')} className="bg-[#006341] text-white px-8 py-4 rounded-2xl font-bold hover:bg-[#004d32] transition">
+            {t('hero.orderNow') || 'Browse Coffee'}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="py-12 px-4 max-w-5xl mx-auto">
@@ -103,7 +141,7 @@ const CheckoutPage = ({ cart, total, onOrderComplete }) => {
                 <div className="text-center py-10 bg-green-50 rounded-[32px] border border-green-100">
                   <CheckCircle size={48} className="text-[#006341] mx-auto mb-4" />
                   <h3 className="font-bold text-[#006341]">{t('checkout.verifyLocally')}</h3>
-                  <button onClick={handleSubmit} className="mt-8 w-64 bg-[#006341] text-white py-5 rounded-2xl font-bold shadow-lg">{t('checkout.finish')}</button>
+                   <button onClick={handleSubmit} disabled={submitting} className="mt-8 w-64 bg-[#006341] text-white py-5 rounded-2xl font-bold disabled:opacity-50">{submitting ? t('checkout.submitting') || 'Placing order...' : t('checkout.finish')}</button>
                 </div>
               )}
             </div>
@@ -132,11 +170,11 @@ const CheckoutPage = ({ cart, total, onOrderComplete }) => {
           <div className="border-t border-dashed pt-6 space-y-2">
              <div className="flex justify-between text-gray-500 text-sm">
                 <span>{t('cart.subtotal')}</span>
-                <span>{total} {t('common.etb')}</span>
+                <span>{cartTotal} {t('common.etb')}</span>
              </div>
              <div className="flex justify-between items-center pt-4 text-2xl font-bold">
                 <span>{t('cart.total')}</span>
-                <span className="text-[#006341]">{total} {t('common.etb')}</span>
+                <span className="text-[#006341]">{cartTotal} {t('common.etb')}</span>
              </div>
           </div>
         </div>

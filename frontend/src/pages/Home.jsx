@@ -6,7 +6,6 @@ import { MOCK_COFFEE } from '../constants';
 import { STORIES } from '../data/stories';
 import { AnimatePresence, motion } from 'framer-motion';
 import { renderSafeMarkdown } from '../utils/safeMarkdown';
-import { renderSafeMarkdown } from '../utils/safeMarkdown';
 
 const RecommendationEngine = ({ onProductClick }) => {
   const { t, language } = useTranslation();

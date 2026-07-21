@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { X, Zap, Maximize2, Minimize2, Send, Coffee } from 'lucide-react';
 import { useTranslation } from '../hooks/useTranslation';
 import { renderSafeMarkdown } from '../utils/safeMarkdown';
-import { renderSafeMarkdown } from '../utils/safeMarkdown';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 

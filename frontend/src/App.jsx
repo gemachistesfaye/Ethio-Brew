@@ -3,15 +3,19 @@ import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-
 import { useTranslation } from './hooks/useTranslation';
 import { AnimatePresence } from 'framer-motion';
 
+// Context
+import { useCart } from './context/CartContext';
+import { useToast } from './components/Toast';
+
 // Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Hero from './components/Hero';
 import CoffeeAIExpert from './components/CoffeeAIExpert';
 import OriginMap from './components/OriginMap';
 import ChatAssistant from './components/ChatAssistant';
 import OrderTracker from './components/OrderTracker';
 import ProductModal from './components/ProductModal';
+import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
 import HomePage from './pages/Home';
@@ -37,19 +41,14 @@ const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isAdminPath = location.pathname.startsWith('/admin');
+  const { cart, addToCart, clearCart, cartCount } = useCart();
+  const { addToast } = useToast();
 
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [cart, setCart] = useState([]);
 
   const handleAddToCart = (product) => {
-    setCart(prev => {
-      const existing = prev.find(p => p.id === product.id);
-      if (existing) {
-        return prev.map(p => p.id === product.id ? { ...p, quantity: (p.quantity || 1) + 1 } : p);
-      }
-      return [...prev, { ...product, quantity: 1 }];
-    });
-    alert(`Added to cart!`);
+    addToCart(product);
+    addToast(`${product.name || 'Item'} added to cart!`, 'success');
   };
 
   const handleProductClick = (product) => {
@@ -58,7 +57,7 @@ const App = () => {
 
   return (
     <div className={`min-h-screen bg-white ${language === 'am' || language === 'om' ? 'font-noto' : 'font-inter'}`}>
-      {!isAdminPath && <Navbar cartCount={cart.length} toggleCart={() => navigate('/checkout')} />}
+      {!isAdminPath && <Navbar cartCount={cartCount} toggleCart={() => navigate('/checkout')} />}
       
       <main>
         <Routes>
@@ -67,20 +66,24 @@ const App = () => {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/settings" element={
+            <ProtectedRoute><SettingsPage /></ProtectedRoute>
+          } />
           <Route path="/login" element={<LoginPage />} />
            <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/verify" element={<VerificationPage />} />
-          <Route path="/checkout" element={<CheckoutPage cart={cart} total={cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0)} onOrderComplete={() => { alert('Order Placed successfully!'); setCart([]); navigate('/'); }} />} />
-          <Route path="/subscription" element={<SubscriptionPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/subscription" element={<SubscriptionPage addToCart={handleAddToCart} />} />
           
           {/* Advanced Tracking Route */}
           <Route path="/track/:id" element={<div className="py-20 px-4 bg-gray-50"><OrderTracker /></div>} />
 
           {/* Admin Dashboard Route */}
-          <Route path="/admin/*" element={<AdminLayout />} />
+          <Route path="/admin/*" element={
+            <ProtectedRoute requireRole="admin"><AdminLayout /></ProtectedRoute>
+          } />
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
@@ -101,7 +104,8 @@ const App = () => {
       <AnimatePresence>
         {selectedProduct && (
           <ProductModal 
-            product={selectedProduct} 
+            product={selectedProduct}
+            isOpen={!!selectedProduct}
             onClose={() => setSelectedProduct(null)} 
             addToCart={handleAddToCart} 
           />
