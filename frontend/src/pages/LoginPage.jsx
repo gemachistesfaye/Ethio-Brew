@@ -25,7 +25,7 @@ const LoginPage = () => {
       }
     } catch (err) {
       if (err.response?.status === 403) {
-        navigate('/verify', { state: { userId: err.response.data.userId } });
+        setError(t('auth.verify_email_required') || 'Please verify your email first. Check your inbox for the verification link.');
       } else {
         setError(err.response?.data?.message || t('auth.error_general'));
       }

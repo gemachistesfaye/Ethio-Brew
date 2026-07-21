@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
-const { registerRules, loginRules, updateProfileRules, forgotPasswordRules, resetPasswordRules } = require('../middleware/validation');
+const { registerRules, loginRules, updateProfileRules, changePasswordRules, forgotPasswordRules, resetPasswordRules } = require('../middleware/validation');
 
 router.post('/register', registerRules, authController.register);
 router.post('/verify', authController.verify);
@@ -14,5 +14,6 @@ router.post('/reset-password', resetPasswordRules, authController.resetPassword)
 
 router.get('/profile', protect, authController.getProfile);
 router.put('/profile', protect, updateProfileRules, authController.updateProfile);
+router.post('/change-password', protect, changePasswordRules, authController.changePassword);
 
 module.exports = router;

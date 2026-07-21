@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { User, Mail, Phone, MapPin, Save, CheckCircle, Lock, Camera } from 'lucide-react';
 import authService from '../services/authService';
+import { useTranslation } from '../hooks/useTranslation';
+import { useToast } from '../components/Toast';
 
 const SettingsPage = () => {
+  const { t } = useTranslation();
+  const { addToast } = useToast();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   
-  const [passForm, setPassForm] = useState({ new: '', confirm: '' });
+  const [passForm, setPassForm] = useState({ current: '', new: '', confirm: '' });
   const [passSaving, setPassSaving] = useState(false);
   const [passSuccess, setPassSuccess] = useState(false);
   const [avatar, setAvatar] = useState(null);
@@ -31,26 +35,37 @@ const SettingsPage = () => {
     e.preventDefault();
     setSaving(true);
     try {
-      await authService.updateProfile(profile);
+      await authService.updateProfile({ full_name: profile.name, phone: profile.phone });
       setSuccess(true);
+      addToast(t('settings.update_success') || 'Profile updated!', 'success');
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
-      console.error(err);
+      addToast(err.response?.data?.message || 'Failed to update profile', 'error');
     } finally {
       setSaving(false);
     }
   };
 
-  const handlePasswordUpdate = (e) => {
+  const handlePasswordUpdate = async (e) => {
     e.preventDefault();
-    if (passForm.new !== passForm.confirm) return alert("Passwords don't match!");
+    if (passForm.new !== passForm.confirm) {
+      return addToast(t('auth.passwords_not_match') || "Passwords don't match!", 'error');
+    }
+    if (passForm.new.length < 8) {
+      return addToast('Password must be at least 8 characters', 'error');
+    }
     setPassSaving(true);
-    setTimeout(() => {
-      setPassSaving(false);
+    try {
+      await authService.changePassword({ currentPassword: passForm.current, newPassword: passForm.new });
       setPassSuccess(true);
-      setPassForm({ new: '', confirm: '' });
+      addToast(t('settings.password_success') || 'Password updated!', 'success');
+      setPassForm({ current: '', new: '', confirm: '' });
       setTimeout(() => setPassSuccess(false), 3000);
-    }, 1000);
+    } catch (err) {
+      addToast(err.response?.data?.message || 'Failed to update password', 'error');
+    } finally {
+      setPassSaving(false);
+    }
   };
 
   const handleImageUpload = (e) => {
@@ -154,6 +169,15 @@ const SettingsPage = () => {
             </div>
           )}
           <form onSubmit={handlePasswordUpdate} className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">{t('settings.current_password') || 'Current Password'}</label>
+              <input 
+                type="password" required
+                value={passForm.current} onChange={(e) => setPassForm({...passForm, current: e.target.value})}
+                className="w-full px-6 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341]" 
+                placeholder="••••••••"
+              />
+            </div>
             <div className="space-y-2">
               <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">{t('settings.new_password')}</label>
               <input 

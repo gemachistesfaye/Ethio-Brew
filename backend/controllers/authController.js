@@ -128,7 +128,7 @@ const login = async (req, res) => {
     const user = await User.findWithRoles(email);
     if (!user) return res.status(401).json({ message: 'Invalid email or password' });
     if (user.is_blocked) return res.status(403).json({ message: 'Account has been blocked. Contact support.' });
-    if (!user.is_verified) return res.status(403).json({ message: 'Please verify your email first' });
+    if (!user.is_verified) return res.status(403).json({ message: 'Please verify your email first', email: user.email });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: 'Invalid email or password' });
@@ -266,12 +266,32 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const changePassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  try {
+    const [rows] = await pool.execute('SELECT id, password FROM users WHERE id = ?', [req.user.id]);
+    if (rows.length === 0) return res.status(404).json({ message: 'User not found' });
+
+    const user = rows[0];
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) return res.status(400).json({ message: 'Current password is incorrect' });
+
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    await User.updatePassword(req.user.id, hashedPassword);
+    res.json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('changePassword error:', error);
+    res.status(500).json({ message: 'Could not update password' });
+  }
+};
+
 module.exports = {
   register,
   login,
   logout,
   getProfile,
   updateProfile,
+  changePassword,
   verify,
   forgotPassword,
   resetPassword,
