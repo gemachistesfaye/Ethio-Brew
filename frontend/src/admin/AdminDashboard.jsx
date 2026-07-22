@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import { 
   TrendingUp, Users, ShoppingBag, DollarSign, 
-  Package, CheckCircle, Clock, AlertCircle, Download, Smile, Trash2
+  Package, CheckCircle, Clock, AlertCircle, Smile, Trash2
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { resetDatabase } from '../services/api';
@@ -131,10 +131,6 @@ const AdminDashboard = () => {
             >
               <Trash2 size={18} />
               {resetting ? 'Resetting...' : 'Reset Database'}
-            </button>
-            <button className="flex items-center gap-2 bg-[#4B2C20] text-white px-6 py-3 rounded-2xl font-bold hover:scale-105 transition shadow-xl">
-               <Download size={18} />
-               Export PDF Report
             </button>
           </div>
         </div>

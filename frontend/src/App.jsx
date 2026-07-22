@@ -27,6 +27,7 @@ import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import CheckoutPage from './pages/CheckoutPage';
+import OrdersPage from './pages/OrdersPage';
 import SettingsPage from './pages/SettingsPage';
 import SubscriptionPage from './pages/SubscriptionPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
@@ -75,6 +76,9 @@ const App = () => {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/verify" element={<VerificationPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/orders" element={
+            <ProtectedRoute><OrdersPage /></ProtectedRoute>
+          } />
           <Route path="/subscription" element={<SubscriptionPage addToCart={handleAddToCart} />} />
           
           {/* Advanced Tracking Route */}

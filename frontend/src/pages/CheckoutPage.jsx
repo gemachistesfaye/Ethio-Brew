@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useTranslation } from '../hooks/useTranslation';
 import { MapPin, CreditCard, Smartphone, Landmark, Upload, Image as ImageIcon, CheckCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { useToast } from '../components/Toast';
 import { createOrder } from '../services/api';
 import { PAYMENT_DETAILS } from '../constants';
@@ -11,6 +12,7 @@ const CheckoutPage = () => {
   const { t, language } = useTranslation();
   const navigate = useNavigate();
   const { cart, cartTotal, clearCart } = useCart();
+  const { user } = useAuth();
   const { addToast } = useToast();
   const [step, setStep] = useState(1);
   const [address, setAddress] = useState('');
@@ -20,6 +22,11 @@ const CheckoutPage = () => {
   const [uploading, setUploading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [orderId, setOrderId] = useState(null);
+
+  if (!user) {
+    return <Navigate to="/login" state={{ from: '/checkout' }} replace />;
+  }
 
   const simulateUpload = () => {
     if (!screenshot) return;
@@ -40,18 +47,17 @@ const CheckoutPage = () => {
         items: cart.map(item => ({
           product_id: item.id,
           quantity: item.quantity || 1,
-          unit_price: item.price
+          price_at_purchase: item.price
         })),
-        delivery_address: address,
+        shipping_address: address,
         phone_number: phone,
         payment_method: paymentMethod,
-        notes: ''
       };
 
-      await createOrder(orderData);
+      const result = await createOrder(orderData);
+      setOrderId(result.orderId || result.id);
       clearCart();
-      addToast('Order placed successfully!', 'success');
-      navigate('/');
+      setStep(4);
     } catch (err) {
       addToast(err.response?.data?.message || 'Failed to place order. Please try again.', 'error');
     } finally {
@@ -59,7 +65,7 @@ const CheckoutPage = () => {
     }
   };
 
-  if (cart.length === 0) {
+  if (cart.length === 0 && step !== 4) {
     return (
       <div className="py-20 px-4 max-w-5xl mx-auto text-center">
         <div className="bg-white p-12 rounded-[40px] border border-gray-50 shadow-sm">
@@ -144,6 +150,28 @@ const CheckoutPage = () => {
                    <button onClick={handleSubmit} disabled={submitting} className="mt-8 w-64 bg-[#006341] text-white py-5 rounded-2xl font-bold disabled:opacity-50">{submitting ? t('checkout.submitting') || 'Placing order...' : t('checkout.finish')}</button>
                 </div>
               )}
+            </div>
+          )}
+
+          {step === 4 && (
+            <div className="text-center py-10 bg-green-50 rounded-[32px] border border-green-100 animate-in zoom-in-95">
+              <div className="w-20 h-20 bg-green-100 text-[#006341] rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle size={40} />
+              </div>
+              <h2 className="text-3xl font-bold text-[#4B2C20] mb-2">Order Placed!</h2>
+              <p className="text-gray-500 mb-4">Your order has been received and is being processed.</p>
+              {orderId && (
+                <p className="text-sm text-gray-400 mb-6">Order ID: <span className="font-mono font-bold text-[#4B2C20]">{orderId}</span></p>
+              )}
+              <p className="text-sm text-gray-400 mb-8">You will receive a confirmation email shortly.</p>
+              <div className="flex gap-4 justify-center">
+                <button onClick={() => navigate('/orders')} className="bg-[#006341] text-white px-8 py-4 rounded-2xl font-bold hover:bg-[#004d32] transition">
+                  View My Orders
+                </button>
+                <button onClick={() => navigate('/shop')} className="bg-white border border-gray-200 text-[#4B2C20] px-8 py-4 rounded-2xl font-bold hover:bg-gray-50 transition">
+                  Continue Shopping
+                </button>
+              </div>
             </div>
           )}
         </div>

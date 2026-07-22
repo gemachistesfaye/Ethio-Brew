@@ -153,4 +153,9 @@ export const changePassword = async (data) => {
     return response.data;
 };
 
+export const resendVerification = async (email) => {
+    const response = await api.post('/auth/resend-verification', { email });
+    return response.data;
+};
+
 export default api;

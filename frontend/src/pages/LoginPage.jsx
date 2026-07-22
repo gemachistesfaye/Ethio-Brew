@@ -1,20 +1,28 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, ArrowRight, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { Mail, Lock, ArrowRight, X, CheckCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from '../hooks/useTranslation';
+import { resendVerification } from '../services/api';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
   const { t } = useTranslation();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ email: location.state?.email || '', password: '' });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(location.state?.message || '');
   const [loading, setLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendSuccess, setResendSuccess] = useState(false);
+  const [needsVerification, setNeedsVerification] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setResendSuccess(false);
+    setNeedsVerification(false);
     setLoading(true);
     try {
       const res = await login(formData);
@@ -25,12 +33,34 @@ const LoginPage = () => {
       }
     } catch (err) {
       if (err.response?.status === 403) {
-        setError(t('auth.verify_email_required') || 'Please verify your email first. Check your inbox for the verification link.');
+        const msg = err.response?.data?.message || 'Please verify your email first.';
+        setError(msg);
+        setNeedsVerification(true);
+        setFormData(prev => ({ ...prev, email: err.response?.data?.email || prev.email }));
       } else {
         setError(err.response?.data?.message || t('auth.error_general'));
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!formData.email) {
+      setError('Please enter your email address first.');
+      return;
+    }
+    setResendLoading(true);
+    setError('');
+    setResendSuccess(false);
+    try {
+      await resendVerification(formData.email);
+      setResendSuccess(true);
+      setNeedsVerification(false);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to resend verification email.');
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -48,11 +78,24 @@ const LoginPage = () => {
           </div>
         )}
 
+        {success && (
+          <div className="mb-6 p-4 bg-green-50 text-[#006341] rounded-2xl text-sm font-bold flex items-center gap-2">
+            <CheckCircle size={18} /> {success}
+          </div>
+        )}
+
+        {resendSuccess && (
+          <div className="mb-6 p-4 bg-green-50 text-[#006341] rounded-2xl text-sm font-bold flex items-center gap-2">
+            <CheckCircle size={18} /> Verification email sent! Check your inbox.
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative">
             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input 
               name="email" type="email" required placeholder={t('auth.email')} 
+              value={formData.email}
               onChange={(e) => setFormData({...formData, email: e.target.value})}
               className="w-full pl-12 pr-4 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341] transition" 
             />
@@ -81,6 +124,19 @@ const LoginPage = () => {
         <p className="mt-10 text-center text-sm text-gray-500">
           {t('auth.dont_have_account')} <Link to="/register" className="text-[#006341] font-bold">{t('auth.sign_up')}</Link>
         </p>
+
+        {needsVerification && (
+          <div className="mt-4 text-center">
+            <button
+              onClick={handleResendVerification}
+              disabled={resendLoading}
+              className="text-sm text-[#006341] font-bold hover:underline disabled:opacity-50 flex items-center gap-2 mx-auto"
+            >
+              {resendLoading ? <Loader2 size={14} className="animate-spin" /> : null}
+              {resendLoading ? 'Sending...' : 'Resend Verification Email'}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

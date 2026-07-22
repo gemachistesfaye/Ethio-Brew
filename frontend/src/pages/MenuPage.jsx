@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../hooks/useTranslation';
 import { Search, Filter, ShoppingCart, Star, Coffee, SlidersHorizontal, Info } from 'lucide-react';
-import { MOCK_COFFEE } from '../constants';
+import { getProducts } from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const MenuPage = ({ addToCart, onProductClick }) => {
@@ -9,29 +9,35 @@ const MenuPage = ({ addToCart, onProductClick }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [isLoading, setIsLoading] = useState(true);
+  const [products, setProducts] = useState([]);
 
   const categories = [
     { id: 'All', key: 'all_cats' },
-    { id: 'Single Origin', key: 'single_origin' },
-    { id: 'Blend', key: 'blend' },
-    { id: 'Specialty', key: 'specialty' },
-    { id: 'Dark Roast', key: 'dark_roast' },
-    { id: 'Organic', key: 'organic' },
-    { id: 'Gift Box', key: 'gift_box' },
-    { id: 'Traditional', key: 'traditional' },
-    { id: 'Light Roast', key: 'light_roast' },
-    { id: 'Medium Roast', key: 'medium_roast' }
+    { id: 'Light', key: 'light_roast' },
+    { id: 'Medium', key: 'medium_roast' },
+    { id: 'Dark', key: 'dark_roast' }
   ];
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 800);
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts();
+        setProducts(Array.isArray(data) ? data : data.products || []);
+      } catch (err) {
+        console.error('Failed to load products:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
   }, []);
 
-  const filteredProducts = MOCK_COFFEE.filter(product => {
-    const name = language === 'am' ? product.name_am : language === 'om' ? product.name_om : product.name;
-    const matchesSearch = name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          product.origin.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = activeCategory === 'All' || product.category === activeCategory || product.roast === activeCategory;
+  const filteredProducts = products.filter(product => {
+    const name = language === 'am' ? product.name_am : language === 'om' ? product.name_om : product.name_en;
+    const matchesSearch = !searchTerm || 
+      name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      product.origin_region?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = activeCategory === 'All' || product.roast_level === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -103,7 +109,7 @@ const MenuPage = ({ addToCart, onProductClick }) => {
                   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
                 >
                   {filteredProducts.map((product) => {
-                    const name = language === 'am' ? product.name_am : language === 'om' ? product.name_om : product.name;
+                    const name = language === 'am' ? product.name_am : language === 'om' ? product.name_om : product.name_en;
                     return (
                     <motion.div
                       layout
@@ -115,13 +121,13 @@ const MenuPage = ({ addToCart, onProductClick }) => {
                     >
                       <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden mb-6">
                         <img 
-                          src={product.imageUrl} 
+                          src={product.image_url} 
                           alt={name}
                           className="w-full h-full object-cover group-hover:scale-110 transition duration-700" 
                         />
                         <div className="absolute top-4 right-4 flex flex-col gap-2">
                            <button 
-                            onClick={() => onProductClick(product)}
+                            onClick={() => onProductClick({ ...product, name: product.name_en, description: product.description_en, imageUrl: product.image_url, origin: product.origin_region, roast: product.roast_level })}
                             className="p-3 bg-white/90 backdrop-blur-md rounded-2xl text-gray-900 shadow-sm hover:bg-white transition"
                            >
                               <Info size={18} />
@@ -129,18 +135,14 @@ const MenuPage = ({ addToCart, onProductClick }) => {
                         </div>
                         <div className="absolute bottom-4 left-4">
                            <span className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider text-[#006341] shadow-sm">
-                              {product.origin}
+                              {product.origin_region}
                            </span>
                         </div>
                       </div>
 
                       <div className="px-2 flex-grow">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">{product.roast}</span>
-                          <div className="flex items-center gap-1">
-                            <Star size={12} fill="#FFD700" className="text-[#FFD700]" />
-                            <span className="text-xs font-bold text-gray-900">{product.rating}</span>
-                          </div>
+                          <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">{product.roast_level}</span>
                         </div>
                         <h3 className="text-lg font-bold text-[#4B2C20] mb-6 line-clamp-1 group-hover:text-[#006341] transition">{name}</h3>
                       </div>
@@ -149,10 +151,10 @@ const MenuPage = ({ addToCart, onProductClick }) => {
                         <div className="flex items-center justify-between bg-gray-50 p-4 rounded-3xl border border-gray-100 group-hover:bg-[#006341]/5 group-hover:border-[#006341]/10 transition">
                            <div className="flex flex-col">
                               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter leading-none mb-1">{t('shop.price')}</span>
-                              <span className="text-lg font-black text-[#4B2C20] leading-none">{product.price} <span className="text-[10px]">ETB</span></span>
+                              <span className="text-lg font-black text-[#4B2C20] leading-none">{Number(product.price).toFixed(0)} <span className="text-[10px]">ETB</span></span>
                            </div>
                            <button 
-                            onClick={() => addToCart(product)}
+                            onClick={() => addToCart({ ...product, name: product.name_en, imageUrl: product.image_url, price: Number(product.price) })}
                             className="p-3 bg-[#006341] text-white rounded-2xl shadow-lg shadow-[#006341]/20 hover:scale-110 active:scale-95 transition"
                            >
                              <ShoppingCart size={20} />

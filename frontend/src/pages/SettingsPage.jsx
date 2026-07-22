@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Mail, Phone, MapPin, Save, CheckCircle, Lock, Camera } from 'lucide-react';
+import { User, Mail, Phone, Save, CheckCircle, Lock, Camera, Award } from 'lucide-react';
 import { getProfile, updateProfile, changePassword } from '../services/api';
 import { useTranslation } from '../hooks/useTranslation';
 import { useToast } from '../components/Toast';
@@ -35,7 +35,7 @@ const SettingsPage = () => {
     e.preventDefault();
     setSaving(true);
     try {
-      await updateProfile({ full_name: profile.name, phone: profile.phone });
+      await updateProfile({ full_name: profile.full_name || profile.name, phone: profile.phone });
       setSuccess(true);
       addToast(t('settings.update_success') || 'Profile updated!', 'success');
       setTimeout(() => setSuccess(false), 3000);
@@ -93,6 +93,11 @@ const SettingsPage = () => {
           <div>
             <h1 className="text-2xl font-bold">{profile?.name}</h1>
             <p className="text-gray-400 text-sm italic">{t('settings.account_type', { type: profile?.role || 'Customer' })}</p>
+            {profile?.points > 0 && (
+              <p className="text-[#DAA520] text-xs font-bold flex items-center gap-1 mt-1">
+                <Award size={12} /> {profile.points} EthioPoints
+              </p>
+            )}
           </div>
         </div>
 
@@ -133,18 +138,6 @@ const SettingsPage = () => {
               <input 
                 value={profile?.phone || ''} 
                 onChange={(e) => setProfile({...profile, phone: e.target.value})}
-                className="w-full pl-12 pr-4 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341]" 
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">{t('checkout.address')}</label>
-            <div className="relative">
-              <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <input 
-                value={profile?.address || ''} 
-                onChange={(e) => setProfile({...profile, address: e.target.value})}
                 className="w-full pl-12 pr-4 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341]" 
               />
             </div>

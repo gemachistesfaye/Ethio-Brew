@@ -5,6 +5,7 @@ const pool = require('../config/db');
 const User = require('../models/User');
 const { generateAccessToken, generateRefreshToken, ACCESS_SECRET } = require('../utils/tokenUtils');
 const sendEmail = require('../utils/sendEmail');
+const { verificationEmail, resendVerificationEmail, passwordResetEmail } = require('../utils/emailTemplates');
 
 const VERIFY_TOKEN_TTL_SECONDS = 60 * 60 * 24;
 
@@ -35,12 +36,7 @@ const register = async (req, res) => {
 
     const verifyToken = signVerificationToken(userId, email);
     const verifyUrl = `${process.env.FRONTEND_URL}/verify?token=${verifyToken}`;
-    const message = `
-      <h1>Welcome to Ethio-Brew!</h1>
-      <p>Please verify your account by clicking the link below:</p>
-      <a href="${verifyUrl}" style="background: #006341; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Verify Account</a>
-      <p>This link expires in 24 hours. If you did not create this account, please ignore this email.</p>
-    `;
+    const message = verificationEmail(finalName, verifyUrl);
 
     try {
       await sendEmail({ email, subject: 'Verify your Ethio-Brew Account', message });
@@ -84,12 +80,7 @@ const forgotPassword = async (req, res) => {
       const expires = new Date(Date.now() + 3600000);
       await pool.execute('INSERT INTO password_resets (email, token, expires_at) VALUES (?, ?, ?)', [email, token, expires]);
       const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
-      const message = `
-        <h1>Password Reset Request</h1>
-        <p>Click below to set a new password:</p>
-        <a href="${resetUrl}" style="background: #4B2C20; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Reset Password</a>
-        <p>This link will expire in 1 hour.</p>
-      `;
+      const message = passwordResetEmail(user.full_name, resetUrl);
       try {
         await sendEmail({ email, subject: 'Ethio-Brew Password Reset', message });
       } catch (e) {
@@ -100,6 +91,27 @@ const forgotPassword = async (req, res) => {
   } catch (error) {
     console.error('forgotPassword error:', error);
     res.status(500).json({ message: 'Could not process request. Please try again.' });
+  }
+};
+
+const resendVerification = async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ message: 'Email is required' });
+
+  try {
+    const user = await User.findByEmail(email);
+    if (!user) return res.status(400).json({ message: 'No account found with that email' });
+    if (user.is_verified) return res.json({ message: 'Account is already verified. You can log in.' });
+
+    const verifyToken = signVerificationToken(user.id, user.email);
+    const verifyUrl = `${process.env.FRONTEND_URL}/verify?token=${verifyToken}`;
+    const message = resendVerificationEmail(user.full_name, verifyUrl);
+
+    await sendEmail({ email, subject: 'Verify your Ethio-Brew Account', message });
+    res.json({ message: 'Verification email sent! Please check your inbox.' });
+  } catch (error) {
+    console.error('resendVerification error:', error);
+    res.status(500).json({ message: 'Could not send verification email. Please try again.' });
   }
 };
 
@@ -296,4 +308,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   refreshToken: refreshTokenHandler,
+  resendVerification,
 };

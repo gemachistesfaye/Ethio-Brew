@@ -5,7 +5,7 @@ import { useTranslation } from '../hooks/useTranslation';
 import { useAuth } from '../context/AuthContext';
 import { 
   Coffee, ShoppingCart, Menu as MenuIcon, X, 
-  Award, User, LogOut, Settings 
+  Award, User, LogOut, Settings, Bell, Package
 } from 'lucide-react';
 
 const Navbar = ({ toggleCart, cartCount = 0 }) => {
@@ -88,6 +88,13 @@ const Navbar = ({ toggleCart, cartCount = 0 }) => {
             )}
           </button>
 
+          {/* Orders Button (logged in) */}
+          {user && (
+            <button onClick={() => navigate('/orders')} className="relative p-2 text-[#4B2C20] hover:text-[#006341] transition hidden sm:block">
+              <Package size={24} />
+            </button>
+          )}
+
           {/* User Menu */}
           {user ? (
             <div className="relative">
@@ -106,6 +113,11 @@ const Navbar = ({ toggleCart, cartCount = 0 }) => {
                   <div className="px-5 py-3 border-b border-gray-50 mb-2">
                     <p className="text-xs font-black text-gray-900 truncate">{user.name || 'Account'}</p>
                     <p className="text-[10px] text-gray-400 truncate">{user.email}</p>
+                    {user.points > 0 && (
+                      <p className="text-[10px] text-[#DAA520] font-bold mt-1 flex items-center gap-1">
+                        <Award size={10} /> {user.points} EthioPoints
+                      </p>
+                    )}
                   </div>
                   
                   {isAdmin && (
@@ -113,6 +125,10 @@ const Navbar = ({ toggleCart, cartCount = 0 }) => {
                       <Award size={18} /> Business Center
                     </button>
                   )}
+
+                  <button onClick={() => { navigate('/orders'); setIsUserMenuOpen(false); }} className="w-full text-left px-5 py-3 text-sm text-gray-600 font-medium hover:bg-gray-50 flex items-center gap-3">
+                    <Package size={18} /> My Orders
+                  </button>
 
                   <button onClick={() => { navigate('/settings'); setIsUserMenuOpen(false); }} className="w-full text-left px-5 py-3 text-sm text-gray-600 font-medium hover:bg-gray-50 flex items-center gap-3">
                     <Settings size={18} /> {t('nav.settings')}
@@ -167,6 +183,11 @@ const Navbar = ({ toggleCart, cartCount = 0 }) => {
               {isAdmin && (
                 <button onClick={() => { navigate('/admin'); setIsMobileMenuOpen(false); }} className="text-left text-2xl font-black text-[#006341] flex items-center gap-3 border-t border-gray-100 pt-6">
                   <Award /> Admin
+                </button>
+              )}
+              {user && (
+                <button onClick={() => { navigate('/orders'); setIsMobileMenuOpen(false); }} className="text-left text-xl font-black text-[#4B2C20] flex items-center gap-3">
+                  <Package /> My Orders
                 </button>
               )}
             </div>
