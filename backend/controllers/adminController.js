@@ -20,13 +20,13 @@ const adminController = {
       const activeSubscriptions = await Subscription.countActive();
 
       const [trends] = await pool.execute(
-        `SELECT DATE_FORMAT(created_at, '%b') as month,
+        `SELECT to_char(created_at, 'Mon') as month,
                 COALESCE(SUM(total_amount), 0) as revenue,
                 COUNT(*) as orders
          FROM orders
-         WHERE created_at > DATE_SUB(NOW(), INTERVAL 6 MONTH)
+         WHERE created_at > NOW() - INTERVAL '6 months'
            AND status != 'Cancelled'
-         GROUP BY month, YEAR(created_at), MONTH(created_at)
+         GROUP BY to_char(created_at, 'Mon'), EXTRACT(YEAR FROM created_at), EXTRACT(MONTH FROM created_at)
          ORDER BY MIN(created_at) ASC`
       );
 
@@ -47,7 +47,7 @@ const adminController = {
       const [prevRevenue] = await pool.execute(
         `SELECT COALESCE(SUM(total_amount), 0) as total
          FROM orders
-         WHERE created_at BETWEEN DATE_SUB(NOW(), INTERVAL 12 MONTH) AND DATE_SUB(NOW(), INTERVAL 6 MONTH)
+         WHERE created_at BETWEEN NOW() - INTERVAL '12 months' AND NOW() - INTERVAL '6 months'
            AND status != 'Cancelled'`
       );
       const prevTotal = Number(prevRevenue[0].total) || 1;
@@ -236,6 +236,34 @@ const adminController = {
     } catch (error) {
       console.error('getPayments error:', error);
       res.status(500).json({ message: 'Could not load payments' });
+    }
+  },
+
+  resetDatabase: async (req, res) => {
+    try {
+      const confirm = req.body.confirm;
+      if (confirm !== 'DELETE_ALL') {
+        return res.status(400).json({ message: 'Send { "confirm": "DELETE_ALL" } to proceed' });
+      }
+
+      await pool.execute('SET FOREIGN_KEY_CHECKS = 0');
+
+      const tables = [
+        'notifications', 'reviews', 'subscriptions',
+        'password_resets', 'refresh_tokens',
+        'payments', 'order_items', 'orders',
+        'user_roles', 'users'
+      ];
+      for (const table of tables) {
+        await pool.execute(`TRUNCATE TABLE ${table}`);
+      }
+
+      await pool.execute('SET FOREIGN_KEY_CHECKS = 1');
+
+      res.json({ message: 'Database reset. All users, orders, and payments cleared.' });
+    } catch (error) {
+      console.error('resetDatabase error:', error);
+      res.status(500).json({ message: 'Could not reset database' });
     }
   },
 };

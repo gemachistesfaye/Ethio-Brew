@@ -1,12 +1,14 @@
 const pool = require('../config/db');
+const crypto = require('crypto');
 
 const User = {
   create: async ({ full_name, email, password, phone }) => {
-    const [result] = await pool.execute(
-      'INSERT INTO users (full_name, email, password, phone) VALUES (?, ?, ?, ?)',
-      [full_name, email, password, phone || null]
+    const id = crypto.randomUUID();
+    await pool.execute(
+      'INSERT INTO users (id, full_name, email, password, phone) VALUES (?, ?, ?, ?, ?)',
+      [id, full_name, email, password, phone || null]
     );
-    return result.insertId;
+    return id;
   },
 
   findByEmail: async (email) => {
@@ -24,7 +26,7 @@ const User = {
 
   findWithRoles: async (email) => {
     const [rows] = await pool.execute(
-      `SELECT u.*, GROUP_CONCAT(r.name) as roles_list
+      `SELECT u.*, string_agg(r.name, ',') as roles_list
        FROM users u
        JOIN user_roles ur ON u.id = ur.user_id
        JOIN roles r ON ur.role_id = r.id
@@ -56,7 +58,7 @@ const User = {
     const [rows] = await pool.execute(
       `SELECT u.id, u.full_name, u.email, u.phone, u.is_verified, u.is_blocked,
               u.preferred_language, u.points, u.created_at,
-              GROUP_CONCAT(r.name) as roles
+              string_agg(r.name, ',') as roles
        FROM users u
        LEFT JOIN user_roles ur ON u.id = ur.user_id
        LEFT JOIN roles r ON ur.role_id = r.id

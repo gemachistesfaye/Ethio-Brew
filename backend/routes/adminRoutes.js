@@ -17,4 +17,6 @@ router.put('/orders/status', adminUpdateOrderStatusRules, adminController.update
 router.get('/payments', paginationRules, adminController.getPayments);
 router.post('/payments/verify', adminVerifyPaymentRules, adminController.verifyPayment);
 
+router.post('/reset-database', adminController.resetDatabase);
+
 module.exports = router;

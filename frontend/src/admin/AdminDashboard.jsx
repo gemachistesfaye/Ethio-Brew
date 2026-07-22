@@ -5,15 +5,19 @@ import {
 } from 'recharts';
 import { 
   TrendingUp, Users, ShoppingBag, DollarSign, 
-  Package, CheckCircle, Clock, AlertCircle, Download, Smile
+  Package, CheckCircle, Clock, AlertCircle, Download, Smile, Trash2
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { resetDatabase } from '../services/api';
+import { useToast } from '../components/Toast';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const AdminDashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [resetting, setResetting] = useState(false);
+  const { addToast } = useToast();
 
   useEffect(() => {
     // Fetch analytics from API
@@ -43,9 +47,31 @@ const AdminDashboard = () => {
         },
         body: JSON.stringify({ orderId, status: newStatus })
       });
-      alert(`Order ${orderId} updated to ${newStatus}`);
+      addToast(`Order ${orderId} updated to ${newStatus}`, 'success');
     } catch (err) {
       console.error(err);
+      addToast('Failed to update order', 'error');
+    }
+  };
+
+  const handleResetDatabase = async () => {
+    if (!window.confirm('This will DELETE ALL users, orders, and payments. Products and categories are kept. Are you sure?')) return;
+    setResetting(true);
+    try {
+      await resetDatabase();
+      addToast('Database reset! All users and orders cleared.', 'success');
+      setData(null);
+      setLoading(true);
+      const res = await fetch(`${API_URL}/admin/analytics`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      const json = await res.json();
+      setData(json);
+    } catch (err) {
+      addToast(err.response?.data?.message || 'Failed to reset database', 'error');
+    } finally {
+      setResetting(false);
+      setLoading(false);
     }
   };
 
@@ -84,8 +110,6 @@ const AdminDashboard = () => {
     ]
   };
 
-  if (loading) return <div className="p-20 text-center font-bold text-[#4B2C20] animate-pulse italic">Brewing your business insights...</div>;
-  
   // Use real data if available, otherwise use Demo Data
   const activeData = data && data.overview ? data : DEMO_DATA;
 
@@ -99,10 +123,20 @@ const AdminDashboard = () => {
             <h1 className="text-4xl font-black text-[#4B2C20]">Business Intelligence</h1>
             <p className="text-gray-400 mt-1 uppercase tracking-widest text-xs font-bold">Ethio-Brew Command Center {data ? "" : "(Demo Mode)"}</p>
           </div>
-          <button className="flex items-center gap-2 bg-[#4B2C20] text-white px-6 py-3 rounded-2xl font-bold hover:scale-105 transition shadow-xl">
-             <Download size={18} />
-             Export PDF Report
-          </button>
+          <div className="flex gap-3">
+            <button 
+              onClick={handleResetDatabase}
+              disabled={resetting}
+              className="flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-2xl font-bold hover:bg-red-600 transition shadow-xl disabled:opacity-50"
+            >
+              <Trash2 size={18} />
+              {resetting ? 'Resetting...' : 'Reset Database'}
+            </button>
+            <button className="flex items-center gap-2 bg-[#4B2C20] text-white px-6 py-3 rounded-2xl font-bold hover:scale-105 transition shadow-xl">
+               <Download size={18} />
+               Export PDF Report
+            </button>
+          </div>
         </div>
 
         {/* Stats Grid */}

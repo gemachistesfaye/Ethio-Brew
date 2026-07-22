@@ -140,7 +140,7 @@ const login = async (req, res) => {
     const refreshToken = generateRefreshToken(userData);
 
     await pool.execute(
-      'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 7 DAY))',
+      'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES (?, ?, NOW() + INTERVAL \'7 days\')',
       [user.id, refreshToken]
     );
 
@@ -190,7 +190,7 @@ const refreshTokenHandler = async (req, res) => {
     const newRefreshToken = generateRefreshToken(userData);
 
     await pool.execute(
-      'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 7 DAY))',
+      'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES (?, ?, NOW() + INTERVAL \'7 days\')',
       [user.id, newRefreshToken]
     );
 

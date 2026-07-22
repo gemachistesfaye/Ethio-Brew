@@ -95,4 +95,9 @@ export const getAdminUsers = async () => {
     return response.data;
 };
 
+export const resetDatabase = async () => {
+    const response = await api.post('/admin/reset-database', { confirm: 'DELETE_ALL' });
+    return response.data;
+};
+
 export default api;

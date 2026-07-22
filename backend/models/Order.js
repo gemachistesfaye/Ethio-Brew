@@ -1,4 +1,5 @@
 const pool = require('../config/db');
+const crypto = require('crypto');
 
 const Order = {
   create: async ({ user_id, total_amount, shipping_address, phone_number, items, payment_method }) => {
@@ -6,12 +7,12 @@ const Order = {
     try {
       await conn.beginTransaction();
 
-      const [orderResult] = await conn.execute(
-        `INSERT INTO orders (user_id, total_amount, shipping_address, phone_number, payment_method, status, payment_status)
-         VALUES (?, ?, ?, ?, ?, 'Pending', 'Unpaid')`,
-        [user_id, total_amount, shipping_address, phone_number, payment_method || null]
+      const orderId = crypto.randomUUID();
+      await conn.execute(
+        `INSERT INTO orders (id, user_id, total_amount, shipping_address, phone_number, payment_method, status, payment_status)
+         VALUES (?, ?, ?, ?, ?, ?, 'Pending', 'Unpaid')`,
+        [orderId, user_id, total_amount, shipping_address, phone_number, payment_method || null]
       );
-      const orderId = orderResult.insertId;
 
       if (Array.isArray(items) && items.length > 0) {
         const itemValues = items.map(item => [

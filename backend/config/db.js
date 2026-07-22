@@ -1,21 +1,11 @@
-const mysql = require('mysql2/promise');
+const { Pool } = require('pg');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const DB_HOST = process.env.DB_HOST;
-const DB_PORT = process.env.DB_PORT || 18785;
-
-const requiredVars = ['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME'];
-const missingVars = requiredVars.filter(v => !process.env[v]);
-
-if (missingVars.length > 0) {
-  console.error(`CRITICAL: Missing environment variables: ${missingVars.join(', ')}`);
-  if (NODE_ENV === 'production') {
-    process.exit(1);
-  }
-}
+const DB_PORT = process.env.DB_PORT || 5432;
 
 const dbConfig = {
   host: DB_HOST,
@@ -23,27 +13,60 @@ const dbConfig = {
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: NODE_ENV === 'production' ? 20 : 10,
-  queueLimit: 0,
+  max: NODE_ENV === 'production' ? 20 : 10,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
   ssl: NODE_ENV === 'production'
     ? { rejectUnauthorized: true }
     : { rejectUnauthorized: false },
 };
 
-const pool = mysql.createPool(dbConfig);
+const pgPool = new Pool(dbConfig);
+
+const executeQuery = async (client, sql, params = []) => {
+  let counter = 1;
+  const pgSql = sql.replace(/\?/g, () => `$${counter++}`);
+  
+  let finalSql = pgSql;
+  const isInsert = pgSql.trim().toUpperCase().startsWith('INSERT');
+  if (isInsert && !pgSql.toUpperCase().includes('RETURNING')) {
+     finalSql += ' RETURNING id';
+  }
+
+  const { rows, rowCount } = await client.query(finalSql, params);
+  
+  const combinedRows = rows;
+  combinedRows.affectedRows = rowCount;
+  combinedRows.insertId = (isInsert && rows.length > 0) ? rows[0].id : null;
+  
+  return [combinedRows];
+};
+
+const poolWrapper = {
+  execute: async (sql, params) => executeQuery(pgPool, sql, params),
+  query: async (sql, params) => executeQuery(pgPool, sql, params),
+  getConnection: async () => {
+    const client = await pgPool.connect();
+    return {
+      beginTransaction: async () => await client.query('BEGIN'),
+      commit: async () => { await client.query('COMMIT'); client.release(); },
+      rollback: async () => { await client.query('ROLLBACK'); client.release(); },
+      execute: async (sql, params) => executeQuery(client, sql, params),
+      query: async (sql, params) => executeQuery(client, sql, params),
+      release: () => client.release()
+    };
+  }
+};
 
 (async () => {
   try {
-    const connection = await pool.getConnection();
-    console.log(`MySQL connected to ${DB_HOST}:${DB_PORT}`);
-    connection.release();
+    const client = await pgPool.connect();
+    console.log(`PostgreSQL connected to ${DB_HOST}:${DB_PORT}`);
+    client.release();
   } catch (err) {
     console.error(`DATABASE CONNECTION FAILED: ${err.message}`);
-    if (NODE_ENV === 'production') {
-      process.exit(1);
-    }
+    if (NODE_ENV === 'production') process.exit(1);
   }
 })();
 
-module.exports = pool;
+module.exports = poolWrapper;
