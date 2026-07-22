@@ -100,4 +100,57 @@ export const resetDatabase = async () => {
     return response.data;
 };
 
+// ============================================================
+// Auth Services
+// ============================================================
+export const register = async (userData) => {
+    const response = await api.post('/auth/register', userData);
+    return response.data;
+};
+
+export const login = async (credentials) => {
+    const response = await api.post('/auth/login', credentials);
+    if (response.data.user) localStorage.setItem('user', JSON.stringify(response.data.user));
+    if (response.data.token) localStorage.setItem('token', response.data.token);
+    return response.data;
+};
+
+export const logout = async () => {
+    try {
+        await api.post('/auth/logout');
+    } catch (e) { /* ignore */ }
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+};
+
+export const verify = async (token) => {
+    const response = await api.post('/auth/verify', { token });
+    return response.data;
+};
+
+export const getProfile = async () => {
+    const response = await api.get('/auth/profile');
+    return response.data;
+};
+
+export const updateProfile = async (userData) => {
+    const response = await api.put('/auth/profile', userData);
+    return response.data;
+};
+
+export const forgotPassword = async (email) => {
+    const response = await api.post('/auth/forgot-password', { email });
+    return response.data;
+};
+
+export const resetPassword = async (data) => {
+    const response = await api.post('/auth/reset-password', data);
+    return response.data;
+};
+
+export const changePassword = async (data) => {
+    const response = await api.post('/auth/change-password', data);
+    return response.data;
+};
+
 export default api;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Mail, Phone, MapPin, Lock, ArrowRight, X } from 'lucide-react';
-import authService from '../services/authService';
+import { register } from '../services/api';
 import { useTranslation } from '../hooks/useTranslation';
 
 const RegisterPage = () => {
@@ -32,7 +32,7 @@ const RegisterPage = () => {
 
     setLoading(true);
     try {
-      await authService.register(formData);
+      await register(formData);
       navigate('/login', { state: { message: 'Registration successful! Please login.' } });
     } catch (err) {
       setError(err.response?.data?.message || t('auth.error_general'));

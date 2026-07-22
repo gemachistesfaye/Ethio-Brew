@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Lock, ArrowRight, X, CheckCircle } from 'lucide-react';
-import authService from '../services/authService';
+import { resetPassword } from '../services/api';
 
 const ResetPasswordPage = () => {
   const [searchParams] = useSearchParams();
@@ -31,7 +31,7 @@ const ResetPasswordPage = () => {
 
     setLoading(true);
     try {
-      await authService.resetPassword({ token, email, newPassword: password });
+      await resetPassword({ token, email, newPassword: password });
       setSuccess(true);
     } catch (err) {
       setError(err.response?.data?.message || 'Invalid or expired reset token');

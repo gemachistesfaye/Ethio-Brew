@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Mail, Phone, MapPin, Save, CheckCircle, Lock, Camera } from 'lucide-react';
-import authService from '../services/authService';
+import { getProfile, updateProfile, changePassword } from '../services/api';
 import { useTranslation } from '../hooks/useTranslation';
 import { useToast } from '../components/Toast';
 
@@ -20,7 +20,7 @@ const SettingsPage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const data = await authService.getProfile();
+        const data = await getProfile();
         setProfile(data);
       } catch (err) {
         console.error(err);
@@ -35,7 +35,7 @@ const SettingsPage = () => {
     e.preventDefault();
     setSaving(true);
     try {
-      await authService.updateProfile({ full_name: profile.name, phone: profile.phone });
+      await updateProfile({ full_name: profile.name, phone: profile.phone });
       setSuccess(true);
       addToast(t('settings.update_success') || 'Profile updated!', 'success');
       setTimeout(() => setSuccess(false), 3000);
@@ -56,7 +56,7 @@ const SettingsPage = () => {
     }
     setPassSaving(true);
     try {
-      await authService.changePassword({ currentPassword: passForm.current, newPassword: passForm.new });
+      await changePassword({ currentPassword: passForm.current, newPassword: passForm.new });
       setPassSuccess(true);
       addToast(t('settings.password_success') || 'Password updated!', 'success');
       setPassForm({ current: '', new: '', confirm: '' });

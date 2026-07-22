@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, ArrowRight, CheckCircle, X } from 'lucide-react';
-import authService from '../services/authService';
+import { forgotPassword } from '../services/api';
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -15,7 +15,7 @@ const ForgotPasswordPage = () => {
     setError('');
     
     try {
-      await authService.forgotPassword(email);
+      await forgotPassword(email);
       setSuccess(true);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to send reset link. Please try again.');

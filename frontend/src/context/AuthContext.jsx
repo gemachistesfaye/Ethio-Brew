@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import authService from '../services/authService';
+import { login as apiLogin, logout as apiLogout, getProfile } from '../services/api';
 
 const AuthContext = createContext();
 
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      const profile = await authService.getProfile();
+      const profile = await getProfile();
       // Use the server-authoritative user object, not the local copy.
       if (profile?.user) {
         setUser(profile.user);
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
   }, [verifySession]);
 
   const login = async (credentials) => {
-    const data = await authService.login(credentials);
+    const data = await apiLogin(credentials);
     if (data.user) {
       localStorage.setItem('user', JSON.stringify(data.user));
       setUser(data.user);
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await authService.logout();
+    await apiLogout();
     setUser(null);
   };
 

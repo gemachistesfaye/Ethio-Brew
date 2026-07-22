@@ -15,9 +15,10 @@ INSERT INTO products (category_id, name_en, name_am, name_om, price, stock_quant
 (3, 'Ceremony Gold', 'የስነ-ስርዓት ወርቅ', 'Warqee Sirnaa', 320.00, 200, 'Medium', 'Mixed', '1,800m', 'Washed', 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=800');
 
 -- 3. INITIAL ADMIN USER
--- Password is 'admin123' (hashed using bcrypt)
+-- Password: admin123 (bcrypt hash with 10 rounds)
+-- To regenerate: node -e "console.log(require('bcryptjs').hashSync('admin123', 10))"
 INSERT INTO users (id, full_name, email, password, phone, is_verified) VALUES 
-('a0000000-0000-0000-0000-000000000001', 'System Admin', 'admin@ethiobrew.com', '$2b$12$R.S.Y6z7V.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.', '0911223344', TRUE);
+('a0000000-0000-0000-0000-000000000001', 'System Admin', 'admin@ethiobrew.com', '$2a$10$8K1p/a0dL1LXMc.0SZ0W3.Vl4MySJNHzmM7r1AVQP1lEJhnK3k5Ee', '0911223344', TRUE);
 
--- Link Admin to Role
+-- Link Admin to Role (role_id 2 = admin)
 INSERT INTO user_roles (user_id, role_id) VALUES ('a0000000-0000-0000-0000-000000000001', 2);

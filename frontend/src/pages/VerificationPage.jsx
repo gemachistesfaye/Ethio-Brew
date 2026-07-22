@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckCircle, ArrowRight } from 'lucide-react';
-import authService from '../services/authService';
+import { verify } from '../services/api';
 
 const VerificationPage = () => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const VerificationPage = () => {
     setLoading(true);
     setError('');
     try {
-      await authService.verify(token);
+      await verify(token);
       setVerified(true);
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
