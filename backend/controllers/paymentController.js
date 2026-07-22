@@ -35,11 +35,14 @@ const paymentController = {
   getMyPayments: async (req, res) => {
     try {
       const payments = await Payment.findByOrderId(req.query.order_id);
-      const filtered = payments.filter(async (p) => {
+      const filtered = [];
+      for (const p of payments) {
         const order = await Order.findById(p.order_id);
-        return order && order.user_id === req.user.id;
-      });
-      res.json(payments);
+        if (order && order.user_id === req.user.id) {
+          filtered.push(p);
+        }
+      }
+      res.json(filtered);
     } catch (error) {
       console.error('getMyPayments error:', error);
       res.status(500).json({ error: 'Could not load payments.' });

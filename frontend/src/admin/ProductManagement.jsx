@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Package, Search, Filter, AlertCircle } from 'lucide-react';
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+import api from '../services/api';
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -17,7 +15,7 @@ const ProductManagement = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${API_URL}/products`);
+      const res = await api.get('/products');
       setProducts(res.data);
     } catch (err) {
       console.error("Fetch Error:", err);
@@ -34,9 +32,9 @@ const ProductManagement = () => {
     e.preventDefault();
     try {
       if (editingProduct) {
-        await axios.put(`${API_URL}/products/${editingProduct.id}`, form);
+        await api.put(`/products/${editingProduct.id}`, form);
       } else {
-        await axios.post(`${API_URL}/products`, form);
+        await api.post('/products', form);
       }
       setIsModalOpen(false);
       setEditingProduct(null);
@@ -55,7 +53,7 @@ const ProductManagement = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this coffee?')) {
       try {
-        await axios.delete(`${API_URL}/products/${id}`);
+        await api.delete(`/products/${id}`);
         fetchProducts();
       } catch (err) {
         alert('Failed to delete product');

@@ -16,8 +16,8 @@ INSERT INTO products (category_id, name_en, name_am, name_om, price, stock_quant
 
 -- 3. INITIAL ADMIN USER
 -- Password is 'admin123' (hashed using bcrypt)
-INSERT INTO users (full_name, email, password, phone, is_verified) VALUES 
-('System Admin', 'admin@ethiobrew.com', '$2b$12$R.S.Y6z7V.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.', '0911223344', TRUE);
+INSERT INTO users (id, full_name, email, password, phone, is_verified) VALUES 
+('a0000000-0000-0000-0000-000000000001', 'System Admin', 'admin@ethiobrew.com', '$2b$12$R.S.Y6z7V.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.6Z.', '0911223344', TRUE);
 
 -- Link Admin to Role
-INSERT INTO user_roles (user_id, role_id) VALUES (1, 2);
+INSERT INTO user_roles (user_id, role_id) VALUES ('a0000000-0000-0000-0000-000000000001', 2);

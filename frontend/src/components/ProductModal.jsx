@@ -6,8 +6,8 @@ const ProductModal = ({ product, isOpen, onClose, addToCart }) => {
   const { t, language } = useTranslation();
   if (!product || !isOpen) return null;
 
-  const name = language === 'am' ? product.name_am : language === 'om' ? product.name_om : product.name;
-  const description = language === 'am' ? product.description_am : language === 'om' ? product.description_om : product.description;
+  const name = language === 'am' ? product.name_am : language === 'om' ? product.name_om : product.name_en;
+  const description = language === 'am' ? product.description_am : language === 'om' ? product.description_om : product.description_en;
 
   return (
     <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">

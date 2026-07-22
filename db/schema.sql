@@ -1,2 +1,0 @@
--- DEPRECATED: This schema is superseded by production_schema.sql
--- Do not use this file. Run: npm run migrate (which uses production_schema.sql)

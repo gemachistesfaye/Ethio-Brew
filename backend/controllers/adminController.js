@@ -246,8 +246,6 @@ const adminController = {
         return res.status(400).json({ message: 'Send { "confirm": "DELETE_ALL" } to proceed' });
       }
 
-      await pool.execute('SET FOREIGN_KEY_CHECKS = 0');
-
       const tables = [
         'notifications', 'reviews', 'subscriptions',
         'password_resets', 'refresh_tokens',
@@ -255,10 +253,8 @@ const adminController = {
         'user_roles', 'users'
       ];
       for (const table of tables) {
-        await pool.execute(`TRUNCATE TABLE ${table}`);
+        await pool.execute(`TRUNCATE TABLE ${table} CASCADE`);
       }
-
-      await pool.execute('SET FOREIGN_KEY_CHECKS = 1');
 
       res.json({ message: 'Database reset. All users, orders, and payments cleared.' });
     } catch (error) {
