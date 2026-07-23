@@ -137,8 +137,20 @@ const resendOTP = async (req, res) => {
     const subject = purpose === 'verify' ? 'Verify your Ethio-Brew Account' : 'Ethio-Brew Password Reset';
     const message = template(user.full_name, otpCode);
 
-    await sendEmail({ email, subject, message });
-    res.json({ message: 'A new code has been sent to your email.' });
+    let emailSent = false;
+    try {
+      await sendEmail({ email, subject, message });
+      emailSent = true;
+    } catch (emailErr) {
+      console.error('Resend email failed:', emailErr.message);
+    }
+
+    res.json({
+      message: emailSent
+        ? 'A new code has been sent to your email.'
+        : 'Code generated but email could not be sent. Please check your email settings.',
+      emailSent,
+    });
   } catch (error) {
     console.error('resendOTP error:', error);
     res.status(500).json({ message: 'Could not send code. Please try again.' });
