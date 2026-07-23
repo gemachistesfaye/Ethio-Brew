@@ -1,23 +1,8 @@
--- Ethio-Brew Production Schema (v3.0 - Postgres)
--- Description: Clean, indexed, production-ready schema.
-
-DROP TABLE IF EXISTS
-    order_items,
-    payments,
-    subscriptions,
-    reviews,
-    notifications,
-    refresh_tokens,
-    password_resets,
-    user_roles,
-    orders,
-    products,
-    categories,
-    users,
-    roles CASCADE;
+-- Ethio-Brew Production Schema (v3.1 - Postgres, idempotent)
+-- Safe to run multiple times. Uses IF NOT EXISTS everywhere.
 
 -- 1. ROLES SYSTEM
-CREATE TABLE roles (
+CREATE TABLE IF NOT EXISTS roles (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL,
     description VARCHAR(255),
@@ -28,10 +13,11 @@ INSERT INTO roles (name, description) VALUES
 ('customer', 'Regular store customer'),
 ('admin', 'Super administrator with full access'),
 ('coffee_manager', 'Manages products, roasting and inventory'),
-('delivery_staff', 'Handles order fulfillment and shipping');
+('delivery_staff', 'Handles order fulfillment and shipping')
+ON CONFLICT (name) DO NOTHING;
 
 -- 2. USERS SYSTEM
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id CHAR(36) PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
@@ -45,10 +31,10 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE INDEX idx_users_email ON users (email);
-CREATE INDEX idx_users_is_blocked ON users (is_blocked);
+CREATE INDEX IF NOT EXISTS idx_users_email ON users (email);
+CREATE INDEX IF NOT EXISTS idx_users_is_blocked ON users (is_blocked);
 
-CREATE TABLE user_roles (
+CREATE TABLE IF NOT EXISTS user_roles (
     user_id CHAR(36),
     role_id INT,
     PRIMARY KEY (user_id, role_id),
@@ -56,7 +42,7 @@ CREATE TABLE user_roles (
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
 );
 
-CREATE TABLE refresh_tokens (
+CREATE TABLE IF NOT EXISTS refresh_tokens (
     id SERIAL PRIMARY KEY,
     user_id CHAR(36),
     token VARCHAR(1024) NOT NULL,
@@ -64,22 +50,22 @@ CREATE TABLE refresh_tokens (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-CREATE INDEX idx_refresh_tokens_user_id ON refresh_tokens (user_id);
-CREATE INDEX idx_refresh_tokens_token ON refresh_tokens (token);
-CREATE INDEX idx_refresh_tokens_expires ON refresh_tokens (expires_at);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_user_id ON refresh_tokens (user_id);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_token ON refresh_tokens (token);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_expires ON refresh_tokens (expires_at);
 
-CREATE TABLE password_resets (
+CREATE TABLE IF NOT EXISTS password_resets (
     id SERIAL PRIMARY KEY,
     email VARCHAR(100) NOT NULL,
     token VARCHAR(255) NOT NULL,
     expires_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE INDEX idx_password_resets_email ON password_resets (email);
-CREATE INDEX idx_password_resets_token ON password_resets (token);
+CREATE INDEX IF NOT EXISTS idx_password_resets_email ON password_resets (email);
+CREATE INDEX IF NOT EXISTS idx_password_resets_token ON password_resets (token);
 
 -- 3. PRODUCT & INVENTORY SYSTEM
-CREATE TABLE categories (
+CREATE TABLE IF NOT EXISTS categories (
     id SERIAL PRIMARY KEY,
     name_en VARCHAR(100),
     name_am VARCHAR(100),
@@ -89,7 +75,7 @@ CREATE TABLE categories (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
     category_id INT,
     name_en VARCHAR(255) NOT NULL,
@@ -110,15 +96,15 @@ CREATE TABLE products (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
 );
-CREATE INDEX idx_products_category ON products (category_id);
-CREATE INDEX idx_products_is_active ON products (is_active);
-CREATE INDEX idx_products_price ON products (price);
-CREATE INDEX idx_products_created_at ON products (created_at);
-CREATE INDEX idx_products_origin_region ON products (origin_region);
-CREATE INDEX idx_products_roast_level ON products (roast_level);
+CREATE INDEX IF NOT EXISTS idx_products_category ON products (category_id);
+CREATE INDEX IF NOT EXISTS idx_products_is_active ON products (is_active);
+CREATE INDEX IF NOT EXISTS idx_products_price ON products (price);
+CREATE INDEX IF NOT EXISTS idx_products_created_at ON products (created_at);
+CREATE INDEX IF NOT EXISTS idx_products_origin_region ON products (origin_region);
+CREATE INDEX IF NOT EXISTS idx_products_roast_level ON products (roast_level);
 
 -- 4. ORDER & TRACKING SYSTEM
-CREATE TABLE orders (
+CREATE TABLE IF NOT EXISTS orders (
     id CHAR(36) PRIMARY KEY,
     user_id CHAR(36),
     total_amount DECIMAL(10,2) NOT NULL,
@@ -132,13 +118,13 @@ CREATE TABLE orders (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
-CREATE INDEX idx_orders_user_id ON orders (user_id);
-CREATE INDEX idx_orders_status ON orders (status);
-CREATE INDEX idx_orders_payment_status ON orders (payment_status);
-CREATE INDEX idx_orders_created_at ON orders (created_at);
-CREATE INDEX idx_orders_user_created ON orders (user_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders (user_id);
+CREATE INDEX IF NOT EXISTS idx_orders_status ON orders (status);
+CREATE INDEX IF NOT EXISTS idx_orders_payment_status ON orders (payment_status);
+CREATE INDEX IF NOT EXISTS idx_orders_created_at ON orders (created_at);
+CREATE INDEX IF NOT EXISTS idx_orders_user_created ON orders (user_id, created_at);
 
-CREATE TABLE order_items (
+CREATE TABLE IF NOT EXISTS order_items (
     id SERIAL PRIMARY KEY,
     order_id CHAR(36),
     product_id INT,
@@ -148,11 +134,11 @@ CREATE TABLE order_items (
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL
 );
-CREATE INDEX idx_order_items_order_id ON order_items (order_id);
-CREATE INDEX idx_order_items_product_id ON order_items (product_id);
+CREATE INDEX IF NOT EXISTS idx_order_items_order_id ON order_items (order_id);
+CREATE INDEX IF NOT EXISTS idx_order_items_product_id ON order_items (product_id);
 
 -- 5. PAYMENT VERIFICATION SYSTEM
-CREATE TABLE payments (
+CREATE TABLE IF NOT EXISTS payments (
     id SERIAL PRIMARY KEY,
     order_id CHAR(36),
     transaction_id VARCHAR(100),
@@ -167,12 +153,12 @@ CREATE TABLE payments (
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
     FOREIGN KEY (verified_by) REFERENCES users(id) ON DELETE SET NULL
 );
-CREATE INDEX idx_payments_order_id ON payments (order_id);
-CREATE INDEX idx_payments_status ON payments (status);
-CREATE INDEX idx_payments_created_at ON payments (created_at);
+CREATE INDEX IF NOT EXISTS idx_payments_order_id ON payments (order_id);
+CREATE INDEX IF NOT EXISTS idx_payments_status ON payments (status);
+CREATE INDEX IF NOT EXISTS idx_payments_created_at ON payments (created_at);
 
 -- 6. SUBSCRIPTIONS & REVIEWS
-CREATE TABLE subscriptions (
+CREATE TABLE IF NOT EXISTS subscriptions (
     id SERIAL PRIMARY KEY,
     user_id CHAR(36),
     plan_name VARCHAR(50) NOT NULL,
@@ -183,10 +169,10 @@ CREATE TABLE subscriptions (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-CREATE INDEX idx_subscriptions_user_id ON subscriptions (user_id);
-CREATE INDEX idx_subscriptions_status ON subscriptions (status);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_user_id ON subscriptions (user_id);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON subscriptions (status);
 
-CREATE TABLE reviews (
+CREATE TABLE IF NOT EXISTS reviews (
     id SERIAL PRIMARY KEY,
     user_id CHAR(36),
     product_id INT,
@@ -199,12 +185,12 @@ CREATE TABLE reviews (
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
     UNIQUE (user_id, product_id)
 );
-CREATE INDEX idx_reviews_product_id ON reviews (product_id);
-CREATE INDEX idx_reviews_user_id ON reviews (user_id);
-CREATE INDEX idx_reviews_rating ON reviews (rating);
+CREATE INDEX IF NOT EXISTS idx_reviews_product_id ON reviews (product_id);
+CREATE INDEX IF NOT EXISTS idx_reviews_user_id ON reviews (user_id);
+CREATE INDEX IF NOT EXISTS idx_reviews_rating ON reviews (rating);
 
 -- 7. NOTIFICATION SYSTEM
-CREATE TABLE notifications (
+CREATE TABLE IF NOT EXISTS notifications (
     id SERIAL PRIMARY KEY,
     user_id CHAR(36),
     title VARCHAR(255) NOT NULL,
@@ -214,6 +200,6 @@ CREATE TABLE notifications (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-CREATE INDEX idx_notifications_user_id ON notifications (user_id);
-CREATE INDEX idx_notifications_is_read ON notifications (is_read);
-CREATE INDEX idx_notifications_user_read ON notifications (user_id, is_read);
+CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications (user_id);
+CREATE INDEX IF NOT EXISTS idx_notifications_is_read ON notifications (is_read);
+CREATE INDEX IF NOT EXISTS idx_notifications_user_read ON notifications (user_id, is_read);

@@ -17,14 +17,14 @@ async function runMigration() {
     });
 
     await client.connect();
-
     console.log('Connected! Reading schema file...');
+
     const schemaPath = path.join(__dirname, '..', 'db', 'production_schema.sql');
     const sql = fs.readFileSync(schemaPath, 'utf8');
 
     console.log('Executing schema...');
     await client.query(sql);
-    console.log('Migration complete! All tables created/updated.');
+    console.log('Migration complete! All tables created/verified.');
   } catch (error) {
     console.error('MIGRATION FAILED:', error.message);
     process.exit(1);

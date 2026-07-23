@@ -16,9 +16,7 @@ const dbConfig = {
   max: NODE_ENV === 'production' ? 20 : 10,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
-  ssl: NODE_ENV === 'production'
-    ? { rejectUnauthorized: true }
-    : { rejectUnauthorized: false },
+  ssl: { rejectUnauthorized: false },
 };
 
 const pgPool = new Pool(dbConfig);

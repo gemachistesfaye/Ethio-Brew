@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
+const fs = require('fs');
+const path = require('path');
 
 dotenv.config();
 
@@ -88,16 +90,41 @@ app.use('/api/admin', protect, authorize('admin'), adminRoutes);
 app.post('/api/ai', aiLimiter, aiController.chat);
 
 app.use((err, req, res, next) => {
-  console.error(err.stack || err);
+  console.error('ERROR:', err.message || err);
+  if (process.env.NODE_ENV !== 'production') {
+    console.error('STACK:', err.stack);
+  }
   const status = err.status && Number.isInteger(err.status) ? err.status : 500;
   if (status >= 500) {
-    return res.status(status).json({ status: 'error', message: 'Internal server error' });
+    const msg = process.env.NODE_ENV !== 'production' ? err.message : 'Internal server error';
+    return res.status(status).json({ status: 'error', message: msg });
   }
   return res.status(status).json({ status: 'error', message: err.message || 'Request error' });
 });
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Ethio-Brew API running on port ${PORT} (${(process.env.NODE_ENV || 'development').toUpperCase()})`);
-});
+const runMigration = async () => {
+  try {
+    const schemaPath = path.join(__dirname, '..', 'db', 'production_schema.sql');
+    if (fs.existsSync(schemaPath)) {
+      let sql = fs.readFileSync(schemaPath, 'utf8');
+      sql = sql.replace(/DROP TABLE[\s\S]*?;/gi, '');
+      await pool.query(sql);
+      console.log('Migration complete: tables created/verified.');
+    } else {
+      console.log('No schema file found, skipping migration.');
+    }
+  } catch (err) {
+    console.error('Migration warning:', err.message);
+  }
+};
+
+const start = async () => {
+  await runMigration();
+  app.listen(PORT, () => {
+    console.log(`Ethio-Brew API running on port ${PORT} (${(process.env.NODE_ENV || 'development').toUpperCase()})`);
+  });
+};
+
+start();
