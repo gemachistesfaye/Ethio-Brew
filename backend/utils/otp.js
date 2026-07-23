@@ -19,13 +19,15 @@ const storeOTP = async (email, purpose) => {
   const expiresAt = new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000);
 
   await pool.execute(
-    'DELETE FROM otps WHERE email = ? AND purpose = ?',
-    [email, purpose]
+    'INSERT INTO otps (email, code, purpose, expires_at) VALUES (?, ?, ?, ?)',
+    [email, code, purpose, expiresAt]
   );
 
   await pool.execute(
-    'INSERT INTO otps (email, code, purpose, expires_at) VALUES (?, ?, ?, ?)',
-    [email, code, purpose, expiresAt]
+    `DELETE FROM otps WHERE email = ? AND purpose = ? AND id NOT IN (
+      SELECT id FROM otps WHERE email = ? AND purpose = ? ORDER BY created_at DESC LIMIT 1
+    )`,
+    [email, purpose, email, purpose]
   );
 
   return code;

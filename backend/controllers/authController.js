@@ -55,12 +55,16 @@ const register = async (req, res) => {
 };
 
 const verify = async (req, res) => {
-  const { email, code } = req.body;
+  const { email, code, purpose } = req.body;
 
   try {
-    const result = await verifyOTP(email, code, 'verify');
+    const result = await verifyOTP(email, code, purpose || 'verify');
     if (!result.valid) {
       return res.status(400).json({ message: result.message });
+    }
+
+    if (purpose === 'reset') {
+      return res.json({ message: 'Code verified. You can now reset your password.' });
     }
 
     const user = await User.findByEmail(email);

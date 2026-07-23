@@ -48,7 +48,7 @@ const LoginPage = () => {
       setError('Please enter your email address first.');
       return;
     }
-    navigate('/verify-otp', { state: { email: formData.email, from: 'login' } });
+    navigate(`/verify-otp?email=${encodeURIComponent(formData.email)}&purpose=verify`);
   };
 
   return (
