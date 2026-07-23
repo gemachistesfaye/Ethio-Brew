@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Lock, Eye, EyeOff, ArrowRight, X, CheckCircle, Loader2 } from 'lucide-react';
 import { resetPassword } from '../services/api';
 
 const ResetPasswordPage = () => {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const code = searchParams.get('code');
-  const email = searchParams.get('email');
+  const [code] = useState(() => sessionStorage.getItem('resetOtp'));
+  const [email] = useState(() => sessionStorage.getItem('resetEmail'));
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -34,6 +33,8 @@ const ResetPasswordPage = () => {
     setLoading(true);
     try {
       await resetPassword({ email, code, newPassword: password });
+      sessionStorage.removeItem('resetOtp');
+      sessionStorage.removeItem('resetEmail');
       setSuccess(true);
     } catch (err) {
       setError(err.response?.data?.message || 'Reset failed. Please try again.');

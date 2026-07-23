@@ -84,7 +84,9 @@ const VerifyOTPPage = () => {
       if (purpose === 'verify') {
         setSuccess(true);
       } else {
-        navigate(`/reset-password?email=${encodeURIComponent(email)}&code=${code}`);
+        sessionStorage.setItem('resetOtp', code);
+        sessionStorage.setItem('resetEmail', email);
+        navigate('/reset-password');
       }
     } catch (err) {
       const msg = err.response?.data?.message || 'Verification failed';

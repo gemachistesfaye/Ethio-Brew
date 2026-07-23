@@ -216,3 +216,4 @@ CREATE TABLE IF NOT EXISTS otps (
 );
 CREATE INDEX IF NOT EXISTS idx_otps_email ON otps (email);
 CREATE INDEX IF NOT EXISTS idx_otps_code ON otps (code);
+CREATE INDEX IF NOT EXISTS idx_otps_created_at ON otps (created_at);
