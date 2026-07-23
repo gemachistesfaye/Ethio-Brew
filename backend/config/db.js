@@ -27,6 +27,10 @@ const executeQuery = async (client, sql, params = []) => {
 
   const { rows, rowCount } = await client.query(pgSql, params);
 
+  if (!rows) {
+    return [[], rowCount];
+  }
+
   const isInsert = pgSql.trim().toUpperCase().startsWith('INSERT');
   const combinedRows = rows;
   combinedRows.affectedRows = rowCount;
