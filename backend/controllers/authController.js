@@ -26,8 +26,14 @@ const register = async (req, res) => {
     await pool.execute('INSERT INTO user_roles (user_id, role_id) VALUES (?, ?)', [userId, roleId]);
 
     let emailSent = false;
+    let otpCode;
     try {
-      const otpCode = await storeOTP(email, 'verify');
+      otpCode = await storeOTP(email, 'verify');
+    } catch (otpErr) {
+      console.error('OTP store failed:', otpErr.message);
+      return res.status(500).json({ message: 'Registration failed. Could not create verification code.' });
+    }
+    try {
       const message = verificationOTPEmail(finalName, otpCode);
       await sendEmail({ email, subject: 'Verify your Ethio-Brew Account', message });
       emailSent = true;

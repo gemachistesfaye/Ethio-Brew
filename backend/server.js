@@ -110,7 +110,17 @@ const runMigration = async () => {
     if (fs.existsSync(schemaPath)) {
       let sql = fs.readFileSync(schemaPath, 'utf8');
       sql = sql.replace(/DROP TABLE[\s\S]*?;/gi, '');
-      await pool.query(sql);
+      const statements = sql
+        .split(';')
+        .map(s => s.replace(/--.*$/gm, '').trim())
+        .filter(s => s.length > 0);
+      for (const stmt of statements) {
+        try {
+          await pool.query(stmt);
+        } catch (e) {
+          console.error(`Migration statement warning: ${e.message}`);
+        }
+      }
       console.log('Migration complete: tables created/verified.');
     } else {
       console.log('No schema file found, skipping migration.');
