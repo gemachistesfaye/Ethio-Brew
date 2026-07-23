@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, Mail, Phone, Lock, ArrowRight, X, CheckCircle } from 'lucide-react';
+import { User, Mail, Phone, Lock, Eye, EyeOff, ArrowRight, X, CheckCircle } from 'lucide-react';
 import { register } from '../services/api';
 import { useTranslation } from '../hooks/useTranslation';
 
@@ -17,6 +17,8 @@ const RegisterPage = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [registered, setRegistered] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -89,18 +91,24 @@ const RegisterPage = () => {
           <div className="relative">
             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input 
-              name="password" type="password" required placeholder={t('auth.password')} 
+              name="password" type={showPassword ? 'text' : 'password'} required placeholder={t('auth.password')} 
               onChange={handleChange}
-              className="w-full pl-12 pr-4 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341] transition" 
+              className="w-full pl-12 pr-12 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341] transition" 
             />
+            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
           </div>
           <div className="relative">
             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input 
-              name="confirmPassword" type="password" required placeholder={t('auth.confirm_password')} 
+              name="confirmPassword" type={showConfirmPassword ? 'text' : 'password'} required placeholder={t('auth.confirm_password')} 
               onChange={handleChange}
-              className="w-full pl-12 pr-4 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341] transition" 
+              className="w-full pl-12 pr-12 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341] transition" 
             />
+            <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
           </div>
 
           <button 

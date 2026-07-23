@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { Mail, Lock, ArrowRight, X, CheckCircle, Loader2 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, X, CheckCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from '../hooks/useTranslation';
 import { resendVerification } from '../services/api';
@@ -17,6 +17,7 @@ const LoginPage = () => {
   const [resendLoading, setResendLoading] = useState(false);
   const [resendSuccess, setResendSuccess] = useState(false);
   const [needsVerification, setNeedsVerification] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -103,10 +104,13 @@ const LoginPage = () => {
           <div className="relative">
             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input 
-              name="password" type="password" required placeholder={t('auth.password')} 
+              name="password" type={showPassword ? 'text' : 'password'} required placeholder={t('auth.password')} 
               onChange={(e) => setFormData({...formData, password: e.target.value})}
-              className="w-full pl-12 pr-4 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341] transition" 
+              className="w-full pl-12 pr-12 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341] transition" 
             />
+            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
           </div>
           <div className="flex justify-end">
             <Link to="/forgot-password" className="text-sm text-[#006341] font-bold hover:underline">{t('auth.forgot_password')}</Link>

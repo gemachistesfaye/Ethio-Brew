@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Mail, Phone, Save, CheckCircle, Lock, Camera, Award } from 'lucide-react';
+import { User, Mail, Phone, Save, CheckCircle, Lock, Eye, EyeOff, Camera, Award } from 'lucide-react';
 import { getProfile, updateProfile, changePassword } from '../services/api';
 import { useTranslation } from '../hooks/useTranslation';
 import { useToast } from '../components/Toast';
@@ -15,6 +15,9 @@ const SettingsPage = () => {
   const [passForm, setPassForm] = useState({ current: '', new: '', confirm: '' });
   const [passSaving, setPassSaving] = useState(false);
   const [passSuccess, setPassSuccess] = useState(false);
+  const [showCurrentPass, setShowCurrentPass] = useState(false);
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
@@ -164,30 +167,45 @@ const SettingsPage = () => {
           <form onSubmit={handlePasswordUpdate} className="space-y-6">
             <div className="space-y-2">
               <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">{t('settings.current_password') || 'Current Password'}</label>
-              <input 
-                type="password" required
-                value={passForm.current} onChange={(e) => setPassForm({...passForm, current: e.target.value})}
-                className="w-full px-6 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341]" 
-                placeholder="••••••••"
-              />
+              <div className="relative">
+                <input 
+                  type={showCurrentPass ? 'text' : 'password'} required
+                  value={passForm.current} onChange={(e) => setPassForm({...passForm, current: e.target.value})}
+                  className="w-full px-6 pr-12 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341]" 
+                  placeholder="••••••••"
+                />
+                <button type="button" onClick={() => setShowCurrentPass(!showCurrentPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                  {showCurrentPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </div>
             <div className="space-y-2">
               <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">{t('settings.new_password')}</label>
-              <input 
-                type="password" required
-                value={passForm.new} onChange={(e) => setPassForm({...passForm, new: e.target.value})}
-                className="w-full px-6 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341]" 
-                placeholder="••••••••"
-              />
+              <div className="relative">
+                <input 
+                  type={showNewPass ? 'text' : 'password'} required
+                  value={passForm.new} onChange={(e) => setPassForm({...passForm, new: e.target.value})}
+                  className="w-full px-6 pr-12 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341]" 
+                  placeholder="••••••••"
+                />
+                <button type="button" onClick={() => setShowNewPass(!showNewPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                  {showNewPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </div>
             <div className="space-y-2">
               <label className="text-[10px] text-gray-400 font-bold uppercase ml-4">{t('settings.confirm_password')}</label>
-              <input 
-                type="password" required
-                value={passForm.confirm} onChange={(e) => setPassForm({...passForm, confirm: e.target.value})}
-                className="w-full px-6 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341]" 
-                placeholder="••••••••"
-              />
+              <div className="relative">
+                <input 
+                  type={showConfirmPass ? 'text' : 'password'} required
+                  value={passForm.confirm} onChange={(e) => setPassForm({...passForm, confirm: e.target.value})}
+                  className="w-full px-6 pr-12 py-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#006341]" 
+                  placeholder="••••••••"
+                />
+                <button type="button" onClick={() => setShowConfirmPass(!showConfirmPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                  {showConfirmPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </div>
             <button 
               type="submit" disabled={passSaving}
