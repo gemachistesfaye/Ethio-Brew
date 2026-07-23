@@ -11,6 +11,9 @@ const transporterConfig = isGmail
             pass: process.env.EMAIL_PASS,
         },
         family: 4, // Force IPv4 to bypass Render's IPv6 connection block (ENETUNREACH)
+        connectionTimeout: 10000, // 10 seconds
+        greetingTimeout: 10000,
+        socketTimeout: 10000,
       }
     : {
         host: process.env.SMTP_HOST,
@@ -21,6 +24,9 @@ const transporterConfig = isGmail
             pass: process.env.SMTP_PASS,
         },
         family: 4, // Force IPv4
+        connectionTimeout: 10000, // 10 seconds
+        greetingTimeout: 10000,
+        socketTimeout: 10000,
       };
 
 const transporter = nodemailer.createTransport(transporterConfig);
