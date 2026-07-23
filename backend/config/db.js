@@ -15,7 +15,7 @@ const dbConfig = {
   database: process.env.DB_NAME,
   max: NODE_ENV === 'production' ? 20 : 10,
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  connectionTimeoutMillis: 15000,
   ssl: { rejectUnauthorized: false },
 };
 
@@ -55,16 +55,5 @@ const poolWrapper = {
     };
   }
 };
-
-(async () => {
-  try {
-    const client = await pgPool.connect();
-    console.log(`PostgreSQL connected to ${DB_HOST}:${DB_PORT}`);
-    client.release();
-  } catch (err) {
-    console.error(`DATABASE CONNECTION FAILED: ${err.message}`);
-    if (NODE_ENV === 'production') process.exit(1);
-  }
-})();
 
 module.exports = poolWrapper;

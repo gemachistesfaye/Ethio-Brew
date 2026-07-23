@@ -122,6 +122,12 @@ const runMigration = async () => {
 
 const start = async () => {
   await runMigration();
+  try {
+    const client = await pool.query('SELECT 1');
+    console.log(`PostgreSQL connected to ${process.env.DB_HOST}:${process.env.DB_PORT}`);
+  } catch (err) {
+    console.error(`DATABASE CONNECTION FAILED: ${err.message}`);
+  }
   app.listen(PORT, () => {
     console.log(`Ethio-Brew API running on port ${PORT} (${(process.env.NODE_ENV || 'development').toUpperCase()})`);
   });
