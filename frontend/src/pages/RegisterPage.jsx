@@ -35,7 +35,12 @@ const RegisterPage = () => {
       await register(formData);
       setRegistered(true);
     } catch (err) {
-      setError(err.response?.data?.message || t('auth.error_general'));
+      const data = err.response?.data;
+      if (data?.errors?.length) {
+        setError(data.errors.map(e => e.message).join('. '));
+      } else {
+        setError(data?.message || t('auth.error_general'));
+      }
     } finally {
       setLoading(false);
     }
