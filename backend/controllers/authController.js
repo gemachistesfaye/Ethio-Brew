@@ -25,15 +25,23 @@ const register = async (req, res) => {
     const roleId = roleResult.length > 0 ? roleResult[0].id : 1;
     await pool.execute('INSERT INTO user_roles (user_id, role_id) VALUES (?, ?)', [userId, roleId]);
 
+    let emailSent = false;
     try {
       const otpCode = await storeOTP(email, 'verify');
       const message = verificationOTPEmail(finalName, otpCode);
       await sendEmail({ email, subject: 'Verify your Ethio-Brew Account', message });
+      emailSent = true;
+      console.log(`OTP email sent to ${email}`);
     } catch (emailErr) {
-      console.error('Email Error:', emailErr.message);
+      console.error('Email send failed:', emailErr.message);
     }
 
-    res.status(201).json({ message: 'Registration successful! Please check your email for the verification code.' });
+    res.status(201).json({
+      message: emailSent
+        ? 'Registration successful! Please check your email for the verification code.'
+        : 'Registration successful but email could not be sent. Please use "Resend Code" on the verification page.',
+      emailSent,
+    });
   } catch (error) {
     console.error('register error:', error);
     res.status(500).json({ message: 'Registration failed. Please try again.' });

@@ -1,12 +1,5 @@
 const nodemailer = require('nodemailer');
 
-/**
- * Consolidated email service.
- *
- * Uses Gmail's `service` transport so EMAIL_HOST and EMAIL_PORT are NOT
- * required — only EMAIL_USER (address) and EMAIL_PASS (app password).
- * This matches the configuration already working in notificationService.js.
- */
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -14,6 +7,10 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS,
     },
 });
+
+transporter.verify()
+    .then(() => console.log('Email transporter verified OK'))
+    .catch((err) => console.error('Email transporter FAILED:', err.message));
 
 const sendEmail = async (options) => {
     const mailOptions = {
@@ -23,7 +20,9 @@ const sendEmail = async (options) => {
         html: options.message,
     };
 
-    await transporter.sendMail(mailOptions);
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent:', info.messageId);
+    return info;
 };
 
 module.exports = sendEmail;
