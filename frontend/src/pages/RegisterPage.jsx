@@ -16,7 +16,6 @@ const RegisterPage = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [registered, setRegistered] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -35,7 +34,7 @@ const RegisterPage = () => {
     setLoading(true);
     try {
       await register(formData);
-      setRegistered(true);
+      navigate(`/verify-otp?email=${encodeURIComponent(formData.email)}&purpose=verify`);
     } catch (err) {
       const data = err.response?.data;
       if (data?.errors?.length) {
@@ -62,7 +61,6 @@ const RegisterPage = () => {
           </div>
         )}
 
-        {!registered ? (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="relative">
             <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
@@ -119,23 +117,6 @@ const RegisterPage = () => {
             {loading ? t('auth.creating_account') : t('auth.sign_up')} <ArrowRight size={20} />
           </button>
         </form>
-        ) : (
-          <div className="text-center animate-in zoom-in-95 duration-500">
-            <div className="w-20 h-20 bg-green-100 text-[#006341] rounded-full flex items-center justify-center mx-auto mb-8">
-              <CheckCircle size={40} />
-            </div>
-            <h2 className="text-2xl font-bold text-[#4B2C20] mb-3">Check Your Email!</h2>
-            <p className="text-gray-500 mb-2">We've sent a verification link to</p>
-            <p className="font-bold text-[#4B2C20] mb-6">{formData.email}</p>
-            <p className="text-sm text-gray-400 mb-8">Click the link in the email to verify your account, then come back to log in.</p>
-            <button 
-              onClick={() => navigate('/login')}
-              className="w-full bg-[#006341] text-white py-5 rounded-2xl font-bold shadow-xl hover:bg-[#004d32] transition"
-            >
-              Go to Login
-            </button>
-          </div>
-        )}
 
         <p className="mt-8 text-center text-sm text-gray-500">
           {t('auth.already_have_account')} <Link to="/login" className="text-[#006341] font-bold">{t('auth.sign_in')}</Link>

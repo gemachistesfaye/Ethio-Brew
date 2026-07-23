@@ -203,3 +203,16 @@ CREATE TABLE IF NOT EXISTS notifications (
 CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications (user_id);
 CREATE INDEX IF NOT EXISTS idx_notifications_is_read ON notifications (is_read);
 CREATE INDEX IF NOT EXISTS idx_notifications_user_read ON notifications (user_id, is_read);
+
+-- 8. OTP SYSTEM
+CREATE TABLE IF NOT EXISTS otps (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    code VARCHAR(6) NOT NULL,
+    purpose VARCHAR(20) NOT NULL CHECK (purpose IN ('verify', 'reset')),
+    expires_at TIMESTAMP NOT NULL,
+    attempts INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_otps_email ON otps (email);
+CREATE INDEX IF NOT EXISTS idx_otps_code ON otps (code);

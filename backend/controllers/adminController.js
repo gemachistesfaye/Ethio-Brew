@@ -4,6 +4,8 @@ const Payment = require('../models/Payment');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const Subscription = require('../models/Subscription');
+const sendEmail = require('../utils/sendEmail');
+const { orderShippedEmail, orderDeliveredEmail, paymentApprovedEmail, paymentRejectedEmail, accountBlockedEmail } = require('../utils/emailTemplates');
 const { ORDER_STATUS_TRANSITIONS, PAYMENT_VALID_TRANSITIONS } = require('../utils/constants');
 
 const adminController = {
@@ -123,6 +125,13 @@ const adminController = {
         return res.status(400).json({ message: 'Cannot block the main admin' });
       }
       await User.block(req.params.id);
+
+      try {
+        await sendEmail({ email: user.email, subject: 'Account Suspended', message: accountBlockedEmail(user.full_name) });
+      } catch (e) {
+        console.error('Block email error:', e.message);
+      }
+
       res.json({ message: 'User blocked' });
     } catch (error) {
       console.error('blockUser error:', error);
@@ -181,12 +190,22 @@ const adminController = {
 
       await Order.updateStatus(orderId, status);
 
-      if (status === 'Shipping') {
-        const tracking = await Order.generateTrackingNumber(orderId);
-        res.json({ message: 'Order shipped', trackingNumber: tracking });
-      } else {
-        res.json({ message: 'Order status updated' });
+      try {
+        const user = order.user_id ? await User.findById(order.user_id) : null;
+        if (user) {
+          if (status === 'Shipping') {
+            const tracking = await Order.generateTrackingNumber(orderId);
+            await sendEmail({ email: user.email, subject: 'Order Shipped', message: orderShippedEmail(user.full_name, orderId, tracking) });
+            return res.json({ message: 'Order shipped', trackingNumber: tracking });
+          } else if (status === 'Delivered') {
+            await sendEmail({ email: user.email, subject: 'Order Delivered', message: orderDeliveredEmail(user.full_name, orderId) });
+          }
+        }
+      } catch (e) {
+        console.error('Order status email error:', e.message);
       }
+
+      res.json({ message: 'Order status updated' });
     } catch (error) {
       console.error('updateOrderStatus error:', error);
       res.status(500).json({ message: 'Could not update order' });
@@ -208,16 +227,26 @@ const adminController = {
 
       await Payment.verify(paymentId, status, adminNotes, req.user.id);
 
-      if (status === 'Approved') {
-        await pool.execute(
-          "UPDATE orders SET payment_status = 'Paid', status = 'Payment Verified' WHERE id = ?",
-          [payment.order_id]
-        );
-      } else if (status === 'Rejected') {
-        await pool.execute(
-          "UPDATE orders SET payment_status = 'Unpaid' WHERE id = ?",
-          [payment.order_id]
-        );
+      try {
+        const order = await Order.findById(payment.order_id);
+        const user = order && order.user_id ? await User.findById(order.user_id) : null;
+        if (user) {
+          if (status === 'Approved') {
+            await pool.execute(
+              "UPDATE orders SET payment_status = 'Paid', status = 'Payment Verified' WHERE id = ?",
+              [payment.order_id]
+            );
+            await sendEmail({ email: user.email, subject: 'Payment Approved', message: paymentApprovedEmail(user.full_name, payment.order_id, payment.amount || order.total_amount) });
+          } else if (status === 'Rejected') {
+            await pool.execute(
+              "UPDATE orders SET payment_status = 'Unpaid' WHERE id = ?",
+              [payment.order_id]
+            );
+            await sendEmail({ email: user.email, subject: 'Payment Rejected', message: paymentRejectedEmail(user.full_name, payment.order_id, adminNotes) });
+          }
+        }
+      } catch (e) {
+        console.error('Payment email error:', e.message);
       }
 
       res.json({ message: `Payment ${status.toLowerCase()}` });
@@ -248,7 +277,7 @@ const adminController = {
 
       const tables = [
         'notifications', 'reviews', 'subscriptions',
-        'password_resets', 'refresh_tokens',
+        'otps', 'refresh_tokens',
         'payments', 'order_items', 'orders',
         'user_roles', 'users'
       ];

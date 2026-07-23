@@ -5,17 +5,8 @@ const pool = require('../config/db');
 const User = require('../models/User');
 const { generateAccessToken, generateRefreshToken, ACCESS_SECRET } = require('../utils/tokenUtils');
 const sendEmail = require('../utils/sendEmail');
-const { verificationEmail, resendVerificationEmail, passwordResetEmail } = require('../utils/emailTemplates');
-
-const VERIFY_TOKEN_TTL_SECONDS = 60 * 60 * 24;
-
-const signVerificationToken = (userId, email) => {
-  return jwt.sign(
-    { id: userId, emailHash: crypto.createHash('sha256').update(email).digest('hex') },
-    ACCESS_SECRET,
-    { expiresIn: VERIFY_TOKEN_TTL_SECONDS }
-  );
-};
+const { verificationOTPEmail, resetOTPEmail, welcomeEmail, passwordChangedEmail } = require('../utils/emailTemplates');
+const { storeOTP, verifyOTP, checkResendCooldown, OTP_EXPIRY_MINUTES } = require('../utils/otp');
 
 const register = async (req, res) => {
   const { name, full_name, email, password, phone } = req.body;
@@ -34,17 +25,15 @@ const register = async (req, res) => {
     const roleId = roleResult.length > 0 ? roleResult[0].id : 1;
     await pool.execute('INSERT INTO user_roles (user_id, role_id) VALUES (?, ?)', [userId, roleId]);
 
-    const verifyToken = signVerificationToken(userId, email);
-    const verifyUrl = `${process.env.FRONTEND_URL}/verify?token=${verifyToken}`;
-    const message = verificationEmail(finalName, verifyUrl);
-
     try {
+      const otpCode = await storeOTP(email, 'verify');
+      const message = verificationOTPEmail(finalName, otpCode);
       await sendEmail({ email, subject: 'Verify your Ethio-Brew Account', message });
     } catch (emailErr) {
       console.error('Email Error:', emailErr.message);
     }
 
-    res.status(201).json({ message: 'Registration successful! Please check your email to verify your account.' });
+    res.status(201).json({ message: 'Registration successful! Please check your email for the verification code.' });
   } catch (error) {
     console.error('register error:', error);
     res.status(500).json({ message: 'Registration failed. Please try again.' });
@@ -52,22 +41,30 @@ const register = async (req, res) => {
 };
 
 const verify = async (req, res) => {
-  const { token } = req.body;
-  if (!token) return res.status(400).json({ message: 'Verification token is required' });
+  const { email, code } = req.body;
 
   try {
-    const decoded = jwt.verify(token, ACCESS_SECRET);
-    const user = await User.findById(decoded.id);
-    if (!user) return res.status(400).json({ message: 'Invalid verification token' });
+    const result = await verifyOTP(email, code, 'verify');
+    if (!result.valid) {
+      return res.status(400).json({ message: result.message });
+    }
 
-    const expectedHash = crypto.createHash('sha256').update(user.email).digest('hex');
-    if (expectedHash !== decoded.emailHash) return res.status(400).json({ message: 'Invalid verification token' });
+    const user = await User.findByEmail(email);
+    if (!user) return res.status(400).json({ message: 'User not found' });
     if (user.is_verified) return res.json({ message: 'Account already verified' });
 
     await pool.execute('UPDATE users SET is_verified = TRUE WHERE id = ?', [user.id]);
+
+    try {
+      await sendEmail({ email, subject: 'Welcome to Ethio-Brew!', message: welcomeEmail(user.full_name) });
+    } catch (e) {
+      console.error('Welcome email error:', e.message);
+    }
+
     res.json({ message: 'Account verified successfully!' });
   } catch (error) {
-    return res.status(400).json({ message: 'Invalid or expired verification token' });
+    console.error('verify error:', error);
+    return res.status(500).json({ message: 'Verification failed. Please try again.' });
   }
 };
 
@@ -76,61 +73,67 @@ const forgotPassword = async (req, res) => {
   try {
     const user = await User.findByEmail(email);
     if (user) {
-      const token = crypto.randomBytes(32).toString('hex');
-      const expires = new Date(Date.now() + 3600000);
-      await pool.execute('INSERT INTO password_resets (email, token, expires_at) VALUES (?, ?, ?)', [email, token, expires]);
-      const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
-      const message = passwordResetEmail(user.full_name, resetUrl);
       try {
+        const otpCode = await storeOTP(email, 'reset');
+        const message = resetOTPEmail(user.full_name, otpCode);
         await sendEmail({ email, subject: 'Ethio-Brew Password Reset', message });
       } catch (e) {
         console.error('Reset email error:', e.message);
       }
     }
-    res.json({ message: 'If that email exists, a reset link has been sent.' });
+    res.json({ message: 'If that email exists, a reset code has been sent.' });
   } catch (error) {
     console.error('forgotPassword error:', error);
     res.status(500).json({ message: 'Could not process request. Please try again.' });
   }
 };
 
-const resendVerification = async (req, res) => {
-  const { email } = req.body;
-  if (!email) return res.status(400).json({ message: 'Email is required' });
-
-  try {
-    const user = await User.findByEmail(email);
-    if (!user) return res.status(400).json({ message: 'No account found with that email' });
-    if (user.is_verified) return res.json({ message: 'Account is already verified. You can log in.' });
-
-    const verifyToken = signVerificationToken(user.id, user.email);
-    const verifyUrl = `${process.env.FRONTEND_URL}/verify?token=${verifyToken}`;
-    const message = resendVerificationEmail(user.full_name, verifyUrl);
-
-    await sendEmail({ email, subject: 'Verify your Ethio-Brew Account', message });
-    res.json({ message: 'Verification email sent! Please check your inbox.' });
-  } catch (error) {
-    console.error('resendVerification error:', error);
-    res.status(500).json({ message: 'Could not send verification email. Please try again.' });
-  }
-};
-
 const resetPassword = async (req, res) => {
-  const { token, email, newPassword } = req.body;
+  const { email, code, newPassword } = req.body;
   try {
-    const [resets] = await pool.execute(
-      'SELECT * FROM password_resets WHERE email = ? AND token = ? AND expires_at > NOW()',
-      [email, token]
-    );
-    if (resets.length === 0) return res.status(400).json({ message: 'Invalid or expired token' });
+    const result = await verifyOTP(email, code, 'reset');
+    if (!result.valid) {
+      return res.status(400).json({ message: result.message });
+    }
 
     const hashedPassword = await bcrypt.hash(newPassword, 12);
     await pool.execute('UPDATE users SET password = ? WHERE email = ?', [hashedPassword, email]);
-    await pool.execute('DELETE FROM password_resets WHERE email = ?', [email]);
     res.json({ message: 'Password updated successfully' });
   } catch (error) {
     console.error('resetPassword error:', error);
     res.status(500).json({ message: 'Reset failed. Please try again.' });
+  }
+};
+
+const resendOTP = async (req, res) => {
+  const { email, purpose } = req.body;
+
+  try {
+    const cooldown = await checkResendCooldown(email, purpose);
+    if (!cooldown.allowed) {
+      return res.status(429).json({
+        message: cooldown.message || `Please wait ${cooldown.waitSeconds} seconds before requesting a new code.`,
+        waitSeconds: cooldown.waitSeconds,
+      });
+    }
+
+    const user = await User.findByEmail(email);
+    if (!user) return res.status(400).json({ message: 'No account found with that email' });
+
+    if (purpose === 'verify' && user.is_verified) {
+      return res.json({ message: 'Account is already verified. You can log in.' });
+    }
+
+    const otpCode = await storeOTP(email, purpose);
+    const template = purpose === 'verify' ? verificationOTPEmail : resetOTPEmail;
+    const subject = purpose === 'verify' ? 'Verify your Ethio-Brew Account' : 'Ethio-Brew Password Reset';
+    const message = template(user.full_name, otpCode);
+
+    await sendEmail({ email, subject, message });
+    res.json({ message: 'A new code has been sent to your email.' });
+  } catch (error) {
+    console.error('resendOTP error:', error);
+    res.status(500).json({ message: 'Could not send code. Please try again.' });
   }
 };
 
@@ -290,6 +293,16 @@ const changePassword = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(newPassword, 12);
     await User.updatePassword(req.user.id, hashedPassword);
+
+    try {
+      const profile = await User.findById(req.user.id);
+      if (profile) {
+        await sendEmail({ email: profile.email, subject: 'Password Changed', message: passwordChangedEmail(profile.full_name) });
+      }
+    } catch (e) {
+      console.error('Password changed email error:', e.message);
+    }
+
     res.json({ message: 'Password updated successfully' });
   } catch (error) {
     console.error('changePassword error:', error);
@@ -308,5 +321,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   refreshToken: refreshTokenHandler,
-  resendVerification,
+  resendOTP,
 };

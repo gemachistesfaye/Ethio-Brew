@@ -32,7 +32,7 @@ import SettingsPage from './pages/SettingsPage';
 import SubscriptionPage from './pages/SubscriptionPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
-import VerificationPage from './pages/VerificationPage';
+import VerifyOTPPage from './pages/VerifyOTPPage';
 
 // Admin
 import AdminLayout from './admin/AdminLayout';
@@ -74,7 +74,7 @@ const App = () => {
            <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/verify" element={<VerificationPage />} />
+          <Route path="/verify-otp" element={<VerifyOTPPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/orders" element={
             <ProtectedRoute><OrdersPage /></ProtectedRoute>

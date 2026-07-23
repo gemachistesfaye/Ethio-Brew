@@ -123,8 +123,8 @@ export const logout = async () => {
     localStorage.removeItem('token');
 };
 
-export const verify = async (token) => {
-    const response = await api.post('/auth/verify', { token });
+export const verifyOTP = async (data) => {
+    const response = await api.post('/auth/verify', data);
     return response.data;
 };
 
@@ -153,8 +153,8 @@ export const changePassword = async (data) => {
     return response.data;
 };
 
-export const resendVerification = async (email) => {
-    const response = await api.post('/auth/resend-verification', { email });
+export const resendOTP = async (data) => {
+    const response = await api.post('/auth/resend-otp', data);
     return response.data;
 };
 

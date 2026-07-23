@@ -1,6 +1,9 @@
 const pool = require('../config/db');
 const Payment = require('../models/Payment');
 const Order = require('../models/Order');
+const User = require('../models/User');
+const sendEmail = require('../utils/sendEmail');
+const { paymentApprovedEmail, paymentRejectedEmail } = require('../utils/emailTemplates');
 const { PAYMENT_VALID_TRANSITIONS } = require('../utils/constants');
 
 const paymentController = {
@@ -76,16 +79,26 @@ const paymentController = {
 
       await Payment.verify(req.params.id, status, admin_notes, req.user.id);
 
-      if (status === 'Approved') {
-        await pool.execute(
-          "UPDATE orders SET payment_status = 'Paid', status = 'Payment Verified' WHERE id = ?",
-          [payment.order_id]
-        );
-      } else if (status === 'Rejected') {
-        await pool.execute(
-          "UPDATE orders SET payment_status = 'Unpaid' WHERE id = ?",
-          [payment.order_id]
-        );
+      try {
+        const order = await Order.findById(payment.order_id);
+        const user = order && order.user_id ? await User.findById(order.user_id) : null;
+        if (user) {
+          if (status === 'Approved') {
+            await pool.execute(
+              "UPDATE orders SET payment_status = 'Paid', status = 'Payment Verified' WHERE id = ?",
+              [payment.order_id]
+            );
+            await sendEmail({ email: user.email, subject: 'Payment Approved', message: paymentApprovedEmail(user.full_name, payment.order_id, payment.amount || order.total_amount) });
+          } else if (status === 'Rejected') {
+            await pool.execute(
+              "UPDATE orders SET payment_status = 'Unpaid' WHERE id = ?",
+              [payment.order_id]
+            );
+            await sendEmail({ email: user.email, subject: 'Payment Rejected', message: paymentRejectedEmail(user.full_name, payment.order_id, admin_notes) });
+          }
+        }
+      } catch (e) {
+        console.error('Payment email error:', e.message);
       }
 
       res.json({ message: `Payment ${status.toLowerCase()}` });

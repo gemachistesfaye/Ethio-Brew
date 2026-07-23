@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, X, CheckCircle, Loader2 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, X, CheckCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from '../hooks/useTranslation';
-import { resendVerification } from '../services/api';
+
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -14,15 +14,12 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(location.state?.message || '');
   const [loading, setLoading] = useState(false);
-  const [resendLoading, setResendLoading] = useState(false);
-  const [resendSuccess, setResendSuccess] = useState(false);
   const [needsVerification, setNeedsVerification] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setResendSuccess(false);
     setNeedsVerification(false);
     setLoading(true);
     try {
@@ -51,18 +48,7 @@ const LoginPage = () => {
       setError('Please enter your email address first.');
       return;
     }
-    setResendLoading(true);
-    setError('');
-    setResendSuccess(false);
-    try {
-      await resendVerification(formData.email);
-      setResendSuccess(true);
-      setNeedsVerification(false);
-    } catch (err) {
-      setError(err.response?.data?.message || 'Failed to resend verification email.');
-    } finally {
-      setResendLoading(false);
-    }
+    navigate('/verify-otp', { state: { email: formData.email, from: 'login' } });
   };
 
   return (
@@ -82,12 +68,6 @@ const LoginPage = () => {
         {success && (
           <div className="mb-6 p-4 bg-green-50 text-[#006341] rounded-2xl text-sm font-bold flex items-center gap-2">
             <CheckCircle size={18} /> {success}
-          </div>
-        )}
-
-        {resendSuccess && (
-          <div className="mb-6 p-4 bg-green-50 text-[#006341] rounded-2xl text-sm font-bold flex items-center gap-2">
-            <CheckCircle size={18} /> Verification email sent! Check your inbox.
           </div>
         )}
 
@@ -133,11 +113,9 @@ const LoginPage = () => {
           <div className="mt-4 text-center">
             <button
               onClick={handleResendVerification}
-              disabled={resendLoading}
-              className="text-sm text-[#006341] font-bold hover:underline disabled:opacity-50 flex items-center gap-2 mx-auto"
+              className="text-sm text-[#006341] font-bold hover:underline flex items-center gap-2 mx-auto"
             >
-              {resendLoading ? <Loader2 size={14} className="animate-spin" /> : null}
-              {resendLoading ? 'Sending...' : 'Resend Verification Email'}
+              Go to Email Verification
             </button>
           </div>
         )}

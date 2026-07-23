@@ -1,5 +1,8 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
+const User = require('../models/User');
+const sendEmail = require('../utils/sendEmail');
+const { orderConfirmedEmail } = require('../utils/emailTemplates');
 const { ORDER_STATUS_TRANSITIONS } = require('../utils/constants');
 
 const orderController = {
@@ -51,6 +54,19 @@ const orderController = {
         payment_method: payment_method || null,
         items: validatedItems,
       });
+
+      try {
+        const user = await User.findById(req.user.id);
+        if (user) {
+          await sendEmail({
+            email: user.email,
+            subject: 'Order Confirmed',
+            message: orderConfirmedEmail(user.full_name, orderId, total_amount.toFixed(2)),
+          });
+        }
+      } catch (e) {
+        console.error('Order confirmed email error:', e.message);
+      }
 
       res.status(201).json({ message: 'Order created successfully', orderId });
     } catch (error) {

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Lock, Eye, EyeOff, ArrowRight, X, CheckCircle } from 'lucide-react';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { Lock, Eye, EyeOff, ArrowRight, X, CheckCircle, Loader2 } from 'lucide-react';
 import { resetPassword } from '../services/api';
 
 const ResetPasswordPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const token = searchParams.get('token');
+  const code = searchParams.get('code');
   const email = searchParams.get('email');
 
   const [password, setPassword] = useState('');
@@ -33,21 +33,22 @@ const ResetPasswordPage = () => {
 
     setLoading(true);
     try {
-      await resetPassword({ token, email, newPassword: password });
+      await resetPassword({ email, code, newPassword: password });
       setSuccess(true);
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid or expired reset token');
+      setError(err.response?.data?.message || 'Reset failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  if (!token || !email) {
+  if (!code || !email) {
     return (
       <div className="min-h-screen bg-[#FDFCF8] flex items-center justify-center p-4">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-red-600 mb-2">Invalid Request</h1>
-          <p className="text-gray-500">Missing reset token or email parameter.</p>
+          <p className="text-gray-500">Missing reset code or email.</p>
+          <Link to="/forgot-password" className="inline-block mt-4 text-[#006341] font-bold">Try Again</Link>
         </div>
       </div>
     );
@@ -98,7 +99,7 @@ const ResetPasswordPage = () => {
                 disabled={loading}
                 className="w-full bg-[#006341] text-white py-5 rounded-2xl font-bold shadow-xl hover:bg-[#004d32] transition flex items-center justify-center gap-2 disabled:opacity-50 mt-6"
               >
-                {loading ? 'Saving...' : 'Reset Password'} <ArrowRight size={20} />
+                {loading ? <><Loader2 size={18} className="animate-spin" /> Saving...</> : <>Reset Password <ArrowRight size={20} /></>}
               </button>
             </form>
           </>

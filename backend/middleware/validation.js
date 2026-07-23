@@ -180,6 +180,29 @@ const changePasswordRules = [
   handleValidation,
 ];
 
+const verifyOTPRules = [
+  body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
+  body('code').isLength({ min: 6, max: 6 }).isNumeric().withMessage('OTP must be a 6-digit number'),
+  body('purpose').isIn(['verify', 'reset']).withMessage('Purpose must be verify or reset'),
+  handleValidation,
+];
+
+const resetPasswordOTPRules = [
+  body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
+  body('code').isLength({ min: 6, max: 6 }).isNumeric().withMessage('OTP must be a 6-digit number'),
+  body('newPassword').isLength({ min: 8 }).withMessage('Password must be at least 8 characters')
+    .matches(/[a-z]/).withMessage('Password must contain a lowercase letter')
+    .matches(/[A-Z]/).withMessage('Password must contain an uppercase letter')
+    .matches(/[0-9]/).withMessage('Password must contain a number'),
+  handleValidation,
+];
+
+const resendOTPRules = [
+  body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
+  body('purpose').isIn(['verify', 'reset']).withMessage('Purpose must be verify or reset'),
+  handleValidation,
+];
+
 module.exports = {
   handleValidation,
   registerRules,
@@ -188,6 +211,9 @@ module.exports = {
   changePasswordRules,
   forgotPasswordRules,
   resetPasswordRules,
+  verifyOTPRules,
+  resetPasswordOTPRules,
+  resendOTPRules,
   createOrderRules,
   createProductRules,
   updateProductRules,
