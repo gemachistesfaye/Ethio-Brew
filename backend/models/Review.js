@@ -3,7 +3,7 @@ const pool = require('../config/db');
 const Review = {
   create: async ({ user_id, product_id, rating, comment }) => {
     const [result] = await pool.execute(
-      'INSERT INTO reviews (user_id, product_id, rating, comment) VALUES (?, ?, ?, ?)',
+      'INSERT INTO reviews (user_id, product_id, rating, comment) VALUES (?, ?, ?, ?) RETURNING id',
       [user_id, product_id, rating, comment || null]
     );
     return result.insertId;

@@ -13,7 +13,7 @@ const Category = {
 
   create: async ({ name_en, name_am, name_om, description_en }) => {
     const [result] = await pool.execute(
-      'INSERT INTO categories (name_en, name_am, name_om, description_en) VALUES (?, ?, ?, ?)',
+      'INSERT INTO categories (name_en, name_am, name_om, description_en) VALUES (?, ?, ?, ?) RETURNING id',
       [name_en, name_am || null, name_om || null, description_en || null]
     );
     return result.insertId;

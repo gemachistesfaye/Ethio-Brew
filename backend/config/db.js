@@ -24,19 +24,14 @@ const pgPool = new Pool(dbConfig);
 const executeQuery = async (client, sql, params = []) => {
   let counter = 1;
   const pgSql = sql.replace(/\?/g, () => `$${counter++}`);
-  
-  let finalSql = pgSql;
-  const isInsert = pgSql.trim().toUpperCase().startsWith('INSERT');
-  if (isInsert && !pgSql.toUpperCase().includes('RETURNING')) {
-     finalSql += ' RETURNING id';
-  }
 
-  const { rows, rowCount } = await client.query(finalSql, params);
-  
+  const { rows, rowCount } = await client.query(pgSql, params);
+
+  const isInsert = pgSql.trim().toUpperCase().startsWith('INSERT');
   const combinedRows = rows;
   combinedRows.affectedRows = rowCount;
-  combinedRows.insertId = (isInsert && rows.length > 0) ? rows[0].id : null;
-  
+  combinedRows.insertId = (isInsert && rows.length > 0 && rows[0].id) ? rows[0].id : null;
+
   return [combinedRows];
 };
 

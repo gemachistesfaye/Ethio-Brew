@@ -63,7 +63,7 @@ const Product = {
     const [result] = await pool.execute(
       `INSERT INTO products (category_id, name_en, name_am, name_om, description_en, description_am, description_om,
                              price, stock_quantity, roast_level, origin_region, altitude, process_method, image_url)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id`,
       [
         data.category_id || null,
         data.name_en,

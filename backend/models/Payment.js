@@ -4,7 +4,7 @@ const Payment = {
   create: async ({ order_id, method, screenshot_url, amount }) => {
     const [result] = await pool.execute(
       `INSERT INTO payments (order_id, method, screenshot_url, amount, status)
-       VALUES (?, ?, ?, ?, 'Pending')`,
+       VALUES (?, ?, ?, ?, 'Pending') RETURNING id`,
       [order_id, method, screenshot_url || null, amount || null]
     );
     return result.insertId;

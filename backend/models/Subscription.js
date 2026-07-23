@@ -6,7 +6,7 @@ const Subscription = {
     nextDate.setDate(nextDate.getDate() + frequency_days);
     const [result] = await pool.execute(
       `INSERT INTO subscriptions (user_id, plan_name, frequency_days, next_delivery_date)
-       VALUES (?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?) RETURNING id`,
       [user_id, plan_name, frequency_days, nextDate.toISOString().slice(0, 10)]
     );
     return result.insertId;

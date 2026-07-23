@@ -3,7 +3,7 @@ const pool = require('../config/db');
 const Notification = {
   create: async ({ user_id, title, message, type = 'System' }) => {
     const [result] = await pool.execute(
-      'INSERT INTO notifications (user_id, title, message, type) VALUES (?, ?, ?, ?)',
+      'INSERT INTO notifications (user_id, title, message, type) VALUES (?, ?, ?, ?) RETURNING id',
       [user_id, title, message, type]
     );
     return result.insertId;
